@@ -1,6 +1,7 @@
-import jwt, { JwtPayload } from "jsonwebtoken";
+import jwt, { JwtPayload, SignOptions } from "jsonwebtoken";
 import { jwtConfig } from "../../config/jwt.config";
 
+// ---------------- TYPES ----------------
 export interface AccessTokenPayload {
   id: string;
   email: string;
@@ -11,28 +12,34 @@ export interface RefreshTokenPayload {
   id: string;
 }
 
-// -------- ACCESS --------
-export const generateAccessToken = (payload: AccessTokenPayload) => {
-  console.log(jwtConfig);
-  console.log(jwtConfig.accessSecret);
-  return jwt.sign(payload, jwtConfig.accessSecret, {
-    expiresIn: jwtConfig.accessExpiresIn,
-  });
+// ---------------- ACCESS TOKEN ----------------
+export const generateAccessToken = (payload: AccessTokenPayload): string => {
+  const options: SignOptions = {
+    expiresIn: jwtConfig.accessExpiresIn as SignOptions["expiresIn"],
+  };
+
+  return jwt.sign(payload, jwtConfig.accessSecret, options);
 };
 
-// -------- REFRESH --------
-export const generateRefreshToken = (payload: RefreshTokenPayload) => {
-  return jwt.sign(payload, jwtConfig.refreshSecret, {
-    expiresIn: jwtConfig.refreshExpiresIn,
-  });
+// ---------------- REFRESH TOKEN ----------------
+export const generateRefreshToken = (payload: RefreshTokenPayload): string => {
+  const options: SignOptions = {
+    expiresIn: jwtConfig.refreshExpiresIn as SignOptions["expiresIn"],
+  };
+
+  return jwt.sign(payload, jwtConfig.refreshSecret, options);
 };
 
-// -------- VERIFY --------
+// ---------------- VERIFY ACCESS ----------------
 export const verifyAccessToken = (token: string): AccessTokenPayload => {
   return jwt.verify(token, jwtConfig.accessSecret) as AccessTokenPayload;
 };
 
+// ---------------- VERIFY REFRESH ----------------
 export const verifyRefreshToken = (token: string): RefreshTokenPayload => {
   const payload = jwt.verify(token, jwtConfig.refreshSecret) as JwtPayload;
-  return { id: payload.id as string };
+
+  return {
+    id: payload.id as string,
+  };
 };
