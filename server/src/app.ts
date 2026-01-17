@@ -1,11 +1,10 @@
 import express from "express";
-import cors from "cors";
-
+import v1Router from "./v1/routes/index";
+import middleware from "./middlewares";
+import connectDB from "./db/connectDB";
 export const app = express();
 
-app.use(cors());
-app.use(express.json());
+middleware(app);
+connectDB();
 
-app.get("/", (_, res) => {
-  res.send("OK");
-});
+app.use("/api/v1", v1Router);

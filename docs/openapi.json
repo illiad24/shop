@@ -2,7 +2,7 @@
   "openapi": "3.0.3",
   "info": {
     "title": "Shop API",
-    "description": "REST API for online shop",
+    "description": "REST API for online shop with JWT authentication",
     "version": "1.0.0"
   },
   "servers": [
@@ -13,7 +13,7 @@
   "tags": [
     {
       "name": "Auth",
-      "description": "Authentication"
+      "description": "Authentication and authorization"
     },
     {
       "name": "Users",
@@ -47,7 +47,7 @@
             }
           },
           "400": {
-            "description": "Email already exists"
+            "description": "User already exists"
           },
           "422": {
             "description": "Validation error"
@@ -55,6 +55,7 @@
         }
       }
     },
+
     "/auth/login": {
       "post": {
         "tags": ["Auth"],
@@ -71,7 +72,7 @@
         },
         "responses": {
           "200": {
-            "description": "Login success",
+            "description": "Login successful",
             "content": {
               "application/json": {
                 "schema": {
@@ -82,25 +83,78 @@
           },
           "400": {
             "description": "Invalid credentials"
-          },
-          "422": {
-            "description": "Validation error"
           }
         }
       }
     },
+
+    "/auth/refresh": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "Refresh access token",
+        "description": "Generate new access and refresh tokens using refresh token",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RefreshTokenRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Tokens refreshed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RefreshTokenResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Invalid or expired refresh token"
+          }
+        }
+      }
+    },
+
+    "/auth/logout": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "Logout user",
+        "description": "Invalidate refresh token",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RefreshTokenRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "Logged out successfully"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+
     "/auth/me": {
       "get": {
         "tags": ["Auth"],
-        "summary": "Get current authenticated user",
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ],
+        "summary": "Get authenticated user",
+        "security": [{ "bearerAuth": [] }],
         "responses": {
           "200": {
-            "description": "Current user",
+            "description": "Authenticated user",
             "content": {
               "application/json": {
                 "schema": {
@@ -115,15 +169,12 @@
         }
       }
     },
+
     "/users/me": {
       "get": {
         "tags": ["Users"],
         "summary": "Get current user profile",
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ],
+        "security": [{ "bearerAuth": [] }],
         "responses": {
           "200": {
             "description": "User profile",
@@ -143,11 +194,7 @@
       "patch": {
         "tags": ["Users"],
         "summary": "Update current user profile",
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ],
+        "security": [{ "bearerAuth": [] }],
         "requestBody": {
           "required": true,
           "content": {
@@ -171,14 +218,12 @@
           },
           "401": {
             "description": "Unauthorized"
-          },
-          "422": {
-            "description": "Validation error"
           }
         }
       }
     }
   },
+
   "components": {
     "securitySchemes": {
       "bearerAuth": {
@@ -187,6 +232,7 @@
         "bearerFormat": "JWT"
       }
     },
+
     "schemas": {
       "RegisterRequest": {
         "type": "object",
@@ -206,6 +252,7 @@
           }
         }
       },
+
       "LoginRequest": {
         "type": "object",
         "required": ["email", "password"],
@@ -219,10 +266,25 @@
           }
         }
       },
+
+      "RefreshTokenRequest": {
+        "type": "object",
+        "required": ["refreshToken"],
+        "properties": {
+          "refreshToken": {
+            "type": "string"
+          }
+        }
+      },
+
       "AuthResponse": {
         "type": "object",
+        "required": ["accessToken", "refreshToken", "user"],
         "properties": {
           "accessToken": {
+            "type": "string"
+          },
+          "refreshToken": {
             "type": "string"
           },
           "user": {
@@ -230,6 +292,20 @@
           }
         }
       },
+
+      "RefreshTokenResponse": {
+        "type": "object",
+        "required": ["accessToken", "refreshToken"],
+        "properties": {
+          "accessToken": {
+            "type": "string"
+          },
+          "refreshToken": {
+            "type": "string"
+          }
+        }
+      },
+
       "UpdateUserRequest": {
         "type": "object",
         "properties": {
@@ -239,6 +315,7 @@
           }
         }
       },
+
       "User": {
         "type": "object",
         "properties": {
