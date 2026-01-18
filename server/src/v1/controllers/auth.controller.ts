@@ -5,7 +5,6 @@ import { AuthRequest } from "../../middlewares/auth";
 export class AuthController {
   static async register(req: Request, res: Response) {
     try {
-      console.log(req.body);
       const user = await AuthService.register(req.body);
 
       res.status(201).json({
@@ -26,7 +25,6 @@ export class AuthController {
         req.body
       );
 
-      // refresh → cookie
       res.cookie("refreshToken", refreshToken, {
         httpOnly: true,
         sameSite: "strict",

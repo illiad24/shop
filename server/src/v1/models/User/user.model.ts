@@ -1,6 +1,5 @@
 import { Schema, model } from "mongoose";
-
-export type UserRole = "USER" | "ADMIN";
+import { UserRole } from "../../../types/auth.types";
 
 const userSchema = new Schema(
   {
@@ -19,7 +18,7 @@ const userSchema = new Schema(
     },
     role: {
       type: String,
-      enum: ["USER", "ADMIN"],
+      enum: UserRole,
       default: "USER",
     },
   },

@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
-import { AuthUser } from "../types/auth.types";
+import { AuthUser, UserRole } from "../types/auth.types";
 import { jwtConfig } from "../config/jwt.config";
 
 interface JwtPayload {
@@ -35,7 +35,7 @@ export function authMiddleware(
     req.user = {
       id: payload.id,
       email: payload.email,
-      role: payload.role as "ADMIN" | "USER",
+      role: payload.role as UserRole,
     };
 
     next();
