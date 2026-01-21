@@ -2,8 +2,7 @@ import express from "express";
 
 import authRoutes from "./auth.routes";
 import userRoutes from "./user.routes";
-import { AuthRequest } from "../../middlewares/auth";
-import UserModel from "../models/User/user.model";
+import productRoutes from "./product.routes";
 const router = express.Router();
 
 router.get("/", (req, res) => {
@@ -12,4 +11,5 @@ router.get("/", (req, res) => {
 
 router.use("/auth", authRoutes);
 router.use("/users", userRoutes);
+router.use("/products", productRoutes);
 export default router;
