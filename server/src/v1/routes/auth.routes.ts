@@ -14,7 +14,7 @@ router.get(
   "/me",
   authMiddleware,
   requireRole([UserRole.USER, UserRole.ADMIN]),
-  AuthController.me
+  AuthController.me,
 );
 
 export default router;

@@ -22,7 +22,7 @@ const userSchema = new Schema(
       default: "USER",
     },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 const UserModel = model("User", userSchema);

@@ -2,7 +2,7 @@ import { api } from "./setup";
 
 describe("AUTH FLOW", () => {
   const user = {
-    email: "test@test.com",
+    email: "test2@test.com",
     password: "123456",
     name: "Test User",
   };

@@ -169,7 +169,6 @@
         }
       }
     },
-
     "/users/me": {
       "get": {
         "tags": ["Users"],
