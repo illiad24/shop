@@ -2,8 +2,8 @@
 
 # 🦐 Seafood Shop — Frontend
 
-Frontend частина e-commerce застосунку для магазину морепродуктів.  
-Проєкт побудований з фокусом на масштабованість, чисту архітектуру та реальні production-практики.
+Frontend part of an e-commerce application for a seafood store.  
+The project is built with a strong focus on scalability, clean architecture, and real-world production practices.
 
 ---
 
@@ -21,15 +21,15 @@ Frontend частина e-commerce застосунку для магазину 
 
 - **Tailwind CSS** — utility-first styling
 - **shadcn/ui** — reusable UI components
-- **Radix UI** — accessible primitives
-- **clsx / tailwind-merge** — conditional styling
+- **Radix UI** — accessible UI primitives
+- **clsx / tailwind-merge** — conditional class management
 
 ---
 
 ### State Management
 
 - **Redux Toolkit**
-- **RTK Query** — API layer & caching
+- **RTK Query** — API data fetching, caching, and synchronization
 
 ---
 
@@ -42,25 +42,26 @@ Frontend частина e-commerce застосунку для магазину 
 ### Forms & Validation
 
 - **React Hook Form**
-- **Zod** — schema validation
+- **Zod** — schema-based validation
 
 ---
 
-### API & Auth
+### API & Authentication
 
 - **Axios / Fetch API**
-- **JWT (access token)**
-- **HTTP-only cookies (refresh token)**
-- **Role-based access (USER / ADMIN)**
+- **JWT authentication**
+  - Access Token (stored in memory)
+  - Refresh Token (HTTP-only cookies)
+- **Role-based access control (USER / ADMIN)**
 
 ---
 
 ### Architecture
 
 - **Feature-based architecture**
-- **Separation of concerns**
+- **Clear separation of concerns**
 - **Reusable shared components**
-- **Scalable folder structure**
+- **Scalable and maintainable folder structure**
 
 ---
 
@@ -68,12 +69,12 @@ Frontend частина e-commerce застосунку для магазину 
 
 - Skeleton loaders
 - Toast notifications
-- Modals & dialogs
+- Modals and dialogs
 - Optimistic UI updates
 
 ---
 
-### Performance
+### Performance Optimization
 
 - Code splitting
 - Lazy loading
