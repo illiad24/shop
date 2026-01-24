@@ -1,75 +1,108 @@
 # React + TypeScript + Vite
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+# 🦐 Seafood Shop — Frontend
 
-Currently, two official plugins are available:
+Frontend частина e-commerce застосунку для магазину морепродуктів.  
+Проєкт побудований з фокусом на масштабованість, чисту архітектуру та реальні production-практики.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## React Compiler
+## 🚀 Tech Stack
 
-The React Compiler is enabled on this template. See [this documentation](https://react.dev/learn/react-compiler) for more information.
+### Core
 
-Note: This will impact Vite dev & build performances.
+- **React 18**
+- **TypeScript**
+- **Vite**
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+### Styling & UI
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+- **Tailwind CSS** — utility-first styling
+- **shadcn/ui** — reusable UI components
+- **Radix UI** — accessible primitives
+- **clsx / tailwind-merge** — conditional styling
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+---
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+### State Management
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+- **Redux Toolkit**
+- **RTK Query** — API layer & caching
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+---
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+### Routing
+
+- **React Router DOM**
+
+---
+
+### Forms & Validation
+
+- **React Hook Form**
+- **Zod** — schema validation
+
+---
+
+### API & Auth
+
+- **Axios / Fetch API**
+- **JWT (access token)**
+- **HTTP-only cookies (refresh token)**
+- **Role-based access (USER / ADMIN)**
+
+---
+
+### Architecture
+
+- **Feature-based architecture**
+- **Separation of concerns**
+- **Reusable shared components**
+- **Scalable folder structure**
+
+---
+
+### UX / UI Enhancements
+
+- Skeleton loaders
+- Toast notifications
+- Modals & dialogs
+- Optimistic UI updates
+
+---
+
+### Performance
+
+- Code splitting
+- Lazy loading
+- Memoization
+
+---
+
+### Testing (planned)
+
+- **Jest**
+- **React Testing Library**
+- **Playwright / Cypress**
+
+---
+
+### Tooling
+
+- **ESLint**
+- **Prettier**
+- **PostCSS**
+- **dotenv**
+
+---
+
+### Version Control
+
+- **Git**
+- **GitHub**
+
+---
+
+## 📦 Project Structure (High-level)
