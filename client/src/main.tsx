@@ -5,8 +5,8 @@ import { Provider } from 'react-redux'
 import { store } from './app/store/store'
 import { AppErrorBoundary } from './app/providers/ui/AppErrorBoundary'
 
-
-createRoot(document.getElementById('root')!).render(
+import './index.css'
+createRoot(document.getElementById('drapak')!).render(
     <AppErrorBoundary>
         <Provider store={store}>
             <RouterProvider router={router} />

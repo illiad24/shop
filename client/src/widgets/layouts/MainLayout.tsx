@@ -1,13 +1,16 @@
 import { Outlet } from "react-router";
 import { Header } from "../Header/Header";
+import { Footer } from "../Footer/Footer";
 
 export function MainLayout() {
     return (
         <>
             <Header />
-            <main style={{ padding: '20px' }}>
+            <main className="flex-1">
+                sss
                 <Outlet />
             </main>
+            <Footer />
         </>
     )
 }
