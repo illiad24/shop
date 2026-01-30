@@ -1,8 +1,12 @@
-export function HomePage(){
-    return(
-        <div>
-            HomePage
-        </div>
+import { IntroSection } from "../widgets/sections/IntroSection";
+import { MapSection } from "../widgets/sections/MapSection";
+
+export function HomePage() {
+    return (
+        <>
+            <IntroSection />
+            <MapSection />
+        </>
     )
-    
+
 }

@@ -1,0 +1,5 @@
+body,
+html {
+    @apply font-inter h-full;
+    background-color: red;
+}

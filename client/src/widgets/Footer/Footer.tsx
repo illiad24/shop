@@ -1,11 +1,11 @@
 export function Footer() {
     return (
-        <footer>
-            <div>
-                <img src="../../assets/footer/Footer/image.png" alt="Image" />
+        <footer className="relative bg-white  border-t border-[#f4e8df] pt-20 bg-[#fff]">
+            <div className="absolute bottom-0 left-0 w-full h-full z-2 pointer-events-none">
+                <img className="absolute bottom-0 left-0 w-full h-full object-cover" src="/footer.png" alt="Image" />
             </div>
-            <div className="container pb-9">
-                <div className="grid grid-cols-5 gap-4 pb-10">
+            <div className="container pb-9 text-center sm:text-left">
+                <div className="grid grid-cols-1 justify-items-center  sm:grid-cols-3 md:grid-cols-5 gap-4 pb-10">
                     <div>
                         <a href="/">
                             <svg width="153" height="120" viewBox="0 0 153 120" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -29,8 +29,7 @@ export function Footer() {
                             </svg>
                         </a>
                     </div>
-
-                    <div >
+                    <div>
                         <div className="text-gray text-[16px] leading-tight mb-5 last:mb-0">Навігація</div>
                         <a href="#" className="footer-item-link mb-4 last:mb-0">
                             Головна
@@ -42,23 +41,21 @@ export function Footer() {
                             Ассортимент
                         </a>
                     </div>
-
-                    <div >
+                    <div>
                         <div className="text-gray text-[16px] leading-tight mb-5 last:mb-0">Контакти</div>
-                        <a href="tel:+3832334344343" className="footer-item-link mb-4 last:mb-0">
+                        <a href="tel:+3832334344343" className="footer-item-link mb-4 last:mb-0 ">
                             +38 323 3434 4343
                         </a>
-
                     </div>
                     <div>
                         <div className="text-gray text-[16px] leading-tight mb-5 last:mb-0">Час роботи</div>
-                        <div className="footer-item-link">
+                        <div className="footer-item-link hover:text-black">
                             з 10:00 до 22:00
                         </div>
                     </div>
                     <div>
                         <div className="text-gray text-[16px] leading-tight mb-5 last:mb-0">Ми в соц мережах</div>
-                        <div className="flex gap-4">
+                        <div className="flex gap-4 justify-center sm:justify-start">
                             <div>
                                 <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M14.4678 26.7793C21.2635 26.7793 26.7725 21.2703 26.7725 14.4746C26.7725 7.67892 21.2635 2.16992 14.4678 2.16992C7.67208 2.16992 2.16309 7.67892 2.16309 14.4746C2.16309 21.2703 7.67208 26.7793 14.4678 26.7793Z" fill="url(#paint0_linear_2128_8255)" />
@@ -87,13 +84,12 @@ export function Footer() {
                             </div>
                         </div>
                     </div>
-
                 </div>
-                <div className="flex justify-between border-t border-[gray] pt-8">
+                <div className="flex justify-between flex-col sm:flex-row border-t border-[rgba(128,128,128,0.2)] pt-8">
                     <div className="text-14">
                         © All rights reserved.
                     </div>
-                    <a href="#" className="text-14 underline">
+                    <a href="#" className="text-14 underline hover:text-orange-1">
                         Privacy Policy
                     </a>
                 </div>

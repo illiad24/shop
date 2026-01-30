@@ -29,12 +29,13 @@
     --color-blue: #3f72b0;
     --color-gray: #686870;
     --color-orange-1: #FF5D3E;
-}
+} 
 
 
 body,
 html {
-    @apply font-family h-full text-[14px];
+    @apply font-family h-full text-[14px] bg-[#F5F6F7];
+
 }
 
 @utility content-auto {
@@ -47,7 +48,7 @@ html {
 }
 
 .container {
-    @apply max-w-[77.5rem] m-auto;
+    @apply max-w-[77.5rem] m-auto pr-4 pl-4;
 }
 
 /* !Utility */
@@ -57,10 +58,26 @@ html {
     @apply font-roboto text-[14px] leading-[1.5] text-black
 }
 
+@utility text-14-gray {
+    @apply font-roboto text-[14px] leading-[1.5] text-gray
+}
+
 /* !Utility footer */
 
 @utility footer-item-link {
-    @apply text-black block font-semibold text-[16px] leading-tight;
+    @apply text-black block font-semibold text-[16px] leading-tight hover:text-orange-1 transition duration-150 ease-in-out;
 }
 
-@custom-variant not-last (&:not(:last-child));
+
+@utility section-title-32 {
+    @apply text-black font-rubik font-bold text-[32px];
+}
+
+@utility section-title-24 {
+    @apply text-black font-rubik font-semibold text-[24px];
+}
+
+
+@utility absolute-element {
+    @apply absolute top-0 left-0 w-full h-full;
+}
