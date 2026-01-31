@@ -23,7 +23,7 @@ export function ProductItem() {
                 <div className="flex justify-between gap-2">
                     <div className="text-black text-[18px] font-bold">
                         515 <span className="text-grey"> грн</span></div>
-                    <div className="py-2.5 px-6 bg-orange-1/55 rounded-2xl text-white text-3xl cursor-pointer">+</div>
+                    <div className="py-2.5 px-6 bg-orange-1/55 rounded-2xl text-white text-3xl cursor-pointer hover:bg-orange-1/70 transition-colors">+</div>
                 </div>
             </div>
         </div>
