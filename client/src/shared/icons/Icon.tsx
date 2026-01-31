@@ -6,7 +6,7 @@ const iconMap = {
     favorite: Heart,
     arrow: ChevronRight
 }
-export const Icon = ({ name, className, size = 24, ...props }) => {
+export const Icon = ({ name, className, size = 24, ...props }: any) => {
     const IconComponent = iconMap[name]
 
     if (!IconComponent) {

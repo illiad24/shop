@@ -30,7 +30,7 @@
     --color-gray: #686870;
     --color-white: #fff;
     --color-orange-1: #FF5D3E;
-} 
+}
 
 
 body,
@@ -49,7 +49,7 @@ html {
 }
 
 .container {
-    @apply max-w-[77.5rem] m-auto pr-4 pl-4;
+    @apply max-w-[1240px] m-auto pr-4 pl-4;
 }
 
 /* !Utility */
@@ -81,4 +81,8 @@ html {
 
 @utility absolute-element {
     @apply absolute top-0 left-0 w-full h-full;
+}
+
+.arrow-button-next.swiper-button-disabled {
+    @apply bg-orange-1 opacity-50 cursor-not-allowed;
 }

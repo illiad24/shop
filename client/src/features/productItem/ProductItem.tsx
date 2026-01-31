@@ -5,7 +5,7 @@ export function ProductItem() {
         <div className="bg-white p-5 rounded-[20px]">
             <div className="relative mb-6 last:mb-0">
                 <div className="absolute p-2 z-3 top-2.5 py-2 px-2.5 left-4 rounded-[8px] bg-main text-white font-medium text-[14px]">Новинка</div>
-                <div className="relative pb-[40%]"><img className="absolute-element object-cover rounded-[20px]" src="/footer.png" alt="Image" /></div>
+                <div className="relative pb-[70%]"><img className="absolute-element object-cover rounded-[20px]" src="/footer.png" alt="Image" /></div>
                 <div className="absolute p-2 z-3 top-2.5 right-4 w-9 h-9 flex justify-center items-center bg-[#f5f5f7] rounded-[8px]">
                     <Icon name='favorite' className="text-orange-1" />
                 </div>
