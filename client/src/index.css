@@ -35,7 +35,7 @@
 
 body,
 html {
-    @apply font-family h-full text-[14px] bg-[#F5F6F7];
+    @apply font-family h-full text-[16px] bg-[#F5F6F7];
 
 }
 

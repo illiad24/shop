@@ -6,7 +6,7 @@ const iconMap = {
     favorite: Heart,
     arrow: ChevronRight
 }
-export const Icon = ({ name, className, size = 24, ...props }: any) => {
+export const Icon = ({ name, className, size = 24, filled = false, ...props }: any) => {
     const IconComponent = iconMap[name]
 
     if (!IconComponent) {
@@ -14,5 +14,5 @@ export const Icon = ({ name, className, size = 24, ...props }: any) => {
         return null
     }
 
-    return <IconComponent className={className} size={size} {...props} />
+    return <IconComponent className={className} fill={filled ? 'currentColor' : 'none'} size={size} {...props} />
 }

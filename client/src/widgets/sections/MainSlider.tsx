@@ -14,16 +14,18 @@ interface IMainSliderProps {
     arrows?: boolean;
 }
 
-export function MainSlider({ title, data, link, linkUrl, arrows }: IMainSliderProps) {
+export function MainSlider({ title, data, link, linkUrl }: IMainSliderProps) {
     const [prevEl, setPrevEl] = useState < HTMLButtonElement | null > (null);
     const [nextEl, setNextEl] = useState < HTMLButtonElement | null > (null);
 
     return (
-        <section>
+        <section className="py-15">
             <div className="container">
                 <h2 className="mb-10 section-title-32 last:mb-0">{title}</h2>
                 <div className="mb-10 last:mb-0">
                     <Swiper
+                        className="!overflow-visible"
+                        wrapperClass=""
                         modules={[Navigation]}
                         spaceBetween={20}
                         slidesPerView={4}
@@ -38,7 +40,18 @@ export function MainSlider({ title, data, link, linkUrl, arrows }: IMainSliderPr
                             }
                         }}
                         breakpoints={{
-
+                            240: {
+                                slidesPerView: 1,
+                            },
+                            640: {
+                                slidesPerView: 2,
+                            },
+                            1024: {
+                                slidesPerView: 3,
+                            },
+                            1280: {
+                                slidesPerView: 4,
+                            },
                         }}
                     >
                         {data.map((item, index) => (
@@ -49,26 +62,30 @@ export function MainSlider({ title, data, link, linkUrl, arrows }: IMainSliderPr
                     </Swiper>
                 </div>
 
-                <div className="flex justify-between items-center mt-10 last:mt-0 gap-4">
+                <div className="flex justify-between  mt-10 last:mt-0 gap-4">
                     {link && linkUrl && (
                         <a
-                            className="text-main px-8 py-4 rounded-[12px] border border-main inline-block"
+                            className="text-main text-[18px] px-8 py-3 rounded-[12px] font-bold border border-main inline-block hover:bg-main/10 transition-colors"
                             href={linkUrl}
                         >
                             {link}
                         </a>
                     )}
 
-                    <div className="flex gap-4 items-center">
+                    <div className="hidden gap-4 items-center sm:flex">
                         <button
                             ref={(node) => setPrevEl(node)}
-                            className="w-12 h-12 rounded-2xl border border-orange-1 text-orange-1 flex justify-center items-center rotate-180"
+                            className="w-12 h-12 font-bold rounded-2xl border border-orange-1 text-orange-1 flex justify-center items-center rotate-180 hover:bg-orange-1/10 transition-colors [&.swiper-button-disabled]:opacity-50
+    [&.swiper-button-disabled]:cursor-not-allowed
+    [&.swiper-button-disabled]:hover:bg-transparent"
                         >
                             <Icon name="arrow" />
                         </button>
                         <button
                             ref={(node) => setNextEl(node)}
-                            className="w-12 h-12 rounded-2xl border border-orange-1 text-orange-1 flex justify-center items-center"
+                            className="w-12 h-12 font-bold rounded-2xl border border-orange-1 text-orange-1 flex justify-center items-center  hover:bg-orange-1/10 transition-colors [&.swiper-button-disabled]:opacity-50
+    [&.swiper-button-disabled]:cursor-not-allowed
+    [&.swiper-button-disabled]:hover:bg-transparent"
                         >
                             <Icon name="arrow" />
                         </button>
