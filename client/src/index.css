@@ -83,6 +83,7 @@ html {
     @apply absolute top-0 left-0 w-full h-full;
 }
 
-.arrow-button-next.swiper-button-disabled {
-    @apply bg-orange-1 opacity-50 cursor-not-allowed;
+@utility button-el {
+
+    @apply text-[24px] inline-block text-white bg-orange-1 rounded-[12px] px-6 py-3;
 }

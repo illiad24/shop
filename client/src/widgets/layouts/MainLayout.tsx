@@ -7,7 +7,6 @@ export function MainLayout() {
         <>
             <Header />
             <main className="flex-1">
-                sss
                 <Outlet />
             </main>
             <Footer />
