@@ -1,11 +1,25 @@
+import { useEffect, useState } from "react";
 import { Icon } from "../../shared/icons/Icon";
 
 export function Header() {
+
+    const [menuOpen, setMenuOpen] = useState(false)
+    useEffect(() => {
+        if (menuOpen) {
+            document.body.style.overflow = "hidden";
+        } else {
+            document.body.style.overflow = "";
+        }
+
+        return () => {
+            document.body.style.overflow = "";
+        };
+    }, [menuOpen]);
+
     return (
         <header className=" relative md:absolute top-1.5  left-0 z-10 w-full h-full mb-5">
             <div className="px-2.5">
-                <div className=" rounded-[12px] bg-white p-2.5 mb-1.5 flex justify-between items-center gap-6">
-
+                <div className=" relative z-10 rounded-[12px] bg-white p-2.5 mb-1.5 flex justify-between items-center gap-6">
                     <div className="flex gap-7 relative z-3">
                         <div>
                             <svg width="51" height="40" viewBox="0 0 51 40" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -49,99 +63,87 @@ export function Header() {
                             </div>
                         </div>
                     </div>
-
                     <div className=" gap-3 items-center cursor-pointer md:flex hidden">
                         <div className="text-[14px] text-black transition-all font-semibold hover:text-main">
                             Головна
                         </div>
-                        <div className="text-[14px] text-black transition-all font-semibold hover:text-main">
-                            Головна
-                        </div>
-                        <div className="text-[14px] text-black transition-all font-semibold hover:text-main">
-                            Головна
-                        </div>
-                        <div className="text-[14px] text-black transition-all font-semibold hover:text-main">
-                            Головна
-                        </div>
                     </div>
-
                     <div className="flex gap-2 items-center relative z-3">
-                        <div className="text-gray text-[20px] p-2.5 border rounded-[12px]  border-[#d2d2d7]">
+                        <div className="text-gray text-[20px] p-2.5 border rounded-[12px]  border-[#d2d2d7] transition-all hover:border-orange-1 hover:text-orange-1">
                             <Icon name="favorite" />
                         </div>
-                        <div className="text-gray text-[20px] p-2.5 border rounded-[12px]  border-[#d2d2d7]">
+                        <div className="text-gray text-[20px] p-2.5 border rounded-[12px]  border-[#d2d2d7] transition-all hover:border-orange-1 hover:text-orange-1">
                             <Icon name="user" />
                         </div>
-                        <div className="text-gray text-[20px] p-2.5 border md:hidden flex rounded-[12px]  border-[#d2d2d7]">
-                            <Icon name="menu" />
-                            <Icon name="close" className="hidden" />
+                        <div className="text-gray text-[20px] p-2.5 border md:hidden flex rounded-[12px]  border-[#d2d2d7] transition-all hover:border-orange-1 hover:text-orange-1" onClick={() => setMenuOpen(!menuOpen)}>
+                            <Icon name="menu" className={menuOpen ? "hidden" : "block"} />
+                            <Icon name="close" className={menuOpen ? "block" : "hidden"} />
                         </div>
-                        <div className="text-gray text-[20px] md:flex hidden  py-2.5 px-5 border rounded-[12px]  border-[#d2d2d7] flex items-center gap-2">
+                        <div className="text-gray text-[20px] md:flex hidden  py-2.5 px-5 border rounded-[12px]  border-[#d2d2d7] flex items-center gap-2 transition-all hover:border-orange- hover:text-orange-1">
                             <span className="text-[14px]">Кошик</span>
                             <Icon name="bag" />
                         </div>
                     </div>
+                </div>
+                <div className={` menuOpen:hidden overflow-auto md:hidden fixed top-0  transition-all w-full h-full bg-[#fbfbfb] py-30 px-4 ${menuOpen ? "left-0" : "left-[100%]"}`}>
 
-                    <div className="block md:hidden fixed top-0 left-0 w-full h-full bg-[#fbfbfb] pt-30 px-4">
-
-                        <div className="mb-6 last:mb-0">
-                            <div className="text-[16px] text-gray mb-2 last:mb-0">Навігація</div>
-                            <div className="grid grid-cols-2 gap-3">
-                                <div className="text-[14px] bg-white text-center  border-1 rounded-[12px] text-black w-full py-3 transition-all font-semibold hover:text-main  active [&.active]:col-span-2 [&.active]:text-orange-1 [&.active]:border-1 [&.active]:border-orange-1 hover:border-1 hover:border-orange-1 hover:text-orange-1 transition-all">
-                                    Головна
-                                </div>
-                                <div className="text-[14px] bg-white text-center border-1  rounded-[12px] text-black w-full py-3 transition-all font-semibold hover:text-main   [&.active]:col-span-2 [&.active]:text-orange-1 [&.active]:border-1 [&.active]:border-orange-1 hover:border-1 hover:border-orange-1 hover:text-orange-1 transition-all">
-                                    Про нас
-                                </div>
-                                <div className="text-[14px] bg-white text-center border-1 rounded-[12px] text-black w-full py-3 transition-all font-semibold hover:text-main   [&.active]:col-span-2 [&.active]:text-orange-1 [&.active]:border-1 [&.active]:border-orange-1 hover:border-1 hover:border-orange-1 hover:text-orange-1 transition-all">
-                                    Доставка і оплата
-                                </div>
+                    <div className="mb-6 last:mb-0">
+                        <div className="text-[16px] text-gray mb-2 last:mb-0">Навігація</div>
+                        <div className="grid grid-cols-2 gap-3">
+                            <div className="text-[14px] bg-white text-center  border-1 rounded-[12px] text-black w-full py-3 transition-all font-semibold hover:text-main  active [&.active]:col-span-2 [&.active]:text-orange-1 [&.active]:border-1 [&.active]:border-orange-1 hover:border-1 hover:border-orange-1 hover:text-orange-1 transition-all">
+                                Головна
+                            </div>
+                            <div className="text-[14px] bg-white text-center border-1  rounded-[12px] text-black w-full py-3 transition-all font-semibold hover:text-main   [&.active]:col-span-2 [&.active]:text-orange-1 [&.active]:border-1 [&.active]:border-orange-1 hover:border-1 hover:border-orange-1 hover:text-orange-1 transition-all">
+                                Про нас
+                            </div>
+                            <div className="text-[14px] bg-white text-center border-1 rounded-[12px] text-black w-full py-3 transition-all font-semibold hover:text-main   [&.active]:col-span-2 [&.active]:text-orange-1 [&.active]:border-1 [&.active]:border-orange-1 hover:border-1 hover:border-orange-1 hover:text-orange-1 transition-all">
+                                Доставка і оплата
                             </div>
                         </div>
-                        <div className="mb-6 last:mb-0">
-                            <div className="text-[16px] text-gray mb-2 last:mb-0">Ассортимент</div>
-                            <div className="grid grid-cols-2 gap-3 text-center">
-                                <div className="flex gap-2.5 items-center gap-2 py-2 px-5 rounded-2xl  hover:bg-[#0D407E]/[0.06] cursor-pointer transition-all bg-white">
-                                    <div className="shrink-0 w-6">
-                                        <img className="w-6 h-6" src="/types/01.svg" alt="Image" />
-                                    </div>
-                                    <div className="text-14-gray">
-                                        Охолоджена
-                                        продукція
-                                    </div>
+                    </div>
+                    <div className="mb-6 last:mb-0">
+                        <div className="text-[16px] text-gray mb-2 last:mb-0">Ассортимент</div>
+                        <div className="grid grid-cols-2 gap-3 text-center">
+                            <div className="flex gap-2.5 items-center gap-2 py-2 px-5 rounded-2xl  hover:bg-[#0D407E]/[0.06] cursor-pointer transition-all bg-white">
+                                <div className="shrink-0 w-6">
+                                    <img className="w-6 h-6" src="/types/01.svg" alt="Image" />
                                 </div>
-                                <div className=" flex gap-2.5 items-center gap-2 py-2 px-5 rounded-2xl  hover:bg-[#0D407E]/[0.06] cursor-pointer transition-all bg-white">
-                                    <div className="shrink-0 w-6">
-                                        <img className="w-6 h-6" src="/types/02.svg" alt="Image" />
-                                    </div>
-                                    <div className="text-14-gray">
-                                        Заморозка
-                                    </div>
+                                <div className="text-14-gray">
+                                    Охолоджена
+                                    продукція
                                 </div>
-                                <div className=" flex gap-2.5 items-center gap-2 py-2 px-5 rounded-2xl  hover:bg-[#0D407E]/[0.06] cursor-pointer transition-all bg-white">
-                                    <div className="shrink-0 w-6">
-                                        <img className="w-6 h-6" src="/types/03.svg" alt="Image" />
-                                    </div>
-                                    <div className="text-14-gray">
-                                        Готова продукція
-                                    </div>
+                            </div>
+                            <div className=" flex gap-2.5 items-center gap-2 py-2 px-5 rounded-2xl  hover:bg-[#0D407E]/[0.06] cursor-pointer transition-all bg-white">
+                                <div className="shrink-0 w-6">
+                                    <img className="w-6 h-6" src="/types/02.svg" alt="Image" />
                                 </div>
-                                <div className=" flex gap-2.5 items-center gap-2 py-2 px-5 rounded-2xl  hover:bg-[#0D407E]/[0.06] cursor-pointer transition-all bg-white">
-                                    <div className="shrink-0 w-6">
-                                        <img className="w-6 h-6" src="/types/04.svg" alt="Image" />
-                                    </div>
-                                    <div className="text-14-gray">
-                                        Маринована
-                                        продукція
-                                    </div>
+                                <div className="text-14-gray">
+                                    Заморозка
                                 </div>
-                                <div className=" flex gap-2.5 items-center gap-2 py-2 px-5 rounded-2xl  hover:bg-[#0D407E]/[0.06] cursor-pointer transition-all bg-white">
-                                    <div className="shrink-0 w-6">
-                                        <img className="w-6 h-6" src="/types/05.svg" alt="Image" />
-                                    </div>
-                                    <div className="text-14-gray">
-                                        Снеки
-                                    </div>
+                            </div>
+                            <div className=" flex gap-2.5 items-center gap-2 py-2 px-5 rounded-2xl  hover:bg-[#0D407E]/[0.06] cursor-pointer transition-all bg-white">
+                                <div className="shrink-0 w-6">
+                                    <img className="w-6 h-6" src="/types/03.svg" alt="Image" />
+                                </div>
+                                <div className="text-14-gray">
+                                    Готова продукція
+                                </div>
+                            </div>
+                            <div className=" flex gap-2.5 items-center gap-2 py-2 px-5 rounded-2xl  hover:bg-[#0D407E]/[0.06] cursor-pointer transition-all bg-white">
+                                <div className="shrink-0 w-6">
+                                    <img className="w-6 h-6" src="/types/04.svg" alt="Image" />
+                                </div>
+                                <div className="text-14-gray">
+                                    Маринована
+                                    продукція
+                                </div>
+                            </div>
+                            <div className=" flex gap-2.5 items-center gap-2 py-2 px-5 rounded-2xl  hover:bg-[#0D407E]/[0.06] cursor-pointer transition-all bg-white">
+                                <div className="shrink-0 w-6">
+                                    <img className="w-6 h-6" src="/types/05.svg" alt="Image" />
+                                </div>
+                                <div className="text-14-gray">
+                                    Снеки
                                 </div>
                             </div>
                         </div>
