@@ -84,6 +84,5 @@ html {
 }
 
 @utility button-el {
-
-    @apply text-[24px] inline-block text-white bg-orange-1 rounded-[12px] px-6 py-3;
+    @apply text-[24px] inline-block text-white bg-orange-1 rounded-[12px] px-6 py-3 hover:bg-orange-1/50 transition-all;
 }

@@ -17,7 +17,7 @@ export function MainSection() {
                 speed={1200}
             >
                 <SwiperSlide className="relative min-h-[100vh] flex items-center content-center pt-20">
-                    <img className="absolute-element" src="/homepage/main/01.png" alt="Свіжі морепродукти" />
+                    <img className="absolute-element object-cover" src="/homepage/main/01.png" alt="Свіжі морепродукти" />
                     <div className="container relative z-40 h-full " >
                         <div>
                             <div className="max-w-[700px]">
@@ -33,7 +33,7 @@ export function MainSection() {
                     </div>
                 </SwiperSlide>
                 <SwiperSlide className="relative min-h-[100vh] flex items-center content-center pt-20">
-                    <img className="absolute-element" src="/homepage/main/02.png" alt="Вишукані делікатеси" />
+                    <img className="absolute-element object-cover" src="/homepage/main/02.png" alt="Вишукані делікатеси" />
                     <div className="container relative z-40 h-full " >
                         <div>
                             <div className="max-w-[700px]">
