@@ -14,16 +14,28 @@ export const router = createBrowserRouter([
         errorElement: <GlobalErrorPage />,
         children: [
             {
-                index: true,
-                Component: HomePage
+                path: '/',
+                Component: HomePage,
+                handle: {
+                    inMainMenu: true,
+                    title: 'Головна'
+                }
             },
             {
                 path: 'delivery',
-                Component: DeliveryPage
+                Component: DeliveryPage,
+                handle: {
+                    inMainMenu: true,
+                    title: 'Доставка'
+                }
             },
             {
                 path: 'about',
-                Component: AboutPage
+                Component: AboutPage,
+                handle: {
+                    inMainMenu: true,
+                    title: 'Про нас'
+                }
             },
             {
                 path: '*',

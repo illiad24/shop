@@ -1,16 +1,20 @@
 import { useEffect, useState } from "react";
 import { Icon } from "../../shared/icons/Icon";
+import { router } from "../../app/router/router";
+import { NavLink } from "react-router";
 
 export function Header() {
+    const routesInMainMenu = router.routes[0].children.filter(route => route.handle?.inMainMenu);
+
 
     const [menuOpen, setMenuOpen] = useState(false)
+
     useEffect(() => {
         if (menuOpen) {
             document.body.style.overflow = "hidden";
         } else {
             document.body.style.overflow = "";
         }
-
         return () => {
             document.body.style.overflow = "";
         };
@@ -64,9 +68,13 @@ export function Header() {
                         </div>
                     </div>
                     <div className=" gap-3 items-center cursor-pointer md:flex hidden">
-                        <div className="text-[14px] text-black transition-all font-semibold hover:text-main">
-                            Головна
-                        </div>
+                        {routesInMainMenu.map((route) => {
+                            return (
+                                <NavLink key={route.path} to={route.path} className={({ isActive }) => isActive ? "text-[14px] text-orange-1 transition-all font-semibold hover:text-main " : "text-[14px] text-black transition-all font-semibold hover:text-main"}>
+                                    {route.handle?.title}
+                                </NavLink>)
+                        })}
+
                     </div>
                     <div className="flex gap-2 items-center relative z-3">
                         <div className="text-gray text-[20px] p-2.5 border rounded-[12px]  border-[#d2d2d7] transition-all hover:border-orange-1 hover:text-orange-1">
@@ -79,7 +87,7 @@ export function Header() {
                             <Icon name="menu" className={menuOpen ? "hidden" : "block"} />
                             <Icon name="close" className={menuOpen ? "block" : "hidden"} />
                         </div>
-                        <div className="text-gray text-[20px] md:flex hidden  py-2.5 px-5 border rounded-[12px]  border-[#d2d2d7] flex items-center gap-2 transition-all hover:border-orange- hover:text-orange-1">
+                        <div className=" cursor-pointer text-gray text-[20px] md:flex hidden  py-2.5 px-5 border rounded-[12px]  border-[#d2d2d7] flex items-center gap-2 transition-all hover:border-orange- hover:text-orange-1">
                             <span className="text-[14px]">Кошик</span>
                             <Icon name="bag" />
                         </div>
@@ -90,15 +98,14 @@ export function Header() {
                     <div className="mb-6 last:mb-0">
                         <div className="text-[16px] text-gray mb-2 last:mb-0">Навігація</div>
                         <div className="grid grid-cols-2 gap-3">
-                            <div className="text-[14px] bg-white text-center  border-1 rounded-[12px] text-black w-full py-3 transition-all font-semibold hover:text-main  active [&.active]:col-span-2 [&.active]:text-orange-1 [&.active]:border-1 [&.active]:border-orange-1 hover:border-1 hover:border-orange-1 hover:text-orange-1 transition-all">
-                                Головна
-                            </div>
-                            <div className="text-[14px] bg-white text-center border-1  rounded-[12px] text-black w-full py-3 transition-all font-semibold hover:text-main   [&.active]:col-span-2 [&.active]:text-orange-1 [&.active]:border-1 [&.active]:border-orange-1 hover:border-1 hover:border-orange-1 hover:text-orange-1 transition-all">
-                                Про нас
-                            </div>
-                            <div className="text-[14px] bg-white text-center border-1 rounded-[12px] text-black w-full py-3 transition-all font-semibold hover:text-main   [&.active]:col-span-2 [&.active]:text-orange-1 [&.active]:border-1 [&.active]:border-orange-1 hover:border-1 hover:border-orange-1 hover:text-orange-1 transition-all">
-                                Доставка і оплата
-                            </div>
+
+                            {routesInMainMenu.map((route) => {
+                                return (
+                                    <NavLink key={route.path} to={route.path} className={({ isActive }) => `text-[14px] bg-white text-center  border-1 rounded-[12px] text-black w-full py-3 transition-all font-semibold hover:text-main    hover:border-1 hover:border-orange-1 hover:text-orange-1 transition-all ${isActive ? "text-orange-1 col-span-2 border-orange-1" : ""}`}>
+                                        {route.handle?.title}
+                                    </NavLink>
+                                )
+                            })}
                         </div>
                     </div>
                     <div className="mb-6 last:mb-0">
@@ -196,6 +203,6 @@ export function Header() {
                     </div>
                 </div>
             </div>
-        </header>
+        </header >
     )
 }
