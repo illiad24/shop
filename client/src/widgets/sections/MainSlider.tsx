@@ -2,9 +2,9 @@ import { ProductItem } from "../../features/productItem/ProductItem";
 import { Icon } from "../../shared/icons/Icon";
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation } from 'swiper/modules';
-import 'swiper/css';
-import 'swiper/css/navigation';
-import { useRef, useState } from "react";
+import { useState } from "react";
+import type { ProductType } from "../../features/productItem/ProductType";
+
 
 interface IMainSliderProps {
     title: string;
@@ -28,7 +28,7 @@ export function MainSlider({ title, data, link, linkUrl }: IMainSliderProps) {
                         wrapperClass=""
                         modules={[Navigation]}
                         spaceBetween={20}
-                        slidesPerView={4}
+                        slidesPerView={3}
                         navigation={{
                             prevEl,
                             nextEl,
@@ -50,13 +50,13 @@ export function MainSlider({ title, data, link, linkUrl }: IMainSliderProps) {
                                 slidesPerView: 3,
                             },
                             1280: {
-                                slidesPerView: 4,
+                                slidesPerView: 3,
                             },
                         }}
                     >
                         {data.map((item, index) => (
                             <SwiperSlide key={index}>
-                                <ProductItem {...item} />
+                                <ProductItem {...item} data={item} />
                             </SwiperSlide>
                         ))}
                     </Swiper>

@@ -10,20 +10,20 @@ router.get("/", ProductController.getAll);
 router.get("/:productId", ProductController.getById);
 router.post(
   "/",
-    authMiddleware,
-    // requireRole([UserRole.ADMIN, UserRole.USER]),
+  authMiddleware,
+  // requireRole([UserRole.ADMIN, UserRole.USER]),
   ProductController.create,
 );
 router.put(
   "/:productId",
-    authMiddleware,
-    // requireRole([UserRole.ADMIN]),
+  authMiddleware,
+  // requireRole([UserRole.ADMIN]),
   ProductController.update,
 );
 router.delete(
   "/:productId",
-    authMiddleware,
-    // requireRole([UserRole.ADMIN]),
+  authMiddleware,
+  // requireRole([UserRole.ADMIN]),
   ProductController.delete,
 );
 

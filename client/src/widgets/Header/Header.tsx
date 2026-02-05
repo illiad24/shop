@@ -21,7 +21,7 @@ export function Header() {
     }, [menuOpen]);
 
     return (
-        <header className=" relative md:absolute top-1.5  left-0 z-10 w-full h-full mb-5">
+        <header className="relative md:absolute top-1.5  left-0 z-10 w-full  mb-5">
             <div className="px-2.5">
                 <div className=" relative z-10 rounded-[12px] bg-white p-2.5 mb-1.5 flex justify-between items-center gap-6">
                     <div className="flex gap-7 relative z-3">
@@ -70,7 +70,7 @@ export function Header() {
                     <div className=" gap-3 items-center cursor-pointer md:flex hidden">
                         {routesInMainMenu.map((route) => {
                             return (
-                                <NavLink key={route.path} to={route.path} className={({ isActive }) => isActive ? "text-[14px] text-orange-1 transition-all font-semibold hover:text-main " : "text-[14px] text-black transition-all font-semibold hover:text-main"}>
+                                <NavLink key={route.path} to={{ pathname: route.path }} className={({ isActive }) => isActive ? "text-[14px] text-orange-1 transition-all font-semibold hover:text-main " : "text-[14px] text-black transition-all font-semibold hover:text-main"}>
                                     {route.handle?.title}
                                 </NavLink>)
                         })}
@@ -101,7 +101,7 @@ export function Header() {
 
                             {routesInMainMenu.map((route) => {
                                 return (
-                                    <NavLink key={route.path} to={route.path} className={({ isActive }) => `text-[14px] bg-white text-center  border-1 rounded-[12px] text-black w-full py-3 transition-all font-semibold hover:text-main    hover:border-1 hover:border-orange-1 hover:text-orange-1 transition-all ${isActive ? "text-orange-1 col-span-2 border-orange-1" : ""}`}>
+                                    <NavLink key={route.path} to={{ pathname: route.path }} className={({ isActive }) => `text-[14px] bg-white text-center  border-1 rounded-[12px] text-black w-full py-3 transition-all font-semibold hover:text-main    hover:border-1 hover:border-orange-1 hover:text-orange-1 transition-all ${isActive ? "text-orange-1 col-span-2 border-orange-1" : ""}`}>
                                         {route.handle?.title}
                                     </NavLink>
                                 )

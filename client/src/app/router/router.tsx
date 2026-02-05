@@ -5,6 +5,7 @@ import { GlobalErrorPage } from "../../pages/GlobalErrorPage";
 import { PageNotFound } from "../../pages/PageNotFound";
 import { DeliveryPage } from "../../pages/DeliveryPage.tsx";
 import { AboutPage } from "../../pages/AboutPage.tsx";
+import { ProductDetailsPage } from "../../pages/ProductDetailsPage.tsx";
 
 
 export const router = createBrowserRouter([
@@ -36,6 +37,10 @@ export const router = createBrowserRouter([
                     inMainMenu: true,
                     title: 'Про нас'
                 }
+            },
+            {
+                path: 'products/:id',
+                Component: ProductDetailsPage,
             },
             {
                 path: '*',
