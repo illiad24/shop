@@ -63,6 +63,7 @@ export class AuthController {
 
       res.json({
         success: true,
+        user: tokens.user,
         accessToken: tokens.accessToken,
       });
     } catch (e: any) {

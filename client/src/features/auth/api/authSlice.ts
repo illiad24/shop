@@ -51,14 +51,10 @@ const authSlice = createSlice({
         },
       )
       .addMatcher(
-        isAnyOf(authApi.endpoints.refresh.matchFulfilled),
-        (state, action) => {
-          state.accessToken = action.payload.accessToken;
-          state.loading = false;
-        },
-      )
-      .addMatcher(
-        isAnyOf(authApi.endpoints.login.matchFulfilled),
+        isAnyOf(
+          authApi.endpoints.login.matchFulfilled,
+          authApi.endpoints.refresh.matchFulfilled,
+        ),
         (state, action) => {
           state.user = action.payload.user;
           state.accessToken = action.payload.accessToken;
