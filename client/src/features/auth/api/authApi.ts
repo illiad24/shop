@@ -1,7 +1,6 @@
 import { baseApi } from "@/shared/api/baseApi";
 
 import { apiRoutes } from "@/shared/config/routes/apiRoutes";
-console.log(apiRoutes);
 export const authApi = baseApi.injectEndpoints({
   endpoints: (build) => ({
     register: build.mutation({
@@ -12,10 +11,10 @@ export const authApi = baseApi.injectEndpoints({
       }),
     }),
     login: build.mutation({
-      query: (credentials) => ({
+      query: (data) => ({
         url: apiRoutes.auth.login,
         method: "POST",
-        body: credentials,
+        body: data,
       }),
     }),
     logout: build.mutation({

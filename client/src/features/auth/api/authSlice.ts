@@ -25,13 +25,16 @@ const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    setCredentials(state, action: PayloadAction<IAuthState>) {
+    login(state, action: PayloadAction<IAuthState>) {
       state.user = action.payload.user;
       state.accessToken = action.payload.accessToken;
     },
     logout(state) {
       state.user = null;
       state.accessToken = null;
+    },
+    tokenRefreshed(state, action) {
+      state.accessToken = action.payload.accessToken;
     },
   },
   extraReducers: (builder) => {
@@ -48,10 +51,14 @@ const authSlice = createSlice({
         },
       )
       .addMatcher(
-        isAnyOf(
-          authApi.endpoints.login.matchFulfilled,
-          authApi.endpoints.refresh.matchFulfilled,
-        ),
+        isAnyOf(authApi.endpoints.refresh.matchFulfilled),
+        (state, action) => {
+          state.accessToken = action.payload.accessToken;
+          state.loading = false;
+        },
+      )
+      .addMatcher(
+        isAnyOf(authApi.endpoints.login.matchFulfilled),
         (state, action) => {
           state.user = action.payload.user;
           state.accessToken = action.payload.accessToken;
@@ -76,7 +83,7 @@ const authSlice = createSlice({
       });
   },
 });
-export const { setCredentials, logout } = authSlice.actions;
+export const { login, logout, tokenRefreshed } = authSlice.actions;
 export const selectAuthUser = (state: RootState) => state.auth.user;
 export const selectAccessToken = (state: RootState) => state.auth.accessToken;
 export default authSlice.reducer;

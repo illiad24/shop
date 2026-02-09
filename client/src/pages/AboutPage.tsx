@@ -13,5 +13,4 @@ export function AboutPage() {
             </div>
         </>
     )
-
 }

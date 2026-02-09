@@ -11,14 +11,12 @@ export class WishlistController {
 
   static async toggle(req: AuthRequest, res: Response) {
     const { productId } = req.params;
-    console.log(productId);
-    console.log(req.user);
+
     const user = await UserModel.findById(req.user!.id);
-    console.log(user);
+
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
-    console.log(user);
 
     const index = user.wishlist.findIndex((id) => id.toString() === productId);
 

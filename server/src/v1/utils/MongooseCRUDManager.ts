@@ -47,7 +47,6 @@ export class MongooseCRUDManager<T> {
     populate?: string[],
   ) {
     const query = this.model.findById(id, projection);
-    console.log(id);
 
     if (populate) {
       populate.forEach((field) => query.populate(field));

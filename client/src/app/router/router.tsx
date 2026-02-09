@@ -1,4 +1,4 @@
-import { createBrowserRouter } from "react-router";
+import { createBrowserRouter, redirect } from "react-router";
 import { MainLayout } from "../../widgets/layouts";
 import { HomePage } from "../../pages/HomePage";
 import { GlobalErrorPage } from "../../pages/GlobalErrorPage";
@@ -6,7 +6,18 @@ import { PageNotFound } from "../../pages/PageNotFound";
 import { DeliveryPage } from "../../pages/DeliveryPage.tsx";
 import { AboutPage } from "../../pages/AboutPage.tsx";
 import { ProductDetailsPage } from "../../pages/ProductDetailsPage.tsx";
-
+import { AdminProductsPage } from "../../pages/admin/AdminProductsPage.tsx";
+import { authCheckLoader } from "./authCheckLoader.ts";
+import { AdminLoginPage } from "../../pages/admin/AdminLoginPage.tsx";
+import { AdminLayout } from "../../widgets/layouts/AdminLayout.tsx";
+import { AdminBannerPage } from "../../pages/admin/AdminBannerPage.tsx";
+import { AdminPopupPage } from "../../pages/admin/AdminPopupPage.tsx";
+import { ForbiddenPage } from "../../pages/ForbiddenPage.tsx";
+import { Mutex } from 'async-mutex'
+import type { IRoles } from "../../shared/types/roles.ts";
+const mutex = new Mutex();
+type roles = 'ADMIN' | 'USER'
+const adminRoles: roles[] = ['ADMIN'];
 
 export const router = createBrowserRouter([
     {
@@ -42,10 +53,45 @@ export const router = createBrowserRouter([
                 path: 'products/:id',
                 Component: ProductDetailsPage,
             },
+
+
             {
                 path: '*',
                 Component: PageNotFound
             }
         ],
     },
+    {
+        path: 'admin',
+        Component: AdminLayout,
+        errorElement: <GlobalErrorPage />,
+        loader: () => authCheckLoader({ mutex, requiredRoles: adminRoles }),
+        handle: {
+            permission: adminRoles,
+        },
+        children: [
+            {
+                index: true,
+                Component: AdminProductsPage,
+            },
+            {
+                path: 'banner',
+                Component: AdminBannerPage,
+            },
+            {
+                path: 'popup',
+                Component: AdminPopupPage,
+            },
+
+        ]
+    },
+    {
+        path: 'admin/login',
+        Component: AdminLoginPage,
+    },
+    {
+        path: 'forbidden',
+        Component: ForbiddenPage
+    }
 ])
+

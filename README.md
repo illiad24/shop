@@ -8,6 +8,7 @@ The project is built using an **API-first approach** with a clear separation bet
 ## 🚀 Tech Stack
 
 ### Frontend
+
 - React
 - TypeScript
 - React Router
@@ -15,6 +16,7 @@ The project is built using an **API-first approach** with a clear separation bet
 - shadcn/ui
 
 ### Backend
+
 - Node.js
 - Express
 - TypeScript
@@ -22,6 +24,7 @@ The project is built using an **API-first approach** with a clear separation bet
 - Multer (image upload)
 
 ### Database
+
 - PostgreSQL (planned)
 - ORM: Prisma (planned)
 
@@ -62,12 +65,14 @@ shop/
 ## 📦 Core Features (MVP)
 
 ### Authentication
+
 - User registration
 - User login
 - JWT-based authentication
 - Protected routes
 
 ### Products
+
 - Fetch product list
 - Fetch single product
 - Create product (ADMIN only)
@@ -76,6 +81,7 @@ shop/
 - Upload product images
 
 ### Admin Panel
+
 - Product management dashboard
 - Secure admin routes
 - Role-based access control
@@ -85,18 +91,18 @@ shop/
 ## 📑 API Contract (MVP)
 
 ### Auth
+
 POST /api/v1/auth/register
 POST /api/v1/auth/login
 GET /api/v1/auth/me
 
-
 ### Products
+
 GET /api/v1/products
 GET /api/v1/products/:id
 POST /api/v1/products (ADMIN)
 PUT /api/v1/products/:id (ADMIN)
 DELETE /api/v1/products/:id (ADMIN)
-
 
 ---
 

@@ -22,7 +22,7 @@ export class AuthController {
   static async login(req: Request, res: Response) {
     try {
       const { user, accessToken, refreshToken } = await AuthService.login(
-        req.body
+        req.body,
       );
 
       res.cookie("refreshToken", refreshToken, {
@@ -68,7 +68,7 @@ export class AuthController {
     } catch (e: any) {
       res.status(403).json({
         success: false,
-        message: e.message,
+        messages: e.message,
       });
     }
   }

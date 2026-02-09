@@ -7,10 +7,6 @@
 
 
 
-
-
-/* //======================================================================================================================================================== */
-
 @theme {
     --breakpoint-xs: 30.56rem;
     /* 489px */
@@ -85,4 +81,12 @@ html {
 
 @utility button-el {
     @apply text-[24px] inline-block text-white bg-orange-1 rounded-[12px] px-6 py-3 hover:bg-orange-1/50 transition-all;
+}
+
+@utility button-element {
+    @apply text-[16px] inline-block text-white bg-orange-1 rounded-[12px] px-5 py-2.5 hover:bg-orange-1/50 transition-all;
+}
+
+@utility input {
+    @apply bg-[#f5f5f7] min-h-[48px] rounded-[12px] w-full px-2.5 placeholder:text-gray text-14-gray;
 }
