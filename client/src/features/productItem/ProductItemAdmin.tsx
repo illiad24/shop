@@ -3,19 +3,40 @@ import { Icon } from "../../shared/icons/Icon";
 import { Link } from "react-router";
 import { navigateRoutes } from "../../shared/config/routes/navigateRoutes";
 import type { ProductType } from "./ProductType";
+import { useDeleteProductMutation } from "../../entities/product";
 
-export function ProductItem({ data }: { data: ProductType }) {
-    console.log(data)
-    const [filled, setFilled] = useState < Boolean > (false);
+
+
+export function ProductItemAdmin({ data }: { data: ProductType }) {
+    const [deleteProduct] = useDeleteProductMutation()
+    async function onDelete(id) {
+        try {
+            await deleteProduct(id)
+            alert('product deleted')
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    function onEdit() {
+        console.log('edit')
+    }
+
     return (
         <div className="bg-white p-5 rounded-[20px]">
             <div className="relative mb-6 last:mb-0">
                 <div className="absolute p-2 z-3 top-2.5 py-1 px-2.5 left-4 rounded-[8px] bg-main text-white font-medium text-[14px]">Новинка</div>
-                <Link to={navigateRoutes.navigate.products.getProductById(data._id)} className="relative block pb-[70%]"><img className="absolute-element object-cover rounded-[20px]" src="/footer.png" alt="Image" /></Link>
-                <button onClick={() => setFilled(!filled)} className="absolute p-2 z-3 top-2.5 right-4 w-8 h-8 flex justify-center items-center bg-[#f5f5f7] rounded-[8px] cursor-pointer">
-                    <Icon name='favorite' className="text-orange-1 transition-colors" filled={filled} />
-                </button>
+                <Link to={navigateRoutes.navigate.products.getProductById(data._id)} className="relative block pb-[70%]"><img className="absolute-element object-cover rounded-[20px]" src="/about/history/01.png" alt="Image" /></Link>
+                <div className="absolute  z-3 top-2.5 right-4 flex gap-2 rounded-[8px] bg-white">
+                    <button onClick={() => onEdit()} className="p-2 w-8 h-8 flex justify-center items-center cursor-pointer">
+                        <Icon name='edit' className="text-orange-1 transition-colors" />
+                    </button>
+                    <button onClick={() => onDelete(data._id)} className="p-2 w-8 h-8 flex justify-center items-center  cursor-pointer">
+                        <Icon name='delete' className="text-orange-1 transition-colors" />
+                    </button>
+                </div>
             </div>
+
             <div>
                 <div className="flex justify-between gap-2 mb-5 last:mb-0">
                     <Link to={navigateRoutes.navigate.products.getProductById(data._id)}>
@@ -31,7 +52,6 @@ export function ProductItem({ data }: { data: ProductType }) {
                 <div className="flex justify-between gap-2 items-center">
                     <div className="text-black text-[18px] font-bold">
                         {data.price} <span className="text-grey"> грн</span></div>
-                    <button className="py-1 px-6 bg-orange-1/55 rounded-2xl text-white text-3xl cursor-pointer hover:bg-orange-1/70 transition-colors">+</button>
                 </div>
             </div>
         </div>

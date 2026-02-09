@@ -1,14 +1,25 @@
 
-import { NavLink, Outlet } from "react-router";
+import { NavLink, Outlet, useNavigate } from "react-router";
 import { Header } from "../Header/Header";
 import { Footer } from "../Footer/Footer";
 import { Icon } from "../../shared/icons/Icon";
+import { useLogoutMutation } from "../../features/auth/api/authApi";
 export function AdminLayout() {
+    const navigate = useNavigate()
+    const [logout] = useLogoutMutation()
+    async function adminLogout() {
+        try {
+            await logout()
+            navigate('/admin/login')
+        } catch (error) {
+            console.log(error)
+        }
+    }
     return (
         <>
-            <header className="bg-white ">
+            <header className="bg-white">
                 <div className="container min-h-[70px] grid items-center grid-cols-[230px_auto]">
-                    <div >
+                    <div>
                         <h1 className="font-bold text-3xl">ADMIN PANEL</h1>
                     </div>
                     <div className="flex items-center gap-8 justify-end">
@@ -20,9 +31,9 @@ export function AdminLayout() {
                                 Admin
                             </div>
                         </div>
-                        <button className="flex items-center gap-4 text-gray transition-colors hover:text-orange-1">
+                        <button className="flex items-center gap-4 text-gray transition-colors hover:text-orange-1" onClick={() => adminLogout()}>
                             <Icon name="logout" className="text-2xl" />
-                            <span className="text-[18px]">  ВИЙТИ</span>
+                            <span className="text-[18px]">ВИЙТИ</span>
                         </button>
                     </div>
                 </div>

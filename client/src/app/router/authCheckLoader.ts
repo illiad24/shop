@@ -10,30 +10,24 @@ export async function authCheckLoader({
   requiredRoles,
 }: {
   mutex: any;
-
   requiredRoles?: any;
 }) {
   let state = store.getState();
   let user = selectAuthUser(state);
-  console.log(user);
 
   if (!user && !refreshTried) {
     refreshTried = true;
     await mutex.runExclusive(async () => {
       state = store.getState();
-      console.log(2);
-      console.log(user);
+
       user = selectAuthUser(state);
-      console.log(user);
       if (!user) {
         try {
           const result = await store
             .dispatch(authApi.endpoints.refresh.initiate())
             .unwrap();
           user = result.user;
-          console.log(user);
         } catch {
-          console.log("error");
           user = null;
         }
       }
@@ -42,7 +36,7 @@ export async function authCheckLoader({
 
   state = store.getState();
   user = selectAuthUser(state);
-  console.log(user);
+
   if (requiredRoles.length > 0) {
     if (!user) {
       refreshTried = false;
