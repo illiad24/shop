@@ -4,8 +4,10 @@ import { apiRoutes } from "../../shared/config/routes/apiRoutes";
 const productApi = baseApi.injectEndpoints({
   endpoints: (build) => ({
     getProducts: build.query({
-      query: () => ({
+      query: (filterData) => ({
         url: apiRoutes.products.list,
+        method: "GET",
+        params: filterData,
       }),
       providesTags: ["Product"],
     }),
@@ -16,7 +18,35 @@ const productApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["Product"],
     }),
+    addProduct: build.mutation({
+      query: (data) => ({
+        url: apiRoutes.products.create,
+        method: "POST",
+        body: data,
+      }),
+      invalidatesTags: ["Product"],
+    }),
+    getProduct: build.query({
+      query: (id: string) => ({
+        url: apiRoutes.products.getById(id),
+      }),
+      providesTags: (result, error, id) => [{ type: "Product", id }],
+    }),
+    updateProduct: build.mutation({
+      query: ({ id, data }: { id: string; data: any }) => ({
+        url: apiRoutes.products.update(id),
+        method: "PUT",
+        body: data,
+      }),
+      invalidatesTags: (result, error, { id }) => ["Product"],
+    }),
   }),
 });
 
-export const { useGetProductsQuery, useDeleteProductMutation } = productApi;
+export const {
+  useGetProductsQuery,
+  useDeleteProductMutation,
+  useAddProductMutation,
+  useGetProductQuery,
+  useUpdateProductMutation,
+} = productApi;

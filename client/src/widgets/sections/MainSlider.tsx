@@ -3,7 +3,6 @@ import { Icon } from "../../shared/icons/Icon";
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation } from 'swiper/modules';
 import { useState } from "react";
-import type { ProductType } from "../../features/productItem/ProductType";
 
 
 interface IMainSliderProps {

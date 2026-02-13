@@ -3,7 +3,7 @@ import { Request, Response } from "express";
 class UserController {
   static async getAllUsers(req: Request, res: Response) {
     try {
-      const users = await userService.getList();
+      const users = await userService.getList({});
       res.json(users);
     } catch (error) {
       throw new Error("Method not implemented.");

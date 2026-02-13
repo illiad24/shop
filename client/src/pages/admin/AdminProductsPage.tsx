@@ -1,14 +1,13 @@
 import { useGetProductsQuery } from "../../entities/product"
 import { ProductItemAdmin } from "../../features/productItem/ProductItemAdmin"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-export type ProductCategory =
-    | "CHILLED"
-    | "FROZEN"
-    | "READY"
-    | "MARINATED"
-    | "SNACKS";
 
-export const PRODUCT_TABS: {
+import { useState } from "react";
+import { CreateProductDialog } from "../../features/productCreate/ui/CreateProductDialog";
+import type { ProductCategory } from "../../features/productItem/ProductType";
+
+
+export const productCategoryList: {
     value: ProductCategory;
     label: string;
 }[] = [
@@ -22,6 +21,7 @@ export const PRODUCT_TABS: {
 export function AdminProductsPage() {
 
     const { data, isLoading, error } = useGetProductsQuery()
+    const [open, setOpen] = useState(false)
     if (isLoading) {
         return <div>Loading</div>
     }
@@ -32,11 +32,11 @@ export function AdminProductsPage() {
         <div>
             <div className="flex gap-4 items-center mb-5 last:mb-0">
                 <h2 className="section-title-32">Товари</h2>
-                <button className="button-element">Створити товар</button>
+                <button className="button-element" onClick={() => setOpen(true)}>Створити товар</button>
             </div>
             <Tabs defaultValue="CHILLED">
                 <TabsList className="rounded-[12px] bg-white h-auto px-5 py-2.5 mb-8 last:mb-0 flex items-center gap-4 justify-between">
-                    {PRODUCT_TABS.map(tab => (
+                    {productCategoryList.map(tab => (
                         <TabsTrigger
                             value={tab.value}
                             className="
@@ -51,7 +51,7 @@ export function AdminProductsPage() {
                     ))}
                 </TabsList>
 
-                {PRODUCT_TABS.map(tab => (
+                {productCategoryList.map(tab => (
                     <TabsContent
                         key={tab.value}
                         value={tab.value}
@@ -74,6 +74,10 @@ export function AdminProductsPage() {
                     </TabsContent>
                 ))}
             </Tabs>
+            <CreateProductDialog
+                open={open}
+                onOpenChange={setOpen}
+            />
         </div>
     )
 }

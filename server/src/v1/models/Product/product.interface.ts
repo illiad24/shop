@@ -22,4 +22,5 @@ export interface IProduct {
   countPerPortion?: string;
   stockPortions: number;
   isActive: boolean;
+  label: string;
 }

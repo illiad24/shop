@@ -16,6 +16,7 @@ const ProductSchema = new Schema<IProduct>({
   countPerPortion: String,
   stockPortions: { type: Number, required: true, min: 0 },
   isActive: { type: Boolean, default: true },
+  label: { type: String },
 });
 
 const ProductModel = model<IProduct>("Product", ProductSchema);

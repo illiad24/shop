@@ -5,12 +5,16 @@ import { navigateRoutes } from "../../shared/config/routes/navigateRoutes";
 import type { ProductType } from "./ProductType";
 
 export function ProductItem({ data }: { data: ProductType }) {
-    console.log(data)
     const [filled, setFilled] = useState < Boolean > (false);
+
     return (
         <div className="bg-white p-5 rounded-[20px]">
             <div className="relative mb-6 last:mb-0">
-                <div className="absolute p-2 z-3 top-2.5 py-1 px-2.5 left-4 rounded-[8px] bg-main text-white font-medium text-[14px]">Новинка</div>
+                {data.label ?
+
+                    <div className="absolute p-2 z-3 top-2.5 py-1 px-2.5 left-4 rounded-[8px] bg-main text-white font-medium text-[14px]">{data.label}</div>
+                    : ''
+                }
                 <Link to={navigateRoutes.navigate.products.getProductById(data._id)} className="relative block pb-[70%]"><img className="absolute-element object-cover rounded-[20px]" src="/footer.png" alt="Image" /></Link>
                 <button onClick={() => setFilled(!filled)} className="absolute p-2 z-3 top-2.5 right-4 w-8 h-8 flex justify-center items-center bg-[#f5f5f7] rounded-[8px] cursor-pointer">
                     <Icon name='favorite' className="text-orange-1 transition-colors" filled={filled} />

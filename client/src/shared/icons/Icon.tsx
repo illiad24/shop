@@ -1,4 +1,4 @@
-import { Heart, ChevronRight, User, ShoppingBasket, Menu, X, LogOut, Trash2, SquarePen } from 'lucide-react';
+import { Heart, ChevronRight, User, ShoppingBasket, Menu, X, LogOut, Trash2, SquarePen, Search } from 'lucide-react';
 
 
 const iconMap = {
@@ -10,7 +10,8 @@ const iconMap = {
     close: X,
     logout: LogOut,
     delete: Trash2,
-    edit: SquarePen
+    edit: SquarePen,
+    search: Search
 }
 export const Icon = ({ name, className, size = 24, filled = false, ...props }: any) => {
     const IconComponent = iconMap[name]

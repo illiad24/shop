@@ -5,6 +5,7 @@ import {
   PopulateOptions,
   Types,
 } from "mongoose";
+import { IProductsFilter } from "../../types/products.filter";
 
 export class MongooseCRUDManager<T> {
   protected model: Model<T>;
@@ -17,10 +18,11 @@ export class MongooseCRUDManager<T> {
   // GET LIST
   // ======================
   async getList(
-    filters: object = {},
+    filters: any,
     projection?: ProjectionType<T>,
     populate?: string[],
   ): Promise<T[]> {
+    console.log(filters);
     const query = this.model.find(filters, projection);
 
     if (populate) {

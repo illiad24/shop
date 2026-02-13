@@ -1,13 +1,17 @@
 import { Request, Response } from "express";
 import ProductService from "../services/product.service";
+import { IProductsFilter } from "../../types/products.filter";
 
 class ProductController {
   static async getAll(req: Request, res: Response) {
     try {
-      const products = await ProductService.getList();
+      const userQuery = req.query;
+      const products = await ProductService.getList(userQuery);
+
       res.json(products);
     } catch (error) {
-      throw new Error("Error fetching products");
+      console.error(error);
+      res.status(500).json({ message: "Server error" });
     }
   }
   static async getById(req: Request, res: Response) {
