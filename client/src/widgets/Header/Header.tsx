@@ -1,21 +1,19 @@
 import { useEffect, useState } from "react";
 import { Icon } from "../../shared/icons/Icon";
 import { router } from "../../app/router/router";
-import { NavLink } from "react-router";
+import { NavLink, useLocation } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import { selectCategory } from "../../features/category/category.slice";
 
 export function Header() {
     const routesInMainMenu = router.routes[0].children.filter(route => route.handle?.inMainMenu);
-
-
     const [menuOpen, setMenuOpen] = useState(false)
-
-
-
     const dispatch = useDispatch()
 
+    const selectedCategory = useSelector(state => state.category.selectedCategory)
+    const location = useLocation()
 
+    const isProductListPage = location.pathname == '/products/list'
 
     useEffect(() => {
         if (menuOpen) {
@@ -167,7 +165,7 @@ export function Header() {
             </div>
             <div className="flex justify-center items-center pl-2.5">
                 <div className="flex justify-stretch items-stretch gap-2 md:justify-center md:items-center bg-transparent rounded-[12px] px-5 py-2.5 md:bg-white overflow-auto" >
-                    <div onClick={() => dispatch(selectCategory('CHILLED'))} className="flex gap-2.5 items-center gap-2 py-2 px-5 rounded-2xl max-w-[165px] hover:bg-[#0D407E]/[0.06] cursor-pointer transition-all bg-white">
+                    <div onClick={() => dispatch(selectCategory('CHILLED'))} className={`flex gap-2.5 items-center gap-2 py-2 px-5 rounded-2xl max-w-[165px] hover:bg-[#0D407E]/[0.06] cursor-pointer transition-all bg-white ${selectedCategory == 'CHILLED' && isProductListPage ? '!bg-[#0D407E]/[0.06]' : ''}`}>
                         <div className="shrink-0 w-6">
                             <img className="w-6 h-6" src="/types/01.svg" alt="Image" />
                         </div>
@@ -176,7 +174,7 @@ export function Header() {
                             продукція
                         </div>
                     </div>
-                    <div onClick={() => dispatch(selectCategory('FROZEN'))} className=" flex gap-2.5 items-center gap-2 py-2 px-5 rounded-2xl max-w-[165px] hover:bg-[#0D407E]/[0.06] cursor-pointer transition-all bg-white">
+                    <div onClick={() => dispatch(selectCategory('FROZEN'))} className={`flex gap-2.5 items-center gap-2 py-2 px-5 rounded-2xl max-w-[165px] hover:bg-[#0D407E]/[0.06] cursor-pointer transition-all bg-white ${selectedCategory == 'FROZEN' && isProductListPage ? '!bg-[#0D407E]/[0.06]' : ''}`}>
                         <div className="shrink-0 w-6">
                             <img className="w-6 h-6" src="/types/02.svg" alt="Image" />
                         </div>
@@ -184,7 +182,7 @@ export function Header() {
                             Заморозка
                         </div>
                     </div>
-                    <div onClick={() => dispatch(selectCategory('READY'))} className=" flex gap-2.5 items-center gap-2 py-2 px-5 rounded-2xl max-w-[165px] hover:bg-[#0D407E]/[0.06] cursor-pointer transition-all bg-white">
+                    <div onClick={() => dispatch(selectCategory('READY'))} className={`flex gap-2.5 items-center gap-2 py-2 px-5 rounded-2xl max-w-[165px] hover:bg-[#0D407E]/[0.06] cursor-pointer transition-all bg-white ${selectedCategory == 'READY' && isProductListPage ? '!bg-[#0D407E]/[0.06]' : ''}`}>
                         <div className="shrink-0 w-6">
                             <img className="w-6 h-6" src="/types/03.svg" alt="Image" />
                         </div>
@@ -192,7 +190,7 @@ export function Header() {
                             Готова продукція
                         </div>
                     </div>
-                    <div onClick={() => dispatch(selectCategory('MARINATED'))} className=" flex gap-2.5 items-center gap-2 py-2 px-5 rounded-2xl max-w-[165px] hover:bg-[#0D407E]/[0.06] cursor-pointer transition-all bg-white">
+                    <div onClick={() => dispatch(selectCategory('MARINATED'))} className={`flex gap-2.5 items-center gap-2 py-2 px-5 rounded-2xl max-w-[165px] hover:bg-[#0D407E]/[0.06] cursor-pointer transition-all bg-white ${selectedCategory == 'MARINATED' && isProductListPage ? '!bg-[#0D407E]/[0.06]' : ''}`}>
                         <div className="shrink-0 w-6">
                             <img className="w-6 h-6" src="/types/04.svg" alt="Image" />
                         </div>
@@ -201,7 +199,7 @@ export function Header() {
                             продукція
                         </div>
                     </div>
-                    <div onClick={() => dispatch(selectCategory('SNACKS'))} className=" flex gap-2.5 items-center gap-2 py-2 px-5 rounded-2xl max-w-[165px] hover:bg-[#0D407E]/[0.06] cursor-pointer transition-all bg-white">
+                    <div onClick={() => dispatch(selectCategory('SNACKS'))} className={`flex gap-2.5 items-center gap-2 py-2 px-5 rounded-2xl max-w-[165px] hover:bg-[#0D407E]/[0.06] cursor-pointer transition-all bg-white ${selectedCategory == 'SNACKS' && isProductListPage ? '!bg-[#0D407E]/[0.06]' : ''}`}>
                         <div className="shrink-0 w-6">
                             <img className="w-6 h-6" src="/types/05.svg" alt="Image" />
                         </div>
