@@ -1,4 +1,4 @@
-import { api } from "./setup";
+import { api } from "./setup.js";
 
 describe("AUTH FLOW", () => {
   const user = {

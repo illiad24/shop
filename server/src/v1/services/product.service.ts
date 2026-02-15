@@ -8,7 +8,6 @@ class ProductService extends MongooseCRUDManager<IProduct> {
     try {
       const filter: any = {};
 
-      // 🔎 Частковий пошук
       if (filters?.search && filters.search.trim() !== "") {
         filter.title = {
           $regex: filters.search,
