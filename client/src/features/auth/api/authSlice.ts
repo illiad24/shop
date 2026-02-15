@@ -8,6 +8,7 @@ export interface IAuthState {
     id: string;
     username: string;
     email: string;
+    role: string;
   };
   accessToken: string | null;
   loading: boolean;

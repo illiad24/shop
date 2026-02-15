@@ -30,4 +30,5 @@ export const addProductSchema = yup.object({
     .typeError("Кількість порцій повинна бути числом")
     .required("Вкажіть кількість порцій")
     .min(1, "Кількість порцій повинна бути не менше 1"),
+  label: yup.string(),
 });

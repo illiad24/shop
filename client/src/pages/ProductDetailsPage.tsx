@@ -7,7 +7,7 @@ import type { ProductType } from "../features/productItem/ProductType";
 
 export function ProductDetailsPage() {
     const { id } = useParams();
-    const { data = [], error, isLoading } = useGetProductsQuery();
+    const { data = [], error, isLoading } = useGetProductsQuery({});
 
     if (isLoading) {
         return <div className="container pt-3 pb-15">Loading...</div>;
@@ -17,7 +17,7 @@ export function ProductDetailsPage() {
         return <div className="container pt-3 pb-15">Error loading product.</div>;
     }
 
-    const product = data.find((item) => item._id === id);
+    const product = data.find((item: ProductType) => item._id === id);
 
     if (!product) {
         return <div className="container pt-3 pb-15">Product not found</div>;

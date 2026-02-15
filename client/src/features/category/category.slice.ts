@@ -1,11 +1,11 @@
-import { createSlice, isAnyOf, type PayloadAction } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 
-import type { RootState } from "../../../app/store/store";
+import type { RootState } from "@/app/store/store";
 
 const categorySlice = createSlice({
   name: "categoryType",
   initialState: {
-    selectedCategory: null,
+    selectedCategory: "CHILLED",
   },
   reducers: {
     selectCategory(state, action) {
@@ -15,5 +15,5 @@ const categorySlice = createSlice({
 });
 export const { selectCategory } = categorySlice.actions;
 export const selectCategoryType = (state: RootState) =>
-  state.categoryType.selectedCategory;
+  state.category.selectedCategory;
 export default categorySlice.reducer;

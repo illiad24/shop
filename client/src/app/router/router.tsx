@@ -1,4 +1,4 @@
-import { createBrowserRouter, redirect } from "react-router";
+import { createBrowserRouter } from "react-router";
 import { MainLayout } from "../../widgets/layouts";
 import { HomePage } from "../../pages/HomePage";
 import { GlobalErrorPage } from "../../pages/GlobalErrorPage";
@@ -14,7 +14,6 @@ import { AdminBannerPage } from "../../pages/admin/AdminBannerPage.tsx";
 import { AdminPopupPage } from "../../pages/admin/AdminPopupPage.tsx";
 import { ForbiddenPage } from "../../pages/ForbiddenPage.tsx";
 import { Mutex } from 'async-mutex'
-import type { IRoles } from "../../shared/types/roles.ts";
 import { CatalogPage } from "../../pages/CatalogPage.tsx";
 const mutex = new Mutex();
 type roles = 'ADMIN' | 'USER'

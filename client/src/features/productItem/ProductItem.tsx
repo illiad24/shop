@@ -5,7 +5,7 @@ import { navigateRoutes } from "../../shared/config/routes/navigateRoutes";
 import type { ProductType } from "./ProductType";
 
 export function ProductItem({ data }: { data: ProductType }) {
-    const [filled, setFilled] = useState < Boolean > (false);
+    const [filled, setFilled] = useState < boolean > (false);
 
     return (
         <div className="bg-white p-5 rounded-[20px]">

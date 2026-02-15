@@ -11,7 +11,7 @@ import { CreateProductDialog } from "../productCreate/ui/CreateProductDialog";
 export function ProductItemAdmin({ data }: { data: ProductType }) {
     const [deleteProduct] = useDeleteProductMutation()
     const [open, setOpen] = useState(false)
-    async function onDelete(id) {
+    async function onDelete(id: string) {
         try {
             await deleteProduct(id)
             alert('product deleted')

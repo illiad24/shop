@@ -2,7 +2,6 @@ import { useForm, type SubmitHandler } from "react-hook-form"
 import { useLoginMutation } from "../../features/auth/api/authApi"
 import { useNavigate } from "react-router"
 import { useState } from "react"
-import { useDispatch } from "react-redux"
 
 type Inputs = {
     email: string
@@ -10,7 +9,6 @@ type Inputs = {
 }
 
 export function AdminLoginPage() {
-    const dispatch = useDispatch()
     const [login] = useLoginMutation()
     const navigate = useNavigate()
     const [errorMsg, setErrorMsg] = useState('')
@@ -24,9 +22,12 @@ export function AdminLoginPage() {
     const onSubmit: SubmitHandler<Inputs> = async (data) => {
         try {
             const result = await login(data).unwrap()
+            if (result) {
+                alert('ok')
+            }
             reset()
             navigate("/admin")
-        } catch (err) {
+        } catch (err: any) {
             reset()
             setErrorMsg(err.data?.message || "Login failed")
         }

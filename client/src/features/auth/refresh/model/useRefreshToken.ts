@@ -6,7 +6,7 @@ export function useRefreshToken() {
   const dispatch = useDispatch();
   async function refresh() {
     try {
-      const result = await refreshMutation();
+      const result = await refreshMutation(null);
       if (result.data) {
         dispatch(tokenRefreshed(result.data));
         return true;

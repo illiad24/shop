@@ -1,4 +1,3 @@
-import { ContentItem } from "../../../features/components/ContentItem";
 
 export function HistorySection() {
     return (

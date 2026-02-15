@@ -1,7 +1,5 @@
 
 import { NavLink, Outlet, useNavigate } from "react-router";
-import { Header } from "../Header/Header";
-import { Footer } from "../Footer/Footer";
 import { Icon } from "../../shared/icons/Icon";
 import { useLogoutMutation } from "../../features/auth/api/authApi";
 export function AdminLayout() {
@@ -9,7 +7,7 @@ export function AdminLayout() {
     const [logout] = useLogoutMutation()
     async function adminLogout() {
         try {
-            await logout()
+            await logout(null)
             navigate('/admin/login')
         } catch (error) {
             console.log(error)

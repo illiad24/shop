@@ -24,7 +24,7 @@ export async function authCheckLoader({
       if (!user) {
         try {
           const result = await store
-            .dispatch(authApi.endpoints.refresh.initiate())
+            .dispatch(authApi.endpoints.refresh.initiate(null))
             .unwrap();
           user = result.user;
         } catch {

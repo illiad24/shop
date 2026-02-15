@@ -4,13 +4,16 @@ import { router } from "../../app/router/router";
 import { NavLink, useLocation } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import { selectCategory } from "../../features/category/category.slice";
+import type { RootState } from "../../app/store/store";
 
 export function Header() {
-    const routesInMainMenu = router.routes[0].children.filter(route => route.handle?.inMainMenu);
+    const routesInMainMenu =
+        router.routes[0]?.children?.filter(route => route.handle?.inMainMenu) ?? [];
     const [menuOpen, setMenuOpen] = useState(false)
     const dispatch = useDispatch()
 
-    const selectedCategory = useSelector(state => state.category.selectedCategory)
+    const selectedCategory = useSelector((state: RootState) => state.category.selectedCategory)
+
     const location = useLocation()
 
     const isProductListPage = location.pathname == '/products/list'

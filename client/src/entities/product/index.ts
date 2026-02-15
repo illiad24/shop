@@ -30,7 +30,7 @@ const productApi = baseApi.injectEndpoints({
       query: (id: string) => ({
         url: apiRoutes.products.getById(id),
       }),
-      providesTags: (result, error, id) => [{ type: "Product", id }],
+      providesTags: (id) => [{ type: "Product", id }],
     }),
     updateProduct: build.mutation({
       query: ({ id, data }: { id: string; data: any }) => ({
@@ -38,7 +38,7 @@ const productApi = baseApi.injectEndpoints({
         method: "PUT",
         body: data,
       }),
-      invalidatesTags: (result, error, { id }) => ["Product"],
+      invalidatesTags: () => ["Product"],
     }),
   }),
 });

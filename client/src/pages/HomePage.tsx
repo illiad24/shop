@@ -31,15 +31,7 @@ const sections = [
 
 export function HomePage() {
 
-    const { data, error, isLoading } = useGetProductsQuery();
-
-    const marinatedProducts = data?.filter((product: ProductType) => product.category === 'MARINATED') || [];
-    const chilledProducts = data?.filter((product: ProductType) => product.category === 'CHILLED') || [];
-    const snacksProducts = data?.filter((product: ProductType) => product.category === 'SNACKS') || [];
-    const frozenProducts = data?.filter((product: ProductType) => product.category === 'FROZEN') || [];
-    const readyProducts = data?.filter((product: ProductType) => product.category === 'READY') || [];
-
-
+    const { data, error, isLoading } = useGetProductsQuery({});
     return (
         <>
             <MainSection />

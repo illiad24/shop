@@ -5,7 +5,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { useState } from "react";
 import { CreateProductDialog } from "../../features/productCreate/ui/CreateProductDialog";
 import type { ProductCategory } from "../../features/productItem/ProductType";
-
+import type { ProductType } from "../../features/productItem/ProductType";
 
 export const productCategoryList: {
     value: ProductCategory;
@@ -20,7 +20,7 @@ export const productCategoryList: {
 
 export function AdminProductsPage() {
 
-    const { data, isLoading, error } = useGetProductsQuery()
+    const { data, isLoading, error } = useGetProductsQuery({})
     const [open, setOpen] = useState(false)
     if (isLoading) {
         return <div>Loading</div>
@@ -58,7 +58,7 @@ export function AdminProductsPage() {
                         className="grid grid-cols-3 gap-4"
                     >
                         {(() => {
-                            const items = data.filter(p => p.category === tab.value)
+                            const items = data.filter((p: ProductType) => p.category === tab.value)
 
                             if (items.length === 0) {
                                 return (
@@ -67,7 +67,7 @@ export function AdminProductsPage() {
                                     </div>
                                 )
                             }
-                            return items.map(p => (
+                            return items.map((p: ProductType) => (
                                 <ProductItemAdmin key={p._id} data={p} />
                             ))
                         })()}

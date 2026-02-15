@@ -1,5 +1,15 @@
-import { Heart, ChevronRight, User, ShoppingBasket, Menu, X, LogOut, Trash2, SquarePen, Search } from 'lucide-react';
-
+import {
+    Heart,
+    ChevronRight,
+    User,
+    ShoppingBasket,
+    Menu,
+    X,
+    LogOut,
+    Trash2,
+    SquarePen,
+    Search,
+} from "lucide-react";
 
 const iconMap = {
     favorite: Heart,
@@ -11,15 +21,35 @@ const iconMap = {
     logout: LogOut,
     delete: Trash2,
     edit: SquarePen,
-    search: Search
-}
-export const Icon = ({ name, className, size = 24, filled = false, ...props }: any) => {
-    const IconComponent = iconMap[name]
+    search: Search,
+} as const;
 
-    if (!IconComponent) {
+type IconName = keyof typeof iconMap;
 
-        return null
-    }
+type IconProps = {
+    name: IconName;
+    className?: string;
+    size?: number;
+    filled?: boolean;
+};
 
-    return <IconComponent className={className} fill={filled ? 'currentColor' : 'none'} size={size} {...props} />
-}
+export const Icon = ({
+    name,
+    className,
+    size = 24,
+    filled = false,
+    ...props
+}: IconProps) => {
+    const IconComponent = iconMap[name];
+
+    if (!IconComponent) return null;
+
+    return (
+        <IconComponent
+            className={className}
+            size={size}
+            fill={filled ? "currentColor" : "none"}
+            {...props}
+        />
+    );
+};

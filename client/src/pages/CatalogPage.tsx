@@ -119,7 +119,6 @@ export function CatalogPage() {
                             onValueChange={(value) =>
                                 setFilter("sort", value)
                             }
-                            className='w-full md:w-auto'
                         >
                             <SelectTrigger className="bg-white rounded-[12px]   className='w-full md:w-auto'">
                                 <SelectValue placeholder="Сортувати за" />
