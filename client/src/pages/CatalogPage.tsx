@@ -37,7 +37,6 @@ export function CatalogPage() {
         (state: any) => state.category.selectedCategory
     );
 
-    console.log(productCategoryList)
     useEffect(() => {
         if (categoryType && categoryType !== filters?.category) {
             setFilter("category", categoryType);
@@ -78,7 +77,10 @@ export function CatalogPage() {
             <div className="container">
                 <div className="flex justify-between gap-5 mb-9 flex-col md:flex-row w-full">
                     <div className="flex gap-5 items-center">
-                        <h1 className="section-title-32 hidden md:block">{productCategoryList.map(el => el.value === categoryType ? el.label : '')}</h1>
+                        <h1 className="section-title-32 hidden md:block"> {
+                            productCategoryList.find(el => el.value === categoryType)?.label
+                            ?? (categoryType ? '' : 'продукти')
+                        }</h1>
 
                         <div className="flex items-center shrink-1 grow-1">
                             <button

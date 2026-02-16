@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import type { RootState } from "../../app/store/store";
-console.log(import.meta.env.VITE_PORT);
+
 const baseQuery = fetchBaseQuery({
   baseUrl: import.meta.env.VITE_PORT,
   credentials: "include",

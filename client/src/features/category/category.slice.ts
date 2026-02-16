@@ -5,7 +5,7 @@ import type { RootState } from "@/app/store/store";
 const categorySlice = createSlice({
   name: "categoryType",
   initialState: {
-    selectedCategory: "CHILLED",
+    selectedCategory: "",
   },
   reducers: {
     selectCategory(state, action) {

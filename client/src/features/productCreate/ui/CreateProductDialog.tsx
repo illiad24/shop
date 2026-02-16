@@ -55,7 +55,6 @@ export function CreateProductDialog({ open, onOpenChange, id }: Props) {
 
     useEffect(() => {
         if (product) {
-            console.log(product)
             reset({
                 title: product.title,
                 category: product.category,

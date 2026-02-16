@@ -5,11 +5,15 @@ import { NavLink, useLocation } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import { selectCategory } from "../../features/category/category.slice";
 import type { RootState } from "../../app/store/store";
+import { AuthAction } from "@/shared/components/AuthAction";
+
+
 
 export function Header() {
     const routesInMainMenu =
         router.routes[0]?.children?.filter(route => route.handle?.inMainMenu) ?? [];
     const [menuOpen, setMenuOpen] = useState(false)
+    const [registerModalOpen, setRegisterModalOpen] = useState(false)
     const dispatch = useDispatch()
 
     const selectedCategory = useSelector((state: RootState) => state.category.selectedCategory)
@@ -17,6 +21,7 @@ export function Header() {
     const location = useLocation()
 
     const isProductListPage = location.pathname == '/products/list'
+
 
     useEffect(() => {
         if (menuOpen) {
@@ -86,16 +91,21 @@ export function Header() {
 
                     </div>
                     <div className="flex gap-2 items-center relative z-3">
-                        <div className="text-gray text-[20px] p-2.5 border rounded-[12px]  border-[#d2d2d7] transition-all hover:border-orange-1 hover:text-orange-1">
-                            <Icon name="favorite" />
-                        </div>
-                        <div className="text-gray text-[20px] p-2.5 border rounded-[12px]  border-[#d2d2d7] transition-all hover:border-orange-1 hover:text-orange-1">
-                            <Icon name="user" />
-                        </div>
-                        <div className="text-gray text-[20px] p-2.5 border md:hidden flex rounded-[12px]  border-[#d2d2d7] transition-all hover:border-orange-1 hover:text-orange-1" onClick={() => setMenuOpen(!menuOpen)}>
+                        <AuthAction onAction={() => console.log('favorite')}>
+                            <div className="text-gray text-[20px] p-2.5 border rounded-[12px]  border-[#d2d2d7] transition-all hover:border-orange-1 hover:text-orange-1">
+                                <Icon name="favorite" />
+                            </div>
+                        </AuthAction>
+                        <AuthAction onAction={() => console.log('user')}>
+                            <div className="text-gray text-[20px] p-2.5 border rounded-[12px]  border-[#d2d2d7] transition-all hover:border-orange-1 hover:text-orange-1" >
+                                <Icon name="user" />
+                            </div>
+                        </AuthAction>
+                        <div className="text-gray text-[20px] p-2.5 border md:hidden flex rounded-[12px]  border-[#d2d2d7] transition-all hover:border-orange-1 hover:text-orange-1" >
                             <Icon name="menu" className={menuOpen ? "hidden" : "block"} />
                             <Icon name="close" className={menuOpen ? "block" : "hidden"} />
                         </div>
+
                         <div className=" cursor-pointer text-gray text-[20px] md:flex hidden  py-2.5 px-5 border rounded-[12px]  border-[#d2d2d7] flex items-center gap-2 transition-all hover:border-orange- hover:text-orange-1">
                             <span className="text-[14px]">Кошик</span>
                             <Icon name="bag" />
@@ -103,11 +113,9 @@ export function Header() {
                     </div>
                 </div>
                 <div className={` menuOpen:hidden overflow-auto md:hidden fixed top-0  transition-all w-full h-full bg-[#fbfbfb] py-30 px-4 ${menuOpen ? "left-0" : "left-[100%]"}`}>
-
                     <div className="mb-6 last:mb-0">
                         <div className="text-[16px] text-gray mb-2 last:mb-0">Навігація</div>
                         <div className="grid grid-cols-2 gap-3">
-
                             {routesInMainMenu.map((route) => {
                                 return (
                                     <NavLink key={route.path} to={{ pathname: route.path }} className={({ isActive }) => `text-[14px] bg-white text-center  border-1 rounded-[12px] text-black w-full py-3 transition-all font-semibold hover:text-main    hover:border-1 hover:border-orange-1 hover:text-orange-1 transition-all ${isActive ? "text-orange-1 col-span-2 border-orange-1" : ""}`}>
@@ -166,7 +174,7 @@ export function Header() {
                     </div>
                 </div>
             </div>
-            <div className="flex justify-center items-center pl-2.5">
+            <div className={`flex justify-center items-center pl-2.5. `}>
                 <div className="flex justify-stretch items-stretch gap-2 md:justify-center md:items-center bg-transparent rounded-[12px] px-5 py-2.5 md:bg-white overflow-auto" >
                     <div onClick={() => dispatch(selectCategory('CHILLED'))} className={`flex gap-2.5 items-center gap-2 py-2 px-5 rounded-2xl max-w-[165px] hover:bg-[#0D407E]/[0.06] cursor-pointer transition-all bg-white ${selectedCategory == 'CHILLED' && isProductListPage ? '!bg-[#0D407E]/[0.06]' : ''}`}>
                         <div className="shrink-0 w-6">
@@ -212,6 +220,8 @@ export function Header() {
                     </div>
                 </div>
             </div>
+
+
         </header >
     )
 }

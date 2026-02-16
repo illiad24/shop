@@ -6,10 +6,18 @@ import { store } from './app/store/store'
 import { AppErrorBoundary } from './app/providers/ui/AppErrorBoundary'
 
 import './index.css'
+import { AuthModalProvider } from './shared/providers/AuthModalProvider'
+import { AuthModals } from './shared/components/AuthModals'
+import { AppInit } from './app/init/AppInit'
 createRoot(document.getElementById('drapak')!).render(
     <AppErrorBoundary>
         <Provider store={store}>
-            <RouterProvider router={router} />
+            <AuthModalProvider>
+                <RouterProvider router={router} />
+                <AppInit />
+                <AuthModals />
+
+            </AuthModalProvider>
         </Provider>
     </AppErrorBoundary>
 )
