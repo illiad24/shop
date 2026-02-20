@@ -105,11 +105,12 @@ export function Header() {
                             <Icon name="menu" className={menuOpen ? "hidden" : "block"} />
                             <Icon name="close" className={menuOpen ? "block" : "hidden"} />
                         </div>
-
-                        <div className=" cursor-pointer text-gray text-[20px] md:flex hidden  py-2.5 px-5 border rounded-[12px]  border-[#d2d2d7] flex items-center gap-2 transition-all hover:border-orange- hover:text-orange-1">
-                            <span className="text-[14px]">Кошик</span>
-                            <Icon name="bag" />
-                        </div>
+                        <AuthAction onAction={() => console.log('bag')}>
+                            <div className=" cursor-pointer text-gray text-[20px] md:flex hidden  py-2.5 px-5 border rounded-[12px]  border-[#d2d2d7] flex items-center gap-2 transition-all hover:border-orange- hover:text-orange-1">
+                                <span className="text-[14px]">Кошик</span>
+                                <Icon name="bag" />
+                            </div>
+                        </AuthAction>
                     </div>
                 </div>
                 <div className={` menuOpen:hidden overflow-auto md:hidden fixed top-0  transition-all w-full h-full bg-[#fbfbfb] py-30 px-4 ${menuOpen ? "left-0" : "left-[100%]"}`}>
