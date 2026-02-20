@@ -10,20 +10,19 @@ class ProductController {
 
       res.json(products);
     } catch (error) {
-      console.error(error);
-      res.status(500).json({ message: "Server error" });
+      res.status(500).json({ message: "Internal server error" });
     }
   }
   static async getById(req: Request, res: Response) {
     try {
       const productId = req.params.productId;
-      if (typeof productId !== "string") {
-        throw new Error("Invalid productId");
-      }
       const product = await ProductService.getById(productId);
+      if (!product) {
+        return res.status(404).json({ message: "Product not found" });
+      }
       res.json(product);
     } catch (error) {
-      throw new Error("Error fetching product by ID");
+      res.status(500).json({ message: "Internal server error" });
     }
   }
 
@@ -33,32 +32,29 @@ class ProductController {
       const newProduct = await ProductService.create(productData);
       res.status(201).json(newProduct);
     } catch (error) {
-      throw new Error("Error creating product");
+      res.status(500).json({ message: "Internal server error" });
     }
   }
   static async update(req: Request, res: Response) {
     try {
       const productId = req.params.productId;
       const updateData = req.body;
-      if (typeof productId !== "string") {
-        throw new Error("Invalid productId");
-      }
       const updatedProduct = await ProductService.update(productId, updateData);
+      if (!updatedProduct) {
+        return res.status(404).json({ message: "Product not found" });
+      }
       res.json(updatedProduct);
     } catch (error) {
-      throw new Error("Error updating product");
+      res.status(500).json({ message: "Internal server error" });
     }
   }
   static async delete(req: Request, res: Response) {
     try {
       const productId = req.params.productId;
-      if (typeof productId !== "string") {
-        throw new Error("Invalid productId");
-      }
       await ProductService.deleteById(productId);
       res.status(204).send();
     } catch (error) {
-      throw new Error("Error deleting product");
+      res.status(500).json({ message: "Internal server error" });
     }
   }
 }

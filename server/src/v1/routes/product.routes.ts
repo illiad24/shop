@@ -13,15 +13,15 @@ router.get("/:productId", ProductController.getById);
 router.post(
   "/",
   authMiddleware,
-  requireRole([UserRole.ADMIN, UserRole.USER]),
+  requireRole([UserRole.ADMIN]),
   productValidate,
+  validateRequest,
   ProductController.create,
 );
 router.put(
   "/:productId",
   authMiddleware,
-
-  //   requireRole([UserRole.ADMIN]),
+  requireRole([UserRole.ADMIN]),
   productValidate,
   validateRequest,
   ProductController.update,
@@ -29,8 +29,7 @@ router.put(
 router.delete(
   "/:productId",
   authMiddleware,
-  // requireRole([UserRole.ADMIN]),
-  validateRequest,
+  requireRole([UserRole.ADMIN]),
   ProductController.delete,
 );
 

@@ -12,12 +12,8 @@ import {
 export class AuthService {
   // ---------------- REGISTER ----------------
   static async register(data: RegisterDTO) {
-    try {
-      const exists = await User.findOne({ email: data.email });
-      if (exists) throw new Error("User already exists");
-    } catch (error) {
-      console.log(error);
-    }
+    const exists = await User.findOne({ email: data.email });
+    if (exists) throw new Error("User already exists");
 
     const password = await bcrypt.hash(data.password, 10);
 

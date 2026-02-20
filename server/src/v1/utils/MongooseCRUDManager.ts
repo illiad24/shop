@@ -22,7 +22,6 @@ export class MongooseCRUDManager<T> {
     projection?: ProjectionType<T>,
     populate?: string[],
   ): Promise<T[]> {
-    console.log(filters);
     const query = this.model.find(filters, projection);
 
     if (populate) {
