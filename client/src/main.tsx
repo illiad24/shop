@@ -4,6 +4,7 @@ import { router } from './app/router/router'
 import { Provider } from 'react-redux'
 import { store } from './app/store/store'
 import { AppErrorBoundary } from './app/providers/ui/AppErrorBoundary'
+import { Toaster } from 'sonner'
 
 import './index.css'
 import { AuthModalProvider } from './shared/providers/AuthModalProvider'
@@ -16,7 +17,7 @@ createRoot(document.getElementById('drapak')!).render(
                 <RouterProvider router={router} />
                 <AppInit />
                 <AuthModals />
-
+                <Toaster position="bottom-right" richColors />
             </AuthModalProvider>
         </Provider>
     </AppErrorBoundary>

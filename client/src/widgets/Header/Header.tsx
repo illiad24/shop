@@ -4,6 +4,7 @@ import { router } from "../../app/router/router";
 import { NavLink, useLocation } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import { selectCategory } from "../../features/category/category.slice";
+import { toggleBag } from "../../features/bag/bagSlice";
 import type { RootState } from "../../app/store/store";
 import { AuthAction } from "@/shared/components/AuthAction";
 
@@ -105,7 +106,7 @@ export function Header() {
                             <Icon name="menu" className={menuOpen ? "hidden" : "block"} />
                             <Icon name="close" className={menuOpen ? "block" : "hidden"} />
                         </div>
-                        <AuthAction onAction={() => console.log('bag')}>
+                        <AuthAction onAction={() => dispatch(toggleBag())}>
                             <div className=" cursor-pointer text-gray text-[20px] md:flex hidden  py-2.5 px-5 border rounded-[12px]  border-[#d2d2d7] flex items-center gap-2 transition-all hover:border-orange- hover:text-orange-1">
                                 <span className="text-[14px]">Кошик</span>
                                 <Icon name="bag" />

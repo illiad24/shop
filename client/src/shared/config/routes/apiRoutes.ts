@@ -17,4 +17,11 @@ export const apiRoutes = {
     delete: (productId: string) => `/products/${productId}`,
     getById: (productId: string) => `/products/${productId}`,
   },
+  cart: {
+    get: "/cart",
+    add: (productId: string) => `/cart/${productId}`,
+    update: (productId: string) => `/cart/${productId}`,
+    remove: (productId: string) => `/cart/${productId}`,
+    clear: "/cart/clear",
+  },
 };
