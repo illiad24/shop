@@ -34,14 +34,15 @@ export function BagDrawer() {
         <Dialog open={isOpen} onOpenChange={(open) => !open && dispatch(closeBag())}>
             <DialogContent
                 className="
-                    !top-4 !right-4 !bottom-4 !left-auto
+                    !top-4 !right-4 !left-auto
                     !translate-x-0 !translate-y-0
-                    fixed w-[420px] max-h-[calc(100vh-32px)]
+                    fixed w-[580px] min-h-[500px] max-h-[calc(100vh-2rem)]
                     flex flex-col p-6 overflow-hidden
+                    [&>button:last-child]:hidden
                 "
             >
                 <div className="flex justify-between items-center mb-4">
-                    <DialogTitle className="text-[20px] font-bold">Кошик</DialogTitle>
+                    <DialogTitle className="text-[20px] font-bold">Ваше замовлення</DialogTitle>
                     {cartItems.length > 0 && (
                         <button
                             onClick={() => clearCart()}
@@ -70,46 +71,51 @@ export function BagDrawer() {
                         {cartItems.map((item) => (
                             <div
                                 key={item._id}
-                                className="flex items-center gap-3 p-3 bg-[#f5f5f7] rounded-[12px]"
+                                className=" flex items-center justify-between"
                             >
-                                <div className="flex-1 min-w-0">
-                                    <div className="font-semibold text-[14px] truncate">
-                                        {item.productId.title}
+                                <div className="flex shrink-1 w-full items-center gap-3 justify-between p-3 bg-[#f5f5f7] rounded-[12px]">
+                                    <div className="flex-1 min-w-0">
+                                        <div className="font-semibold text-black text-[18px] truncate mb-1">
+                                            {item.productId.title}
+                                        </div>
+                                        <div className="text-[14px] text-orange-1">
+                                            {item.productId.portionWeightGrams} г
+                                        </div>
                                     </div>
-                                    <div className="text-[12px] text-gray-400">
-                                        {item.productId.portionWeightGrams} г
+                                    <div>
+                                        <div className="flex gap-4">
+                                            <div className="text-gray font-bold text-[18px]">
+                                                {item.productId.price} грн
+                                            </div>
+                                            <div className="flex items-center gap-2">
+                                                <button
+                                                    onClick={() =>
+                                                        updateItem({
+                                                            productId: item.productId._id,
+                                                            quantity: item.quantity - 1,
+                                                        })
+                                                    }
+                                                    className="w-8 h-8 flex items-center text-white justify-center bg-orange-1 rounded-[8px] border  hover:border-orange-1 transition-colors font-bold"
+                                                >
+                                                    −
+                                                </button>
+                                                <span className="text-gray font-bold text-[18px]">
+                                                    {item.quantity}
+                                                </span>
+                                                <button
+                                                    onClick={() =>
+                                                        updateItem({
+                                                            productId: item.productId._id,
+                                                            quantity: item.quantity + 1,
+                                                        })
+                                                    }
+                                                    className="w-8 h-8 flex text-white items-center justify-center bg-orange-1 rounded-[8px] border  hover:border-orange-1 transition-colors font-bold"
+                                                >
+                                                    +
+                                                </button>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div className="text-orange-1 font-bold text-[14px]">
-                                        {item.productId.price} грн
-                                    </div>
-                                </div>
-
-                                <div className="flex items-center gap-2">
-                                    <button
-                                        onClick={() =>
-                                            updateItem({
-                                                productId: item.productId._id,
-                                                quantity: item.quantity - 1,
-                                            })
-                                        }
-                                        className="w-8 h-8 flex items-center justify-center bg-white rounded-[8px] border border-[#d2d2d7] hover:border-orange-1 transition-colors font-bold"
-                                    >
-                                        −
-                                    </button>
-                                    <span className="text-[14px] font-semibold w-5 text-center">
-                                        {item.quantity}
-                                    </span>
-                                    <button
-                                        onClick={() =>
-                                            updateItem({
-                                                productId: item.productId._id,
-                                                quantity: item.quantity + 1,
-                                            })
-                                        }
-                                        className="w-8 h-8 flex items-center justify-center bg-white rounded-[8px] border border-[#d2d2d7] hover:border-orange-1 transition-colors font-bold"
-                                    >
-                                        +
-                                    </button>
                                 </div>
 
                                 <button
@@ -124,10 +130,10 @@ export function BagDrawer() {
                 )}
 
                 {cartItems.length > 0 && (
-                    <div className="border-t border-[#d2d2d7] pt-4 mt-4">
+                    <div className="bg-[#f5f5f7] rounded-[12px] p-5">
                         <div className="flex justify-between items-center mb-4">
-                            <span className="text-14-gray">Разом:</span>
-                            <span className="text-[18px] font-bold">{total} грн</span>
+                            <span className="text-14-gray text-2xl">Разом:</span>
+                            <span className="text-[40px] font-bold">{total} грн</span>
                         </div>
                         <button className="button-element w-full">
                             Оформити замовлення

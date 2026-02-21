@@ -15,6 +15,9 @@ import { AdminPopupPage } from "../../pages/admin/AdminPopupPage.tsx";
 import { ForbiddenPage } from "../../pages/ForbiddenPage.tsx";
 import { Mutex } from 'async-mutex'
 import { CatalogPage } from "../../pages/CatalogPage.tsx";
+
+import { Profile } from "@/pages/profile/Profile.tsx";
+import { CartPage } from "../../pages/CartPage.tsx";
 const mutex = new Mutex();
 type roles = 'ADMIN' | 'USER'
 const adminRoles: roles[] = ['ADMIN'];
@@ -62,6 +65,15 @@ export const router = createBrowserRouter([
                 }
             },
 
+            {
+                path: 'profile',
+                Component: Profile
+            },
+
+            {
+                path: 'cart',
+                Component: CartPage
+            },
 
             {
                 path: '*',

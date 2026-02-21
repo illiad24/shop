@@ -19,8 +19,9 @@ type Inputs = {
     email: string
     password: string
 }
+
 export function LoginModal({ open, onOpenChange, onRegisterClick }: Props) {
-    const { loginUser, error, isLoading, isSuccess } = useLogin()
+    const { loginUser, error, isLoading, isSuccess } = useLogin();
     const [errorMessage, setErrorMessage] = useState < string | null > (null)
 
     const {

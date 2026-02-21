@@ -7,6 +7,7 @@ import { selectCategory } from "../../features/category/category.slice";
 import { toggleBag } from "../../features/bag/bagSlice";
 import type { RootState } from "../../app/store/store";
 import { AuthAction } from "@/shared/components/AuthAction";
+import { navigateRoutes } from "@/shared/config/routes/navigateRoutes";
 
 
 
@@ -14,7 +15,6 @@ export function Header() {
     const routesInMainMenu =
         router.routes[0]?.children?.filter(route => route.handle?.inMainMenu) ?? [];
     const [menuOpen, setMenuOpen] = useState(false)
-    const [registerModalOpen, setRegisterModalOpen] = useState(false)
     const dispatch = useDispatch()
 
     const selectedCategory = useSelector((state: RootState) => state.category.selectedCategory)
@@ -98,11 +98,11 @@ export function Header() {
                             </div>
                         </AuthAction>
                         <AuthAction onAction={() => console.log('user')}>
-                            <div className="text-gray text-[20px] p-2.5 border rounded-[12px]  border-[#d2d2d7] transition-all hover:border-orange-1 hover:text-orange-1" >
+                            <NavLink to={navigateRoutes.navigate.profile.main} className="text-gray block text-[20px] p-2.5 border rounded-[12px]  border-[#d2d2d7] transition-all hover:border-orange-1 hover:text-orange-1" >
                                 <Icon name="user" />
-                            </div>
+                            </NavLink>
                         </AuthAction>
-                        <div className="text-gray text-[20px] p-2.5 border md:hidden flex rounded-[12px]  border-[#d2d2d7] transition-all hover:border-orange-1 hover:text-orange-1" >
+                        <div onClick={() => setMenuOpen(!menuOpen)} className="text-gray text-[20px] p-2.5 border md:hidden flex rounded-[12px]  border-[#d2d2d7] transition-all hover:border-orange-1 hover:text-orange-1" >
                             <Icon name="menu" className={menuOpen ? "hidden" : "block"} />
                             <Icon name="close" className={menuOpen ? "block" : "hidden"} />
                         </div>
