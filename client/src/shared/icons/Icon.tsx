@@ -9,6 +9,8 @@ import {
     Trash2,
     SquarePen,
     Search,
+    MapPin,
+    History,
 } from "lucide-react";
 
 const iconMap = {
@@ -22,6 +24,8 @@ const iconMap = {
     delete: Trash2,
     edit: SquarePen,
     search: Search,
+    location: MapPin,
+    history: History
 } as const;
 
 type IconName = keyof typeof iconMap;

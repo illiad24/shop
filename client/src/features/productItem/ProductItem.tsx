@@ -13,9 +13,9 @@ import { AuthAction } from "../../shared/components/AuthAction";
 import { useSelector } from "react-redux";
 import { selectAuthUser } from "../auth/api/authSlice";
 import { toast } from "sonner";
+import { useGetWishlistQuery, useToggleWishlistMutation } from "@/entities/wishlist/api/wishListApi";
 
 export function ProductItem({ data }: { data: ProductType }) {
-    const [filled, setFilled] = useState<boolean>(false);
     const user = useSelector(selectAuthUser);
 
     const [addToCart] = useAddToCartMutation();
@@ -28,6 +28,13 @@ export function ProductItem({ data }: { data: ProductType }) {
 
     const cartItem = cartItems.find((item) => item.productId?._id === data._id);
     const quantity = cartItem?.quantity ?? 0;
+
+
+    const [toggleWishlist] = useToggleWishlistMutation()
+    const { data: wishlist = [] } = useGetWishlistQuery(undefined, { skip: !user });
+    const inWishlist = wishlist.some((p) => p._id === data._id);
+
+
 
     const handleAdd = async () => {
         await addToCart(data._id);
@@ -48,6 +55,15 @@ export function ProductItem({ data }: { data: ProductType }) {
         updateItem({ productId: data._id, quantity: quantity + 1 });
     };
 
+
+    async function addToFavorite(id: string) {
+        try {
+            await toggleWishlist(id)
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
     return (
         <div className="bg-white p-5 rounded-[20px]">
             <div className="relative mb-6 last:mb-0">
@@ -56,8 +72,8 @@ export function ProductItem({ data }: { data: ProductType }) {
                     : ''
                 }
                 <Link to={navigateRoutes.navigate.products.getProductById(data._id)} className="relative block pb-[70%]"><img className="absolute-element object-cover rounded-[20px]" src="/footer.png" alt="Image" /></Link>
-                <button onClick={() => setFilled(!filled)} className="absolute p-2 z-3 top-2.5 right-4 w-8 h-8 flex justify-center items-center bg-[#f5f5f7] rounded-[8px] cursor-pointer">
-                    <Icon name='favorite' className="text-orange-1 transition-colors" filled={filled} />
+                <button onClick={() => addToFavorite(data._id)} className="absolute p-2 z-3 top-2.5 right-4 w-8 h-8 flex justify-center items-center bg-[#f5f5f7] rounded-[8px] cursor-pointer">
+                    <Icon name='favorite' className="text-orange-1 transition-colors" filled={inWishlist} />
                 </button>
             </div>
             <div>
