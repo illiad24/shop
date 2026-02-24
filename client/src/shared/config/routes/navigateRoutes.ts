@@ -7,8 +7,8 @@ export const navigateRoutes = {
     },
     profile: {
       main: "/profile",
-      address: "address",
-      favorite: "favorite",
+      address: "/profile/address",
+      favorite: "/profile/favorite",
       history: "",
     },
     cart: "/cart",

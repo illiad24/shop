@@ -93,9 +93,9 @@ export function Header() {
                     </div>
                     <div className="flex gap-2 items-center relative z-3">
                         <AuthAction onAction={() => console.log('favorite')}>
-                            <div className="text-gray text-[20px] p-2.5 border rounded-[12px]  border-[#d2d2d7] transition-all hover:border-orange-1 hover:text-orange-1">
+                            <NavLink to={navigateRoutes.navigate.profile.favorite} className="text-gray block text-[20px] p-2.5 border rounded-[12px]  border-[#d2d2d7] transition-all hover:border-orange-1 hover:text-orange-1">
                                 <Icon name="favorite" />
-                            </div>
+                            </NavLink>
                         </AuthAction>
                         <AuthAction onAction={() => console.log('user')}>
                             <NavLink to={navigateRoutes.navigate.profile.main} className="text-gray block text-[20px] p-2.5 border rounded-[12px]  border-[#d2d2d7] transition-all hover:border-orange-1 hover:text-orange-1" >
