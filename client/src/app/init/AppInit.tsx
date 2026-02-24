@@ -7,7 +7,7 @@ export function AppInit() {
     const dispatch = useDispatch()
     useEffect(() => {
         const init = async () => {
-            await refresh().unwrap()
+            await refresh(undefined).unwrap()
         }
         init()
     }, [refresh, dispatch])

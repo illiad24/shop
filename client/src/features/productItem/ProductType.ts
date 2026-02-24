@@ -16,4 +16,5 @@ export interface ProductType {
   stockPortions: number;
   isActive: boolean;
   label: string;
+  image?: string;
 }

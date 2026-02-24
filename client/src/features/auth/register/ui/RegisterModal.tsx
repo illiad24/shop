@@ -22,7 +22,7 @@ type Inputs = {
 }
 export function RegisterModal({ open, onOpenChange, onLoginClick }: Props) {
 
-    const { registerUser, error, isLoading, isSuccess } = useRegister()
+    const { registerUser, isLoading, isSuccess } = useRegister()
     const [errorMessage, setErrorMessage] = useState < string | null > (null)
     const {
         register,
@@ -37,8 +37,8 @@ export function RegisterModal({ open, onOpenChange, onLoginClick }: Props) {
                 onOpenChange(false)
             }, 3000);
             reset({})
-        } catch (error) {
-            const message = error?.data?.message || "Помилка при збереженні"
+        } catch (err: any) {
+            const message = err?.data?.message || "Помилка при збереженні"
             setErrorMessage(message)
         }
     }

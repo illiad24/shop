@@ -1,5 +1,5 @@
 // shared/components/AuthAction.tsx
-import { ReactNode } from "react";
+import { type ReactNode } from "react";
 import { useAuthGuard } from "../hooks/useAuthGuard";
 
 type Props = {

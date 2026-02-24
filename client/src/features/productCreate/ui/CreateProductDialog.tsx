@@ -6,7 +6,7 @@ import {
 } from "@/components/ui/dialog"
 import { addProductSchema } from "../logic/validation"
 import { Controller, useForm } from "react-hook-form"
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { yupResolver } from "@hookform/resolvers/yup"
 
 import {
@@ -31,13 +31,13 @@ type Props = {
     id?: string
 }
 
-
-
-
 export function CreateProductDialog({ open, onOpenChange, id }: Props) {
     const [addProduct, { isLoading: adding, error: addError }] = useAddProductMutation()
     const [updateProduct, { isLoading: updating, error: updateError }] = useUpdateProductMutation()
-    const [errorMessage, setErrorMessage] = useState < string | null > (null)
+    const [errorMessage, setErrorMessage] = useState<string | null>(null)
+    const [imageFile, setImageFile] = useState<File | null>(null)
+    const [imagePreview, setImagePreview] = useState<string | null>(null)
+    const fileInputRef = useRef<HTMLInputElement>(null)
 
     const { data: product, isLoading: fetching } = useGetProductQuery(id ?? skipToken)
 
@@ -64,14 +64,18 @@ export function CreateProductDialog({ open, onOpenChange, id }: Props) {
                 stockPortions: product.stockPortions,
                 label: product.label
             })
+            setImagePreview((product as any).image || null)
         } else if (!id) {
             reset({})
+            setImagePreview(null)
         }
     }, [product, id, reset])
 
     useEffect(() => {
         if (!open) {
             setErrorMessage(null)
+            setImageFile(null)
+            setImagePreview(null)
         }
     }, [open])
 
@@ -83,27 +87,41 @@ export function CreateProductDialog({ open, onOpenChange, id }: Props) {
         }
     }, [addError, updateError])
 
+    function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
+        const file = e.target.files?.[0]
+        if (!file) return
+        setImageFile(file)
+        setImagePreview(URL.createObjectURL(file))
+    }
+
     const onSubmit = async (data: any) => {
         setErrorMessage(null)
-        const payload = {
-            ...data,
-            price: Number(data.price),
-            portionWeightGrams: Number(data.portionWeightGrams),
-            stockPortions: Number(data.stockPortions),
-        }
+        const formData = new FormData()
+        formData.append("title", data.title)
+        formData.append("category", data.category)
+        formData.append("description", data.description)
+        formData.append("portionWeightGrams", String(Number(data.portionWeightGrams)))
+        formData.append("price", String(Number(data.price)))
+        formData.append("stockPortions", String(Number(data.stockPortions)))
+        if (data.label) formData.append("label", data.label)
+        if (imageFile) formData.append("image", imageFile)
+
         try {
             if (id) {
-                await updateProduct({ id, data: payload }).unwrap()
+                await updateProduct({ id, data: formData }).unwrap()
             } else {
-                await addProduct(payload).unwrap()
+                await addProduct(formData).unwrap()
             }
             onOpenChange(false)
             reset({})
+            setImageFile(null)
+            setImagePreview(null)
         } catch (error: any) {
             const message = error?.data?.message || "Помилка при збереженні"
             setErrorMessage(message)
         }
     }
+
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
             <DialogContent onInteractOutside={(e) => e.preventDefault()}
@@ -137,7 +155,6 @@ export function CreateProductDialog({ open, onOpenChange, id }: Props) {
                                 <div className="text-14-gray mb-1.5 last:mb-0">
                                     Категорія*
                                 </div>
-
                                 <div className="w-full">
                                     <Controller
                                         name="category"
@@ -150,7 +167,6 @@ export function CreateProductDialog({ open, onOpenChange, id }: Props) {
                                                 <SelectTrigger className="input">
                                                     <SelectValue placeholder="Оберіть категорію" />
                                                 </SelectTrigger>
-
                                                 <SelectContent position="popper">
                                                     <SelectGroup>
                                                         {productCategoryList.map(el => (
@@ -163,7 +179,6 @@ export function CreateProductDialog({ open, onOpenChange, id }: Props) {
                                             </Select>
                                         )}
                                     />
-
                                     {errors.category?.message && (
                                         <p className="mt-1 text-[12px] text-orange-1">
                                             {errors.category.message}
@@ -179,7 +194,6 @@ export function CreateProductDialog({ open, onOpenChange, id }: Props) {
                                 <div className="w-full relative">
                                     <textarea
                                         {...register("description")}
-
                                         className="input textarea"
                                     />
                                     {errors.description && (
@@ -197,7 +211,6 @@ export function CreateProductDialog({ open, onOpenChange, id }: Props) {
                                 <div className="w-full relative">
                                     <input
                                         {...register("portionWeightGrams")}
-
                                         className="input"
                                     />
                                     {errors.portionWeightGrams && (
@@ -207,6 +220,7 @@ export function CreateProductDialog({ open, onOpenChange, id }: Props) {
                                     )}
                                 </div>
                             </div>
+
                             <div className="mb-5 last:mb-0">
                                 <div className="text-14-gray mb-1.5 last:mb-0">
                                     Ціна*
@@ -214,7 +228,6 @@ export function CreateProductDialog({ open, onOpenChange, id }: Props) {
                                 <div className="w-full relative">
                                     <input
                                         {...register("price")}
-
                                         className="input"
                                     />
                                     {errors.price && (
@@ -242,6 +255,7 @@ export function CreateProductDialog({ open, onOpenChange, id }: Props) {
                                     )}
                                 </div>
                             </div>
+
                             <div className="mb-5 last:mb-0">
                                 <div className="text-14-gray mb-1.5 last:mb-0">
                                     Label*
@@ -249,7 +263,6 @@ export function CreateProductDialog({ open, onOpenChange, id }: Props) {
                                 <div className="w-full relative">
                                     <input
                                         {...register("label")}
-
                                         className="input"
                                     />
                                     {errors.label && (
@@ -260,11 +273,49 @@ export function CreateProductDialog({ open, onOpenChange, id }: Props) {
                                 </div>
                             </div>
                         </div>
+
+                        <div>
+                            <div className="text-14-gray mb-1.5">Фото товару</div>
+                            <div
+                                onClick={() => fileInputRef.current?.click()}
+                                className="w-full aspect-square rounded-[12px] border-2 border-dashed border-gray-200 flex flex-col items-center justify-center cursor-pointer hover:border-orange-1 transition-colors overflow-hidden"
+                            >
+                                {imagePreview ? (
+                                    <img
+                                        src={imagePreview}
+                                        alt="Preview"
+                                        className="w-full h-full object-cover"
+                                    />
+                                ) : (
+                                    <div className="text-center text-gray-400 px-4">
+                                        <div className="text-3xl mb-2">+</div>
+                                        <div className="text-[13px]">Натисніть щоб завантажити</div>
+                                        <div className="text-[11px] mt-1">JPG, PNG до 5MB</div>
+                                    </div>
+                                )}
+                            </div>
+                            {imagePreview && (
+                                <button
+                                    type="button"
+                                    onClick={() => { setImageFile(null); setImagePreview(null) }}
+                                    className="mt-2 text-[12px] text-gray-400 hover:text-orange-1 transition-colors"
+                                >
+                                    Видалити фото
+                                </button>
+                            )}
+                            <input
+                                ref={fileInputRef}
+                                type="file"
+                                accept="image/*"
+                                className="hidden"
+                                onChange={handleFileChange}
+                            />
+                        </div>
                     </div>
 
                     <div className="text-right">
                         {errorMessage && (
-                            <div className="mb-3 p-3 bg-red-50  rounded-[8px] text-orange-1 text-[14px]">
+                            <div className="mb-3 p-3 bg-red-50 rounded-[8px] text-orange-1 text-[14px]">
                                 {errorMessage}
                             </div>
                         )}
@@ -278,6 +329,6 @@ export function CreateProductDialog({ open, onOpenChange, id }: Props) {
                     </div>
                 </form>
             </DialogContent>
-        </Dialog >
+        </Dialog>
     )
 }

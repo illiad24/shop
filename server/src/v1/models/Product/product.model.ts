@@ -17,6 +17,7 @@ const ProductSchema = new Schema<IProduct>({
   stockPortions: { type: Number, required: true, min: 0 },
   isActive: { type: Boolean, default: true },
   label: { type: String },
+  image: { type: String },
 });
 
 const ProductModel = model<IProduct>("Product", ProductSchema);

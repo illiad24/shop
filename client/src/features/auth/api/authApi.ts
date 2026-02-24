@@ -29,6 +29,13 @@ export const authApi = baseApi.injectEndpoints({
         method: "POST",
       }),
     }),
+    updateMe: build.mutation<{ id: string; name: string; email: string; role: string }, { name: string; email: string }>({
+      query: (data) => ({
+        url: "/users/me",
+        method: "PATCH",
+        body: data,
+      }),
+    }),
   }),
 });
 export const {
@@ -36,4 +43,5 @@ export const {
   useLoginMutation,
   useLogoutMutation,
   useRefreshMutation,
+  useUpdateMeMutation,
 } = authApi;

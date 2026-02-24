@@ -6,7 +6,7 @@ import type { RootState } from "../../../app/store/store";
 export interface IAuthState {
   user: null | {
     id: string;
-    username: string;
+    name: string;
     email: string;
     role: string;
   };
@@ -77,7 +77,16 @@ const authSlice = createSlice({
       .addMatcher(authApi.endpoints.logout.matchFulfilled, (state) => {
         state.user = null;
         state.loading = false;
-      });
+      })
+      .addMatcher(
+        authApi.endpoints.updateMe.matchFulfilled,
+        (state, action) => {
+          if (state.user) {
+            state.user.name = action.payload.name;
+            state.user.email = action.payload.email;
+          }
+        },
+      );
   },
 });
 export const { login, logout, tokenRefreshed } = authSlice.actions;

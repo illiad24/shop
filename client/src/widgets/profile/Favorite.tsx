@@ -8,7 +8,7 @@ import { Link } from "react-router";
 export function Favorite() {
     const user = useSelector(selectAuthUser);
 
-    const { data: wishlist = [], isLoading, isError, error } = useGetWishlistQuery(undefined, { skip: !user });
+    const { data: wishlist = [], isLoading, isError } = useGetWishlistQuery(undefined, { skip: !user });
 
     if (isLoading) {
         return <div>Loading...</div>

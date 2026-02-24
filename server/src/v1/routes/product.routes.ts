@@ -5,6 +5,7 @@ import { requireRole } from "../../middlewares/role.middleware";
 import { authMiddleware } from "../../middlewares/auth";
 import { productValidate } from "../validators/ProductValidate";
 import { validateRequest } from "../../middlewares/validator";
+import upload from "../../middlewares/upload";
 
 const router = Router();
 
@@ -14,6 +15,7 @@ router.post(
   "/",
   authMiddleware,
   requireRole([UserRole.ADMIN]),
+  upload.single("image"),
   productValidate,
   validateRequest,
   ProductController.create,
@@ -22,6 +24,7 @@ router.put(
   "/:productId",
   authMiddleware,
   requireRole([UserRole.ADMIN]),
+  upload.single("image"),
   productValidate,
   validateRequest,
   ProductController.update,

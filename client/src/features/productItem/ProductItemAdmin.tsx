@@ -33,7 +33,7 @@ export function ProductItemAdmin({ data }: { data: ProductType }) {
                         <div className="absolute p-2 z-3 top-2.5 py-1 px-2.5 left-4 rounded-[8px] bg-main text-white font-medium text-[14px]">{data.label}</div>
                         : ''
                     }
-                    <Link to={navigateRoutes.navigate.products.getProductById(data._id)} className="relative block pb-[70%]"><img className="absolute-element object-cover rounded-[20px]" src="/about/history/01.png" alt="Image" /></Link>
+                    <Link to={navigateRoutes.navigate.products.getProductById(data._id)} className="relative block pb-[70%]"><img className="absolute-element object-cover rounded-[20px]" src={data.image || "/footer.png"} alt="Image" /></Link>
                     <div className="absolute  z-3 top-2.5 right-4 flex gap-2 rounded-[8px] bg-white">
                         <button onClick={() => onEdit()} className="p-2 w-8 h-8 flex justify-center items-center cursor-pointer">
                             <Icon name='edit' className="text-orange-1 transition-colors" />

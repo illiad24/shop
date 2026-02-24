@@ -6,6 +6,12 @@ import { UserRole } from "../../types/auth.types";
 
 const router = Router();
 
+router.patch(
+  "/me",
+  authMiddleware,
+  requireRole([UserRole.USER, UserRole.ADMIN]),
+  UserController.updateMe,
+);
 router.get(
   "/list",
   authMiddleware,
