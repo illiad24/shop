@@ -27,6 +27,14 @@ const userSchema = new Schema(
         ref: "Product",
       },
     ],
+    addresses: [
+      {
+        city: { type: String, required: true },
+        street: { type: String, required: true },
+        apartment: { type: String },
+        recipientName: { type: String, required: true },
+      },
+    ],
   },
   { timestamps: true },
 );

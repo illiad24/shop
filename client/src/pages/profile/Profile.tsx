@@ -1,9 +1,22 @@
 
+import { useLogoutMutation } from "@/features/auth/api/authApi";
+import { logout } from "@/features/auth/api/authSlice";
 import { navigateRoutes } from "@/shared/config/routes/navigateRoutes";
 import { Icon } from "@/shared/icons/Icon";
-import { NavLink, Outlet } from "react-router";
+import { NavLink, Outlet, useNavigate } from "react-router";
+import { useDispatch } from "react-redux";
 
 export function Profile() {
+    const [logoutMutation] = useLogoutMutation();
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+
+    async function handleLogout() {
+        await logoutMutation();
+        dispatch(logout());
+        navigate(navigateRoutes.navigate.home);
+    }
+
     return (
         <div className="pt-5 md:pt-50 pb-10">
             <div className="container grid gap-4 grid-cols-1 md:grid-cols-[320px_1fr]">
@@ -17,7 +30,7 @@ export function Profile() {
                                 +0980757473
                             </div>
                         </div>
-                        <div className="flex gap-2 items-center text-[#686870] py-2.5 mb-4 last:mb-0 cursor-pointer hover:text-orange-1 transition-all flex md:hidden">
+                        <div onClick={handleLogout} className="flex gap-2 items-center text-[#686870] py-2.5 mb-4 last:mb-0 cursor-pointer hover:text-orange-1 transition-all flex md:hidden">
                             <div className="rounded-[12px] bg-white p-2 w-10 h-10 flex items-center justify-center">
                                 <Icon name="logout" className="text-[14px] font-light" />
                             </div>
@@ -53,7 +66,7 @@ export function Profile() {
                                 </div>
                             </NavLink>
                         </div>
-                        <div className=" gap-2 items-center px-5 py-2.5 mb-4 last:mb-0 cursor-pointer hover:text-orange-1 transition-all hidden md:flex">
+                        <div onClick={handleLogout} className=" gap-2 items-center px-5 py-2.5 mb-4 last:mb-0 cursor-pointer hover:text-orange-1 transition-all hidden md:flex">
                             <div className="rounded-[12px] bg-white p-2 w-10 h-10 flex items-center justify-center">
                                 <Icon name="logout" className="text-[14px] font-light" />
                             </div>

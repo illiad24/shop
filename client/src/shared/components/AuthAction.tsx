@@ -8,10 +8,18 @@ type Props = {
 };
 
 export function AuthAction({ children, onAction }: Props) {
-    const { withAuth } = useAuthGuard();
+    const { withAuth, isAuth } = useAuthGuard();
+
+    function handleClickCapture(e: React.MouseEvent) {
+        if (!isAuth) {
+            e.stopPropagation();
+            e.preventDefault();
+            withAuth(onAction);
+        }
+    }
 
     return (
-        <div onClick={() => withAuth(onAction)}>
+        <div onClickCapture={handleClickCapture} onClick={() => { if (isAuth) onAction(); }}>
             {children}
         </div>
     );

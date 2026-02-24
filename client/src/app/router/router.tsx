@@ -24,6 +24,7 @@ import { Address } from "@/widgets/profile/Address.tsx";
 const mutex = new Mutex();
 type roles = 'ADMIN' | 'USER'
 const adminRoles: roles[] = ['ADMIN'];
+const userRoles: roles[] = ['USER', 'ADMIN'];
 
 export const router = createBrowserRouter([
     {
@@ -71,6 +72,7 @@ export const router = createBrowserRouter([
             {
                 path: 'profile',
                 Component: Profile,
+                loader: () => authCheckLoader({ mutex, requiredRoles: userRoles, redirectTo: '/' }),
                 children: [
                     {
                         index: true,

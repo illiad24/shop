@@ -8,9 +8,11 @@ let refreshTried = false;
 export async function authCheckLoader({
   mutex,
   requiredRoles,
+  redirectTo = "/admin/login",
 }: {
   mutex: any;
   requiredRoles?: any;
+  redirectTo?: string;
 }) {
   let state = store.getState();
   let user = selectAuthUser(state);
@@ -40,7 +42,7 @@ export async function authCheckLoader({
   if (requiredRoles.length > 0) {
     if (!user) {
       refreshTried = false;
-      throw redirect("/admin/login");
+      throw redirect(redirectTo);
     }
 
     const userRole = user.role.toUpperCase() || "";

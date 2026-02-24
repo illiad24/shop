@@ -21,7 +21,7 @@ type Inputs = {
 }
 
 export function LoginModal({ open, onOpenChange, onRegisterClick }: Props) {
-    const { loginUser, error, isLoading, isSuccess } = useLogin();
+    const { loginUser, error, isLoading, isSuccess, reset: resetMutation } = useLogin();
     const [errorMessage, setErrorMessage] = useState < string | null > (null)
 
     const {
@@ -45,6 +45,7 @@ export function LoginModal({ open, onOpenChange, onRegisterClick }: Props) {
     useEffect(() => {
         if (!open) {
             setErrorMessage(null)
+            resetMutation()
         }
     }, [open])
 
