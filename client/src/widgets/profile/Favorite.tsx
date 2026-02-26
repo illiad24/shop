@@ -1,5 +1,5 @@
 import { useGetWishlistQuery } from "@/entities/wishlist/api/wishListApi";
-import { selectAuthUser } from "@/features/auth/api/authSlice";
+import { selectAuthUser, selectAuthLoading } from "@/features/auth/api/authSlice";
 import { ProductItem } from "@/features/productItem/ProductItem";
 import { navigateRoutes } from "@/shared/config/routes/navigateRoutes";
 import { useSelector } from "react-redux";
@@ -8,10 +8,11 @@ import { EmptyFiledInfo } from "./EmptyFiledInfo";
 
 export function Favorite() {
     const user = useSelector(selectAuthUser);
+    const authLoading = useSelector(selectAuthLoading);
 
-    const { data: wishlist = [], isLoading, isError } = useGetWishlistQuery(undefined, { skip: !user });
+    const { data: wishlist = [], isLoading, isError } = useGetWishlistQuery(undefined, { skip: authLoading || !user });
 
-    if (isLoading) {
+    if (authLoading || isLoading) {
         return <div>Loading...</div>
     }
 

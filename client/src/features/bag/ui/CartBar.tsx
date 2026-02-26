@@ -1,13 +1,14 @@
 import { Link } from "react-router";
 import { useSelector } from "react-redux";
-import { selectAuthUser } from "../../auth/api/authSlice";
+import { selectAuthUser, selectAuthLoading } from "../../auth/api/authSlice";
 import { useGetCartQuery } from "../../../entities/cart";
 import { Icon } from "../../../shared/icons/Icon";
 import { navigateRoutes } from "../../../shared/config/routes/navigateRoutes";
 
 export function CartBar() {
     const user = useSelector(selectAuthUser);
-    const { data: cartItems = [] } = useGetCartQuery(undefined, { skip: !user });
+    const authLoading = useSelector(selectAuthLoading);
+    const { data: cartItems = [] } = useGetCartQuery(undefined, { skip: authLoading || !user });
 
     const total = cartItems.reduce(
         (sum, item) => sum + item.productId.price * item.quantity,

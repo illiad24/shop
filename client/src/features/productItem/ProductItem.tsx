@@ -10,19 +10,20 @@ import {
 } from "../../entities/cart";
 import { AuthAction } from "../../shared/components/AuthAction";
 import { useSelector } from "react-redux";
-import { selectAuthUser } from "../auth/api/authSlice";
+import { selectAuthUser, selectAuthLoading } from "../auth/api/authSlice";
 import { toast } from "sonner";
 import { useGetWishlistQuery, useToggleWishlistMutation } from "@/entities/wishlist/api/wishListApi";
 
 export function ProductItem({ data }: { data: ProductType }) {
     const user = useSelector(selectAuthUser);
+    const authLoading = useSelector(selectAuthLoading);
 
     const [addToCart] = useAddToCartMutation();
     const [updateItem] = useUpdateCartItemMutation();
     const [removeItem] = useRemoveFromCartMutation();
 
     const { data: cartItems = [] } = useGetCartQuery(undefined, {
-        skip: !user,
+        skip: authLoading || !user,
     });
 
     const cartItem = cartItems.find((item) => item.productId?._id === data._id);
@@ -30,7 +31,7 @@ export function ProductItem({ data }: { data: ProductType }) {
 
 
     const [toggleWishlist] = useToggleWishlistMutation()
-    const { data: wishlist = [] } = useGetWishlistQuery(undefined, { skip: !user });
+    const { data: wishlist = [] } = useGetWishlistQuery(undefined, { skip: authLoading || !user });
     const inWishlist = wishlist.some((p) => p._id === data._id);
 
 

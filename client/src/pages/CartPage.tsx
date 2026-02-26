@@ -7,15 +7,16 @@ import {
     useClearCartMutation,
 } from "../entities/cart";
 import { Icon } from "../shared/icons/Icon";
-import { selectAuthUser } from "../features/auth/api/authSlice";
+import { selectAuthUser, selectAuthLoading } from "../features/auth/api/authSlice";
 import { navigateRoutes } from "../shared/config/routes/navigateRoutes";
 import { BagItem } from "@/features/bag/ui/BagItem";
 
 export function CartPage() {
     const user = useSelector(selectAuthUser);
+    const authLoading = useSelector(selectAuthLoading);
 
     const { data: cartItems = [], isLoading } = useGetCartQuery(undefined, {
-        skip: !user,
+        skip: authLoading || !user,
     });
     const [updateItem] = useUpdateCartItemMutation();
     const [removeItem] = useRemoveFromCartMutation();

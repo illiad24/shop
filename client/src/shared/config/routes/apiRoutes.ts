@@ -8,7 +8,7 @@ export const apiRoutes = {
   },
   user: {
     list: "/users/list",
-    me: (userId: string) => `/users/me/${userId}`,
+    me: "/users/me",
   },
   products: {
     list: "/products",
@@ -16,6 +16,10 @@ export const apiRoutes = {
     update: (productId: string) => `/products/${productId}`,
     delete: (productId: string) => `/products/${productId}`,
     getById: (productId: string) => `/products/${productId}`,
+  },
+  orders: {
+    create: "/orders",
+    myOrders: "/orders/my",
   },
   cart: {
     get: "/cart",

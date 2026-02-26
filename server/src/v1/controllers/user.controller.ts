@@ -23,10 +23,9 @@ class UserController {
     res.json({ id: user._id, name: user.name, email: user.email, role: user.role });
   }
 
-  static async me(req: Request, res: Response) {
+  static async me(req: AuthRequest, res: Response) {
     try {
-      const userId = req.params.userId as string;
-      const user = await userService.getUserById(userId);
+      const user = await userService.getUserById(req.user!.id);
       if (!user) {
         return res.status(404).json({ message: "User not found" });
       }

@@ -1,15 +1,15 @@
 import { useRefreshMutation } from '@/features/auth/api/authApi'
+import { refreshTried } from '../router/authCheckLoader'
 import { useEffect } from 'react'
-import { useDispatch } from 'react-redux'
-export function AppInit() {
 
+export function AppInit() {
     const [refresh] = useRefreshMutation()
-    const dispatch = useDispatch()
+
     useEffect(() => {
-        const init = async () => {
-            await refresh(undefined).unwrap()
+        if (!refreshTried) {
+            refresh(undefined)
         }
-        init()
-    }, [refresh, dispatch])
+    }, [])
+
     return null
 }

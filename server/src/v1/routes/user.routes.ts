@@ -19,7 +19,7 @@ router.get(
   UserController.getAllUsers,
 );
 router.get(
-  "/me/:userId",
+  "/me",
   authMiddleware,
   requireRole([UserRole.USER, UserRole.ADMIN]),
   UserController.me,

@@ -3,7 +3,7 @@ import { authApi } from "../../features/auth/api/authApi";
 import { store } from "../store/store";
 import { selectAuthUser } from "../../features/auth/api/authSlice";
 
-let refreshTried = false;
+export let refreshTried = false;
 
 export async function authCheckLoader({
   mutex,

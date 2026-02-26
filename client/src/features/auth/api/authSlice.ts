@@ -5,9 +5,7 @@ import type { RootState } from "../../../app/store/store";
 
 export interface IAuthState {
   user: null | {
-    id: string;
-    name: string;
-    email: string;
+    _id: string;
     role: string;
   };
   accessToken: string | null;
@@ -27,7 +25,9 @@ const authSlice = createSlice({
   initialState,
   reducers: {
     login(state, action: PayloadAction<IAuthState>) {
-      state.user = action.payload.user;
+      const u = action.payload.user;
+      console.log(u);
+      state.user = u ? { _id: u._id, role: u.role } : null;
       state.accessToken = action.payload.accessToken;
     },
     logout(state) {
@@ -57,7 +57,8 @@ const authSlice = createSlice({
           authApi.endpoints.refresh.matchFulfilled,
         ),
         (state, action) => {
-          state.user = action.payload.user;
+          const u = action.payload.user;
+          state.user = u ? { _id: u._id, role: u.role } : null;
           state.accessToken = action.payload.accessToken;
           state.loading = false;
         },
@@ -77,19 +78,11 @@ const authSlice = createSlice({
       .addMatcher(authApi.endpoints.logout.matchFulfilled, (state) => {
         state.user = null;
         state.loading = false;
-      })
-      .addMatcher(
-        authApi.endpoints.updateMe.matchFulfilled,
-        (state, action) => {
-          if (state.user) {
-            state.user.name = action.payload.name;
-            state.user.email = action.payload.email;
-          }
-        },
-      );
+      });
   },
 });
 export const { login, logout, tokenRefreshed } = authSlice.actions;
 export const selectAuthUser = (state: RootState) => state.auth.user;
+export const selectAuthLoading = (state: RootState) => state.auth.loading;
 export const selectAccessToken = (state: RootState) => state.auth.accessToken;
 export default authSlice.reducer;

@@ -5,7 +5,7 @@ import { Icon } from "../shared/icons/Icon";
 import { MainSlider } from "../widgets/sections/MainSlider";
 import type { ProductType } from "../features/productItem/ProductType";
 import { useGetWishlistQuery, useToggleWishlistMutation } from "@/entities/wishlist/api/wishListApi";
-import { selectAuthUser } from "@/features/auth/api/authSlice";
+import { selectAuthUser, selectAuthLoading } from "@/features/auth/api/authSlice";
 import { useSelector } from "react-redux";
 import { useAddToCartMutation, useGetCartQuery, useRemoveFromCartMutation, useUpdateCartItemMutation } from "@/entities/cart";
 import { AuthAction } from "@/shared/components/AuthAction";
@@ -16,8 +16,9 @@ export function ProductDetailsPage() {
     const { data = [], error, isLoading } = useGetProductsQuery({});
 
     const user = useSelector(selectAuthUser);
+    const authLoading = useSelector(selectAuthLoading);
 
-    const { data: wishlist = [] } = useGetWishlistQuery(undefined, { skip: !user });
+    const { data: wishlist = [] } = useGetWishlistQuery(undefined, { skip: authLoading || !user });
     const product = data.find((item: ProductType) => item._id === id);
     const inWishlist = wishlist.some((p) => p._id === product?._id);
 
@@ -35,7 +36,7 @@ export function ProductDetailsPage() {
     const [updateItem] = useUpdateCartItemMutation();
     const [removeItem] = useRemoveFromCartMutation();
 
-    const { data: cartItems = [] } = useGetCartQuery(undefined, { skip: !user });
+    const { data: cartItems = [] } = useGetCartQuery(undefined, { skip: authLoading || !user });
 
     const cartItem = cartItems.find((item) => item.productId?._id === product?._id);
     const quantity = cartItem?.quantity ?? 0;

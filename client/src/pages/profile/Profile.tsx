@@ -1,11 +1,11 @@
 
-import { useLogoutMutation, useUpdateMeMutation } from "@/features/auth/api/authApi";
-import { logout, selectAuthUser } from "@/features/auth/api/authSlice";
+import { useLogoutMutation, useUpdateMeMutation, useMeQuery } from "@/features/auth/api/authApi";
+import { logout, selectAuthUser, selectAuthLoading } from "@/features/auth/api/authSlice";
 import { navigateRoutes } from "@/shared/config/routes/navigateRoutes";
 import { Icon } from "@/shared/icons/Icon";
 import { NavLink, Outlet, useNavigate } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
-import { useState } from "react";
+import { useState, FormEvent } from "react";
 
 export function Profile() {
     const [logoutMutation] = useLogoutMutation();
@@ -13,9 +13,12 @@ export function Profile() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const user = useSelector(selectAuthUser);
+    const authLoading = useSelector(selectAuthLoading);
+
+    const { data: userInfo } = useMeQuery(undefined, { skip: authLoading || !user });
 
     const [isEditing, setIsEditing] = useState(false);
-    const [form, setForm] = useState({ name: user?.name ?? "", email: user?.email ?? "" });
+    const [form, setForm] = useState({ name: "", email: "" });
 
     async function handleLogout() {
         await logoutMutation(undefined);
@@ -24,11 +27,11 @@ export function Profile() {
     }
 
     function handleEditOpen() {
-        setForm({ name: user?.name ?? "", email: user?.email ?? "" });
+        setForm({ name: userInfo?.name ?? "", email: userInfo?.email ?? "" });
         setIsEditing(true);
     }
 
-    async function handleEditSubmit(e: React.FormEvent) {
+    async function handleEditSubmit(e: FormEvent) {
         e.preventDefault();
         await updateMe(form);
         setIsEditing(false);
@@ -68,8 +71,8 @@ export function Profile() {
                         ) : (
                             <div className="flex items-start justify-between gap-2 mb-2">
                                 <div>
-                                    <div className="font-semibold text-[18px] mb-1">{user?.name}</div>
-                                    <div className="font-regular text-[18px]">{user?.email}</div>
+                                    <div className="font-semibold text-[18px] mb-1">{userInfo?.name}</div>
+                                    <div className="font-regular text-[18px]">{userInfo?.email}</div>
                                 </div>
                                 <button onClick={handleEditOpen} className="text-[#686870] hover:text-orange-1 transition-all mt-1">
                                     <Icon name="edit" />
