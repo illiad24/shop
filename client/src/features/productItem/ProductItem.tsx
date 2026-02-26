@@ -64,7 +64,7 @@ export function ProductItem({ data }: { data: ProductType }) {
     }
 
     return (
-        <div className="bg-white p-5 rounded-[20px]">
+        <div className="bg-white p-5 rounded-[20px] h-full flex flex-col">
             <div className="relative mb-6 last:mb-0">
                 {data.label ?
                     <div className="absolute p-2 z-3 top-2.5 py-1 px-2.5 left-4 rounded-[8px] bg-main text-white font-medium text-[14px]">{data.label}</div>
@@ -75,7 +75,7 @@ export function ProductItem({ data }: { data: ProductType }) {
                     <Icon name='favorite' className="text-orange-1 transition-colors" filled={inWishlist} />
                 </button>
             </div>
-            <div>
+            <div className="flex flex-col flex-1">
                 <div className="flex justify-between gap-2 mb-5 last:mb-0">
                     <Link to={navigateRoutes.navigate.products.getProductById(data._id)}>
                         <h3 className="section-title-24 hover:text-orange-1 transition-colors">{data.title}</h3>
@@ -84,7 +84,7 @@ export function ProductItem({ data }: { data: ProductType }) {
                         {data.portionWeightGrams} г
                     </div>
                 </div>
-                <div className="text-14-gray mb-6 last:mb-0 ">
+                <div className="text-14-gray mb-6 last:mb-0 flex-1">
                     <p>{data.description}</p>
                 </div>
                 <div className="flex justify-between gap-2 items-center">

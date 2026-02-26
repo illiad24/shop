@@ -8,4 +8,5 @@ export interface IUser {
   createdAt?: Date;
   updatedAt?: Date;
   wishlist: Types.ObjectId[];
+  addresses?: Types.ObjectId[];
 }

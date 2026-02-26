@@ -9,6 +9,7 @@ import {
 import { Icon } from "../shared/icons/Icon";
 import { selectAuthUser } from "../features/auth/api/authSlice";
 import { navigateRoutes } from "../shared/config/routes/navigateRoutes";
+import { BagItem } from "@/features/bag/ui/BagItem";
 
 export function CartPage() {
     const user = useSelector(selectAuthUser);
@@ -61,59 +62,7 @@ export function CartPage() {
             {!isLoading && cartItems.length > 0 && (
                 <div className="flex flex-col gap-3">
                     {cartItems.map((item) => (
-                        <div
-                            key={item._id}
-                            className="flex items-center justify-between gap-3"
-                        >
-                            <div className="flex flex-1 items-center gap-3 justify-between p-4 bg-white rounded-[12px]">
-                                <div className="flex-1 min-w-0">
-                                    <div className="font-semibold text-black text-[16px] truncate mb-1">
-                                        {item.productId.title}
-                                    </div>
-                                    <div className="text-[13px] text-orange-1">
-                                        {item.productId.portionWeightGrams} г
-                                    </div>
-                                </div>
-                                <div className="flex items-center gap-4">
-                                    <div className="text-black font-bold text-[16px] whitespace-nowrap">
-                                        {item.productId.price} грн
-                                    </div>
-                                    <div className="flex items-center gap-2">
-                                        <button
-                                            onClick={() =>
-                                                updateItem({
-                                                    productId: item.productId._id,
-                                                    quantity: item.quantity - 1,
-                                                })
-                                            }
-                                            className="w-8 h-8 flex items-center text-white justify-center bg-orange-1 rounded-[8px] hover:bg-orange-1/80 transition-colors font-bold"
-                                        >
-                                            −
-                                        </button>
-                                        <span className="text-black font-bold text-[16px] w-5 text-center">
-                                            {item.quantity}
-                                        </span>
-                                        <button
-                                            onClick={() =>
-                                                updateItem({
-                                                    productId: item.productId._id,
-                                                    quantity: item.quantity + 1,
-                                                })
-                                            }
-                                            className="w-8 h-8 flex text-white items-center justify-center bg-orange-1 rounded-[8px] hover:bg-orange-1/80 transition-colors font-bold"
-                                        >
-                                            +
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                            <button
-                                onClick={() => removeItem(item.productId._id)}
-                                className="text-gray-400 hover:text-orange-1 transition-colors p-1 shrink-0"
-                            >
-                                <Icon name="close" />
-                            </button>
-                        </div>
+                        <BagItem key={item._id} item={item} />
                     ))}
 
                     <div className="mt-4 bg-white rounded-[12px] p-5">

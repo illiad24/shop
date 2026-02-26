@@ -12,5 +12,6 @@ export const navigateRoutes = {
       history: "",
     },
     cart: "/cart",
+    order: "/order",
   },
 };

@@ -4,6 +4,7 @@ import {
     useAddAddressMutation,
     useRemoveAddressMutation,
 } from "@/entities/address/api/addressApi";
+import { EmptyFiledInfo } from "./EmptyFiledInfo";
 
 export function Address() {
     const { data: addresses = [], isLoading } = useGetAddressesQuery();
@@ -36,7 +37,7 @@ export function Address() {
         <div className="bg-white p-5 rounded-[12px]">
             <div className="flex items-center justify-between mb-5">
                 <div className="section-title-24">Адреси доставки</div>
-                {!showForm && (
+                {!showForm && addresses.length > 0 && (
                     <button
                         onClick={() => setShowForm(true)}
                         className="button-element"
@@ -100,9 +101,16 @@ export function Address() {
             )}
 
             {addresses.length === 0 && !showForm ? (
-                <div className="text-14-gray text-[16px]">
-                    У вас ще немає збережених адрес
-                </div>
+                <EmptyFiledInfo imgSrc='/favorite/profile.png' title='У вас ще немає збережених адрес' description='Тут будуть зберігатися адреси на які ви робите замовлення. Адреса збережеться тут автоматично після замовлення' >
+                    {!showForm && (
+                        <button
+                            onClick={() => setShowForm(true)}
+                            className="button-element"
+                        >
+                            + Додати адресу
+                        </button>
+                    )}
+                </EmptyFiledInfo>
             ) : (
                 <div className="flex flex-col gap-3">
                     {addresses.map((addr) => (

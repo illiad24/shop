@@ -4,6 +4,7 @@ import { ProductItem } from "@/features/productItem/ProductItem";
 import { navigateRoutes } from "@/shared/config/routes/navigateRoutes";
 import { useSelector } from "react-redux";
 import { Link } from "react-router";
+import { EmptyFiledInfo } from "./EmptyFiledInfo";
 
 export function Favorite() {
     const user = useSelector(selectAuthUser);
@@ -19,21 +20,8 @@ export function Favorite() {
     }
     if (wishlist.length <= 0) {
         return (
-            <div className="bg-white p-5 rounded-[12px] flex items-center gap-12 min-h-[300px] max-md:flex-col">
-                <div>
-                    <img src="/favorite/profile.png" alt="Image" />
-                </div>
-                <div>
-                    <div className="section-title-24 mb-4">
-                        У вас ще немає улюблених товарів
-                    </div>
-                    <div className="text-14-gray text-[16px] mb-4">
-                        Додайте сюди товари, щоб повертатися до них
-                        знову й знову.
-                    </div>
-                    <Link to={navigateRoutes.navigate.products.list} className="button-element">Зробити перший лайк</Link>
-                </div>
-            </div>
+            <EmptyFiledInfo imgSrc='/favorite/profile.png' title='У вас ще немає улюблених товарів' description='Додайте сюди товари, щоб повертатися до них
+                знову й знову.' linkText='Зробити перший лайк' linkUrl={navigateRoutes.navigate.products.list} />
         )
     }
 

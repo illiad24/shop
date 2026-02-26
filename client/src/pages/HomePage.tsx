@@ -6,6 +6,8 @@ import { MainSection } from "../widgets/sections/MainSection";
 import { MainSlider } from "../widgets/sections/MainSlider";
 import { MapSection } from "../widgets/sections/MapSection";
 
+import { Element } from 'react-scroll';
+
 const sections = [
     {
         title: "Маринована продукція",
@@ -49,13 +51,15 @@ export function HomePage() {
                 if (products.length === 0) return null
 
                 return (
-                    <MainSlider
-                        key={section.category}
-                        title={section.title}
-                        data={products}
-                        link="Дивитися все"
-                        linkUrl={navigateRoutes.navigate.products.list}
-                    />
+                    <Element key={section.category} name={section.category}>
+                        <MainSlider
+
+                            title={section.title}
+                            data={products}
+                            link="Дивитися все"
+                            linkUrl={navigateRoutes.navigate.products.list}
+                        />
+                    </Element>
                 )
             })}
             <IntroSection />

@@ -9,7 +9,7 @@ import type { RootState } from "../../app/store/store";
 import { AuthAction } from "@/shared/components/AuthAction";
 import { navigateRoutes } from "@/shared/config/routes/navigateRoutes";
 
-
+import { Link } from 'react-scroll';
 
 export function Header() {
     const routesInMainMenu =
@@ -82,14 +82,13 @@ export function Header() {
                             </div>
                         </div>
                     </div>
-                    <div className=" gap-3 items-center cursor-pointer md:flex hidden">
+                    <div className=" gap-7 items-center cursor-pointer md:flex hidden">
                         {routesInMainMenu.map((route) => {
                             return (
-                                <NavLink key={route.path} to={{ pathname: route.path }} className={({ isActive }) => isActive ? "text-[14px] text-orange-1 transition-all font-semibold hover:text-main " : "text-[14px] text-black transition-all font-semibold hover:text-main"}>
+                                <NavLink key={route.path} to={{ pathname: route.path }} className={({ isActive }) => isActive ? "text-[18px] text-orange-1 transition-all font-semibold hover:text-main " : "text-[18px] text-black transition-all font-semibold hover:text-main"}>
                                     {route.handle?.title}
                                 </NavLink>)
                         })}
-
                     </div>
                     <div className="flex gap-2 items-center relative z-3">
                         <AuthAction onAction={() => console.log('favorite')}>
@@ -178,7 +177,7 @@ export function Header() {
             </div>
             <div className={`flex justify-center items-center pl-2.5. `}>
                 <div className="flex justify-stretch items-stretch gap-2 md:justify-center md:items-center bg-transparent rounded-[12px] px-5 py-2.5 md:bg-white overflow-auto" >
-                    <div onClick={() => dispatch(selectCategory('CHILLED'))} className={`flex gap-2.5 items-center gap-2 py-2 px-5 rounded-2xl max-w-[165px] hover:bg-[#0D407E]/[0.06] cursor-pointer transition-all bg-white ${selectedCategory == 'CHILLED' && isProductListPage ? '!bg-[#0D407E]/[0.06]' : ''}`}>
+                    <Link to="CHILLED" smooth={true} duration={500} onClick={() => dispatch(selectCategory('CHILLED'))} className={`flex gap-2.5 items-center gap-2 py-2 px-5 rounded-2xl max-w-[165px] hover:bg-[#0D407E]/[0.06] cursor-pointer transition-all bg-white ${selectedCategory == 'CHILLED' && isProductListPage ? '!bg-[#0D407E]/[0.06]' : ''}`}>
                         <div className="shrink-0 w-6">
                             <img className="w-6 h-6" src="/types/01.svg" alt="Image" />
                         </div>
@@ -186,24 +185,24 @@ export function Header() {
                             Охолоджена
                             продукція
                         </div>
-                    </div>
-                    <div onClick={() => dispatch(selectCategory('FROZEN'))} className={`flex gap-2.5 items-center gap-2 py-2 px-5 rounded-2xl max-w-[165px] hover:bg-[#0D407E]/[0.06] cursor-pointer transition-all bg-white ${selectedCategory == 'FROZEN' && isProductListPage ? '!bg-[#0D407E]/[0.06]' : ''}`}>
+                    </Link>
+                    <Link to="FROZEN" smooth={true} duration={500} onClick={() => dispatch(selectCategory('FROZEN'))} className={`flex gap-2.5 items-center gap-2 py-2 px-5 rounded-2xl max-w-[165px] hover:bg-[#0D407E]/[0.06] cursor-pointer transition-all bg-white ${selectedCategory == 'FROZEN' && isProductListPage ? '!bg-[#0D407E]/[0.06]' : ''}`}>
                         <div className="shrink-0 w-6">
                             <img className="w-6 h-6" src="/types/02.svg" alt="Image" />
                         </div>
                         <div className="text-14-gray">
                             Заморозка
                         </div>
-                    </div>
-                    <div onClick={() => dispatch(selectCategory('READY'))} className={`flex gap-2.5 items-center gap-2 py-2 px-5 rounded-2xl max-w-[165px] hover:bg-[#0D407E]/[0.06] cursor-pointer transition-all bg-white ${selectedCategory == 'READY' && isProductListPage ? '!bg-[#0D407E]/[0.06]' : ''}`}>
+                    </Link>
+                    <Link to="READY" smooth={true} duration={500} onClick={() => dispatch(selectCategory('READY'))} className={`flex gap-2.5 items-center gap-2 py-2 px-5 rounded-2xl max-w-[165px] hover:bg-[#0D407E]/[0.06] cursor-pointer transition-all bg-white ${selectedCategory == 'READY' && isProductListPage ? '!bg-[#0D407E]/[0.06]' : ''}`}>
                         <div className="shrink-0 w-6">
                             <img className="w-6 h-6" src="/types/03.svg" alt="Image" />
                         </div>
                         <div className="text-14-gray">
                             Готова продукція
                         </div>
-                    </div>
-                    <div onClick={() => dispatch(selectCategory('MARINATED'))} className={`flex gap-2.5 items-center gap-2 py-2 px-5 rounded-2xl max-w-[165px] hover:bg-[#0D407E]/[0.06] cursor-pointer transition-all bg-white ${selectedCategory == 'MARINATED' && isProductListPage ? '!bg-[#0D407E]/[0.06]' : ''}`}>
+                    </Link>
+                    <Link to="MARINATED" smooth={true} duration={500} onClick={() => dispatch(selectCategory('MARINATED'))} className={`flex gap-2.5 items-center gap-2 py-2 px-5 rounded-2xl max-w-[165px] hover:bg-[#0D407E]/[0.06] cursor-pointer transition-all bg-white ${selectedCategory == 'MARINATED' && isProductListPage ? '!bg-[#0D407E]/[0.06]' : ''}`}>
                         <div className="shrink-0 w-6">
                             <img className="w-6 h-6" src="/types/04.svg" alt="Image" />
                         </div>
@@ -211,15 +210,15 @@ export function Header() {
                             Маринована
                             продукція
                         </div>
-                    </div>
-                    <div onClick={() => dispatch(selectCategory('SNACKS'))} className={`flex gap-2.5 items-center gap-2 py-2 px-5 rounded-2xl max-w-[165px] hover:bg-[#0D407E]/[0.06] cursor-pointer transition-all bg-white ${selectedCategory == 'SNACKS' && isProductListPage ? '!bg-[#0D407E]/[0.06]' : ''}`}>
+                    </Link>
+                    <Link to="SNACKS" smooth={true} duration={500} onClick={() => dispatch(selectCategory('SNACKS'))} className={`flex gap-2.5 items-center gap-2 py-2 px-5 rounded-2xl max-w-[165px] hover:bg-[#0D407E]/[0.06] cursor-pointer transition-all bg-white ${selectedCategory == 'SNACKS' && isProductListPage ? '!bg-[#0D407E]/[0.06]' : ''}`}>
                         <div className="shrink-0 w-6">
                             <img className="w-6 h-6" src="/types/05.svg" alt="Image" />
                         </div>
                         <div className="text-14-gray">
                             Снеки
                         </div>
-                    </div>
+                    </Link>
                 </div>
             </div>
 

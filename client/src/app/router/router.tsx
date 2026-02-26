@@ -21,6 +21,7 @@ import { CartPage } from "../../pages/CartPage.tsx";
 import { Favorite } from "@/widgets/profile/Favorite.tsx";
 import { OrderHistory } from "@/widgets/profile/OrderHistory.tsx";
 import { Address } from "@/widgets/profile/Address.tsx";
+import { OrderPage } from "@/pages/OrderPage.tsx";
 const mutex = new Mutex();
 type roles = 'ADMIN' | 'USER'
 const adminRoles: roles[] = ['ADMIN'];
@@ -88,16 +89,18 @@ export const router = createBrowserRouter([
                     },
                 ]
             },
-
             {
                 path: 'cart',
                 Component: CartPage
             },
-
+            {
+                path: 'order',
+                Component: OrderPage
+            },
             {
                 path: '*',
                 Component: PageNotFound
-            }
+            },
         ],
     },
     {
