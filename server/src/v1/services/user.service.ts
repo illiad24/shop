@@ -8,4 +8,4 @@ class UserService extends MongooseCRUDManager<IUser> {
   }
 }
 
-export default new UserService(UserModel);
+export default new UserService(UserModel as any);

@@ -3,6 +3,7 @@ import { baseApi } from "@/shared/api/baseApi";
 import authReducer from "@/features/auth/api/authSlice";
 import categoryReducer from "@/features/category/category.slice";
 import bagReducer from "@/features/bag/bagSlice";
+import guestCartReducer from "@/features/guestCart/guestCartSlice";
 
 export const store = configureStore({
   reducer: {
@@ -10,6 +11,7 @@ export const store = configureStore({
     auth: authReducer,
     category: categoryReducer,
     bag: bagReducer,
+    guestCart: guestCartReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(baseApi.middleware),

@@ -8,51 +8,63 @@ import {
     useUpdateCartItemMutation,
     useRemoveFromCartMutation,
 } from "../../entities/cart";
-import { AuthAction } from "../../shared/components/AuthAction";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { selectAuthUser, selectAuthLoading } from "../auth/api/authSlice";
 import { toast } from "sonner";
 import { useGetWishlistQuery, useToggleWishlistMutation } from "@/entities/wishlist/api/wishListApi";
+import { selectGuestCart, guestAddToCart, guestUpdateQuantity } from "@/features/guestCart/guestCartSlice";
 
 export function ProductItem({ data }: { data: ProductType }) {
     const user = useSelector(selectAuthUser);
     const authLoading = useSelector(selectAuthLoading);
+    const dispatch = useDispatch();
 
     const [addToCart] = useAddToCartMutation();
     const [updateItem] = useUpdateCartItemMutation();
     const [removeItem] = useRemoveFromCartMutation();
 
-    const { data: cartItems = [] } = useGetCartQuery(undefined, {
+    const { data: serverCart = [] } = useGetCartQuery(undefined, {
         skip: authLoading || !user,
     });
+    const guestCart = useSelector(selectGuestCart);
 
+    const cartItems = user ? serverCart : guestCart;
     const cartItem = cartItems.find((item) => item.productId?._id === data._id);
     const quantity = cartItem?.quantity ?? 0;
-
 
     const [toggleWishlist] = useToggleWishlistMutation()
     const { data: wishlist = [] } = useGetWishlistQuery(undefined, { skip: authLoading || !user });
     const inWishlist = wishlist.some((p) => p._id === data._id);
 
-
-
     const handleAdd = async () => {
-        await addToCart(data._id);
+        if (user) {
+            await addToCart(data._id);
+        } else {
+            dispatch(guestAddToCart(data));
+        }
         toast.success("Додано до кошика!");
     };
 
     const handleDecrement = () => {
         if (!cartItem) return;
-        if (quantity > 1) {
-            updateItem({ productId: data._id, quantity: quantity - 1 });
+        if (user) {
+            if (quantity > 1) {
+                updateItem({ productId: data._id, quantity: quantity - 1 });
+            } else {
+                removeItem(data._id);
+            }
         } else {
-            removeItem(data._id);
+            dispatch(guestUpdateQuantity({ productId: data._id, quantity: quantity - 1 }));
         }
     };
 
     const handleIncrement = () => {
         if (!cartItem) return;
-        updateItem({ productId: data._id, quantity: quantity + 1 });
+        if (user) {
+            updateItem({ productId: data._id, quantity: quantity + 1 });
+        } else {
+            dispatch(guestUpdateQuantity({ productId: data._id, quantity: quantity + 1 }));
+        }
     };
 
 
@@ -111,9 +123,7 @@ export function ProductItem({ data }: { data: ProductType }) {
                             </button>
                         </div>
                     ) : (
-                        <AuthAction onAction={handleAdd}>
-                            <button className="py-1 px-6 bg-orange-1/55 rounded-2xl text-white text-3xl cursor-pointer hover:bg-orange-1/70 transition-colors">+</button>
-                        </AuthAction>
+                        <button onClick={handleAdd} className="py-1 px-6 bg-orange-1/55 rounded-2xl text-white text-3xl cursor-pointer hover:bg-orange-1/70 transition-colors">+</button>
                     )}
                 </div>
             </div>

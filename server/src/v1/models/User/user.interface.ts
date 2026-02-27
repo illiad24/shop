@@ -1,5 +1,14 @@
 import { Types } from "mongoose";
 
+export interface IAddress {
+  _id?: Types.ObjectId;
+  city: string;
+  street: string;
+  recipientName: string;
+  apartment?: string | null;
+  postalCode?: string | null;
+}
+
 export interface IUser {
   email: string;
   password: string;
@@ -8,5 +17,5 @@ export interface IUser {
   createdAt?: Date;
   updatedAt?: Date;
   wishlist: Types.ObjectId[];
-  addresses?: Types.ObjectId[];
+  addresses?: IAddress[];
 }

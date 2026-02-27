@@ -1,9 +1,31 @@
 import { useRemoveFromCartMutation, useUpdateCartItemMutation } from "@/entities/cart";
 import { Icon } from "@/shared/icons/Icon";
+import { useSelector, useDispatch } from "react-redux";
+import { selectAuthUser } from "@/features/auth/api/authSlice";
+import { guestUpdateQuantity, guestRemoveFromCart } from "@/features/guestCart/guestCartSlice";
 
 export function BagItem({ item }) {
+    const user = useSelector(selectAuthUser);
+    const dispatch = useDispatch();
     const [updateItem] = useUpdateCartItemMutation();
     const [removeItem] = useRemoveFromCartMutation();
+
+    const handleUpdate = (quantity) => {
+        if (user) {
+            updateItem({ productId: item.productId._id, quantity });
+        } else {
+            dispatch(guestUpdateQuantity({ productId: item.productId._id, quantity }));
+        }
+    };
+
+    const handleRemove = () => {
+        if (user) {
+            removeItem(item.productId._id);
+        } else {
+            dispatch(guestRemoveFromCart(item.productId._id));
+        }
+    };
+
     return (
         <div className="flex items-center gap-2 p-3 bg-[#f5f5f7] rounded-[12px]">
             <div className="flex-1 min-w-0">
@@ -20,7 +42,7 @@ export function BagItem({ item }) {
                 </span>
                 <button
                     type="button"
-                    onClick={() => updateItem({ productId: item.productId._id, quantity: item.quantity - 1 })}
+                    onClick={() => handleUpdate(item.quantity - 1)}
                     className="w-7 h-7 flex items-center justify-center text-white bg-orange-1 rounded-[7px] hover:bg-orange-1/80 transition-colors font-bold"
                 >
                     −
@@ -30,14 +52,14 @@ export function BagItem({ item }) {
                 </span>
                 <button
                     type="button"
-                    onClick={() => updateItem({ productId: item.productId._id, quantity: item.quantity + 1 })}
+                    onClick={() => handleUpdate(item.quantity + 1)}
                     className="w-7 h-7 flex items-center justify-center text-white bg-orange-1 rounded-[7px] hover:bg-orange-1/80 transition-colors font-bold"
                 >
                     +
                 </button>
                 <button
                     type="button"
-                    onClick={() => removeItem(item.productId._id)}
+                    onClick={handleRemove}
                     className="text-[#d2d2d7] hover:text-orange-1 transition-colors"
                 >
                     <Icon name="close" />

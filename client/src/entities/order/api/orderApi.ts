@@ -1,6 +1,13 @@
 import { baseApi } from "@/shared/api/baseApi";
 import { apiRoutes } from "@/shared/config/routes/apiRoutes";
 
+export interface GuestOrderItem {
+  productId: string;
+  title: string;
+  price: number;
+  quantity: number;
+}
+
 export interface CreateOrderBody {
   firstName: string;
   lastName: string;
@@ -14,6 +21,35 @@ export interface CreateOrderBody {
   deliveryType: "pickup" | "delivery" | "courier";
   paymentType: "card" | "online" | "monobank";
   comment?: string;
+  items?: GuestOrderItem[];
+}
+
+export interface OrderItem {
+  productId: string;
+  title: string;
+  price: number;
+  quantity: number;
+}
+
+export interface Order {
+  _id: string;
+  items: OrderItem[];
+  deliveryAddress: {
+    firstName: string;
+    lastName: string;
+    street: string;
+    postalCode: string;
+    phone: string;
+    email: string;
+  };
+  deliveryType: "pickup" | "delivery" | "courier";
+  paymentType: "card" | "online" | "monobank";
+  comment: string;
+  deliveryCost: number;
+  productTotal: number;
+  total: number;
+  status: "pending" | "processing" | "delivered" | "cancelled";
+  createdAt: string;
 }
 
 const orderApi = baseApi.injectEndpoints({
@@ -26,7 +62,7 @@ const orderApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["Cart", "Order"],
     }),
-    getMyOrders: build.query<any[], void>({
+    getMyOrders: build.query<Order[], void>({
       query: () => apiRoutes.orders.myOrders,
       providesTags: ["Order"],
     }),

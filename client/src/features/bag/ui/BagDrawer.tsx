@@ -6,27 +6,27 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { closeBag } from "../bagSlice";
 import type { RootState } from "@/app/store/store";
-import {
-    useGetCartQuery,
-    useUpdateCartItemMutation,
-    useRemoveFromCartMutation,
-    useClearCartMutation,
-} from "@/entities/cart";
+import { useClearCartMutation } from "@/entities/cart";
 import { Icon } from "@/shared/icons/Icon";
 import { NavLink } from "react-router";
 import { navigateRoutes } from "@/shared/config/routes/navigateRoutes";
 import { BagItem } from "./BagItem";
+import { useCart } from "@/shared/hooks/useCart";
+import { selectAuthUser } from "@/features/auth/api/authSlice";
+import { guestClearCart } from "@/features/guestCart/guestCartSlice";
 
 export function BagDrawer() {
     const dispatch = useDispatch();
     const isOpen = useSelector((state: RootState) => state.bag.isOpen);
+    const user = useSelector(selectAuthUser);
 
-    const { data: cartItems = [], isLoading } = useGetCartQuery(undefined, {
-        skip: !isOpen,
-    });
-    const [updateItem] = useUpdateCartItemMutation();
-    const [removeItem] = useRemoveFromCartMutation();
+    const { items: cartItems, isLoading } = useCart();
     const [clearCart] = useClearCartMutation();
+
+    const handleClear = () => {
+        if (user) clearCart();
+        else dispatch(guestClearCart());
+    };
 
     const total = cartItems.reduce(
         (sum, item) => sum + item.productId.price * item.quantity,
@@ -69,7 +69,7 @@ export function BagDrawer() {
                         ))}
                         {cartItems.length > 0 && (
                             <button
-                                onClick={() => clearCart()}
+                                onClick={handleClear}
                                 className="text-[12px] text-gray-400 hover:text-orange-1 transition-colors"
                             >
                                 Очистити

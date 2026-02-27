@@ -10,12 +10,14 @@ import './index.css'
 import { AuthModalProvider } from './shared/providers/AuthModalProvider'
 import { AuthModals } from './shared/components/AuthModals'
 import { AppInit } from './app/init/AppInit'
+import { GuestCartMerger } from './features/guestCart/GuestCartMerger'
 createRoot(document.getElementById('drapak')!).render(
     <AppErrorBoundary>
         <Provider store={store}>
             <AuthModalProvider>
                 <RouterProvider router={router} />
                 <AppInit />
+                <GuestCartMerger />
                 <AuthModals />
                 <Toaster position="bottom-right" richColors />
             </AuthModalProvider>

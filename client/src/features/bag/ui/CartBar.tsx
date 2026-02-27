@@ -1,14 +1,10 @@
 import { Link } from "react-router";
-import { useSelector } from "react-redux";
-import { selectAuthUser, selectAuthLoading } from "../../auth/api/authSlice";
-import { useGetCartQuery } from "../../../entities/cart";
 import { Icon } from "../../../shared/icons/Icon";
 import { navigateRoutes } from "../../../shared/config/routes/navigateRoutes";
+import { useCart } from "@/shared/hooks/useCart";
 
 export function CartBar() {
-    const user = useSelector(selectAuthUser);
-    const authLoading = useSelector(selectAuthLoading);
-    const { data: cartItems = [] } = useGetCartQuery(undefined, { skip: authLoading || !user });
+    const { items: cartItems } = useCart();
 
     const total = cartItems.reduce(
         (sum, item) => sum + item.productId.price * item.quantity,
@@ -16,7 +12,7 @@ export function CartBar() {
     );
     const count = cartItems.reduce((sum, item) => sum + item.quantity, 0);
 
-    if (!user || cartItems.length === 0) return null;
+    if (cartItems.length === 0) return null;
 
     return (
         <div className="fixed bottom-0 left-0 right-0 z-50 md:hidden">

@@ -32,6 +32,7 @@ const userSchema = new Schema(
         city: { type: String, required: true },
         street: { type: String, required: true },
         apartment: { type: String },
+        postalCode: { type: String },
         recipientName: { type: String, required: true },
       },
     ],

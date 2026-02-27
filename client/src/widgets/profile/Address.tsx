@@ -16,6 +16,7 @@ export function Address() {
         city: "",
         street: "",
         apartment: "",
+        postalCode: "",
         recipientName: "",
     });
 
@@ -27,7 +28,7 @@ export function Address() {
     async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
         await addAddress(form);
-        setForm({ city: "", street: "", apartment: "", recipientName: "" });
+        setForm({ city: "", street: "", apartment: "", postalCode: "", recipientName: "" });
         setShowForm(false);
     }
 
@@ -81,6 +82,13 @@ export function Address() {
                         placeholder="Квартира / поверх (необов'язково)"
                         className="border border-gray-200 rounded-[8px] px-4 py-2.5 text-[14px] outline-none focus:border-orange-1"
                     />
+                    <input
+                        name="postalCode"
+                        value={form.postalCode}
+                        onChange={handleChange}
+                        placeholder="Поштовий індекс (необов'язково)"
+                        className="border border-gray-200 rounded-[8px] px-4 py-2.5 text-[14px] outline-none focus:border-orange-1"
+                    />
                     <div className="flex gap-3 mt-1">
                         <button
                             type="submit"
@@ -123,6 +131,7 @@ export function Address() {
                                 <div className="text-[14px] text-[#686870]">
                                     {addr.city}, {addr.street}
                                     {addr.apartment ? `, кв./пов. ${addr.apartment}` : ""}
+                                    {addr.postalCode ? `, ${addr.postalCode}` : ""}
                                 </div>
                             </div>
                             <button

@@ -1,25 +1,18 @@
 import { Link } from "react-router";
-import { useSelector } from "react-redux";
-import {
-    useGetCartQuery,
-    useUpdateCartItemMutation,
-    useRemoveFromCartMutation,
-    useClearCartMutation,
-} from "../entities/cart";
+import { useDispatch, useSelector } from "react-redux";
+import { useClearCartMutation } from "../entities/cart";
 import { Icon } from "../shared/icons/Icon";
-import { selectAuthUser, selectAuthLoading } from "../features/auth/api/authSlice";
+import { selectAuthUser } from "../features/auth/api/authSlice";
 import { navigateRoutes } from "../shared/config/routes/navigateRoutes";
 import { BagItem } from "@/features/bag/ui/BagItem";
+import { useCart } from "@/shared/hooks/useCart";
+import { guestClearCart } from "@/features/guestCart/guestCartSlice";
+import { NavLink } from "react-router";
 
 export function CartPage() {
     const user = useSelector(selectAuthUser);
-    const authLoading = useSelector(selectAuthLoading);
-
-    const { data: cartItems = [], isLoading } = useGetCartQuery(undefined, {
-        skip: authLoading || !user,
-    });
-    const [updateItem] = useUpdateCartItemMutation();
-    const [removeItem] = useRemoveFromCartMutation();
+    const dispatch = useDispatch();
+    const { items: cartItems, isLoading } = useCart();
     const [clearCart] = useClearCartMutation();
 
     const total = cartItems.reduce(
@@ -27,13 +20,18 @@ export function CartPage() {
         0,
     );
 
+    const handleClear = () => {
+        if (user) clearCart();
+        else dispatch(guestClearCart());
+    };
+
     return (
         <div className="container py-6 pb-10">
             <div className="flex items-center justify-between mb-6">
                 <h1 className="section-title-32">Ваше замовлення</h1>
                 {cartItems.length > 0 && (
                     <button
-                        onClick={() => clearCart()}
+                        onClick={handleClear}
                         className="text-[14px] text-gray-400 hover:text-orange-1 transition-colors"
                     >
                         Очистити
@@ -71,9 +69,9 @@ export function CartPage() {
                             <span className="text-gray-500 text-[16px]">Разом:</span>
                             <span className="text-[28px] font-bold">{total} грн</span>
                         </div>
-                        <button className="button-element w-full">
+                        <NavLink to={navigateRoutes.navigate.order} className="button-element block text-center w-full">
                             Оформити замовлення
-                        </button>
+                        </NavLink>
                     </div>
                 </div>
             )}

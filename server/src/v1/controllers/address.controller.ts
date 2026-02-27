@@ -10,12 +10,12 @@ export class AddressController {
   }
 
   static async add(req: AuthRequest, res: Response) {
-    const { city, street, apartment, recipientName } = req.body;
+    const { city, street, apartment, postalCode, recipientName } = req.body;
 
     const user = await UserModel.findById(req.user!.id);
     if (!user) return res.status(404).json({ message: "User not found" });
 
-    user.addresses.push({ city, street, apartment, recipientName } as any);
+    user.addresses.push({ city, street, apartment, postalCode, recipientName } as any);
     await user.save();
 
     res.status(201).json(user.addresses);

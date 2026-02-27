@@ -5,6 +5,7 @@ export interface Address {
   city: string;
   street: string;
   apartment?: string;
+  postalCode?: string;
   recipientName: string;
 }
 
@@ -12,6 +13,7 @@ export interface AddressInput {
   city: string;
   street: string;
   apartment?: string;
+  postalCode?: string;
   recipientName: string;
 }
 
