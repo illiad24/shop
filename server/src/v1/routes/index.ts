@@ -7,6 +7,7 @@ import wishlistRoutes from "./wishlist.routes";
 import cartRoutes from "./cart.routes";
 import addressRoutes from "./address.routes";
 import orderRoutes from "./order.routes";
+import telegramRoutes from "./telegram.routes";
 
 const router = express.Router();
 
@@ -21,5 +22,6 @@ router.use("/wishlist", wishlistRoutes);
 router.use("/cart", cartRoutes);
 router.use("/addresses", addressRoutes);
 router.use("/orders", orderRoutes);
+router.use("/telegram", telegramRoutes);
 
 export default router;

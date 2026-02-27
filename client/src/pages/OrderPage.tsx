@@ -65,7 +65,7 @@ export function OrderPage() {
         }
     }, [userInfo, reset]);
 
-    
+
 
     const regulaminChecked = watch("regulamin");
 
@@ -161,7 +161,7 @@ export function OrderPage() {
                                         <label className="text-14-gray">Ім'я *</label>
                                         <input
                                             {...register("firstName", { required: "Ім'я обов'язкове" })}
-                                 
+
                                             className="input"
                                         />
                                         {errors.firstName && (
@@ -172,7 +172,7 @@ export function OrderPage() {
                                         <label className="text-14-gray">Прізвище *</label>
                                         <input
                                             {...register("lastName", { required: "Прізвище обов'язкове" })}
-                                           
+
                                             className="input"
                                         />
                                         {errors.lastName && (
@@ -183,14 +183,14 @@ export function OrderPage() {
 
                                 <div className="flex flex-col gap-1">
                                     <label className="text-14-gray">Назва фірми (необов'язково)</label>
-                                    <input {...register("companyName")}  className="input" />
+                                    <input {...register("companyName")} className="input" />
                                 </div>
 
                                 <div className="flex flex-col gap-1">
                                     <label className="text-14-gray">Вулиця та номер будинку *</label>
                                     <input
                                         {...register("street", { required: "Вулиця обов'язкова" })}
-                                    
+
                                         className="input"
                                     />
                                     {errors.street && (
@@ -202,7 +202,7 @@ export function OrderPage() {
                                     <label className="text-14-gray">Поштовий індекс *</label>
                                     <input
                                         {...register("postalCode", { required: "Індекс обов'язковий" })}
-                                  
+
                                         className="input"
                                     />
                                     {errors.postalCode && (
@@ -415,7 +415,6 @@ export function OrderPage() {
                         </div>
                     </div>
                 }
-
             </div>
         </div>
     );

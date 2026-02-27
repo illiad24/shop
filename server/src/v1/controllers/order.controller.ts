@@ -2,6 +2,7 @@ import { Response } from "express";
 import { AuthRequest } from "../../middlewares/auth";
 import OrderModel from "../models/Order/order.model";
 import CartModel from "../models/Cart/cart.model";
+import { sendOrderNotification } from "../services/telegram.service";
 
 export class OrderController {
   static async create(req: AuthRequest, res: Response) {
@@ -27,6 +28,18 @@ export class OrderController {
     };
 
     const deliveryCost = deliveryCostMap[deliveryType] ?? 0;
+
+    const deliveryAddress = {
+      firstName,
+      lastName,
+      companyName: companyName ?? "",
+      street,
+      postalCode,
+      phone,
+      email,
+      locationType: locationType ?? "city",
+      paczkomat: paczkomat ?? "",
+    };
 
     let items: { productId: string; title: string; price: number; quantity: number }[];
 
@@ -57,17 +70,7 @@ export class OrderController {
       const order = await OrderModel.create({
         userId: req.user.id,
         items,
-        deliveryAddress: {
-          firstName,
-          lastName,
-          companyName: companyName ?? "",
-          street,
-          postalCode,
-          phone,
-          email,
-          locationType: locationType ?? "city",
-          paczkomat: paczkomat ?? "",
-        },
+        deliveryAddress,
         deliveryType,
         paymentType,
         comment: comment ?? "",
@@ -78,6 +81,8 @@ export class OrderController {
 
       cart.items = [] as any;
       await cart.save();
+
+      sendOrderNotification(order).catch(console.error);
 
       return res.status(201).json(order);
     }
@@ -97,17 +102,7 @@ export class OrderController {
     const order = await OrderModel.create({
       userId: null,
       items: guestItems,
-      deliveryAddress: {
-        firstName,
-        lastName,
-        companyName: companyName ?? "",
-        street,
-        postalCode,
-        phone,
-        email,
-        locationType: locationType ?? "city",
-        paczkomat: paczkomat ?? "",
-      },
+      deliveryAddress,
       deliveryType,
       paymentType,
       comment: comment ?? "",
@@ -115,6 +110,8 @@ export class OrderController {
       productTotal,
       total: productTotal + deliveryCost,
     });
+
+    sendOrderNotification(order).catch(console.error);
 
     return res.status(201).json(order);
   }
@@ -125,5 +122,27 @@ export class OrderController {
     });
 
     res.json(orders);
+  }
+
+  static async updateStatus(req: AuthRequest, res: Response) {
+    const { id } = req.params;
+    const { status } = req.body;
+
+    const validStatuses = ["pending", "processing", "delivered", "cancelled"];
+    if (!validStatuses.includes(status)) {
+      return res.status(400).json({ message: "Invalid status" });
+    }
+
+    const order = await OrderModel.findByIdAndUpdate(
+      id,
+      { status },
+      { new: true },
+    );
+
+    if (!order) {
+      return res.status(404).json({ message: "Order not found" });
+    }
+
+    res.json(order);
   }
 }
