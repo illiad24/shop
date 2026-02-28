@@ -3,7 +3,6 @@ import { selectAuthUser, selectAuthLoading } from "@/features/auth/api/authSlice
 import { ProductItem } from "@/features/productItem/ProductItem";
 import { navigateRoutes } from "@/shared/config/routes/navigateRoutes";
 import { useSelector } from "react-redux";
-import { Link } from "react-router";
 import { EmptyFiledInfo } from "./EmptyFiledInfo";
 
 export function Favorite() {

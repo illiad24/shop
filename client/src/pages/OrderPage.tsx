@@ -41,7 +41,7 @@ export function OrderPage() {
     const { data: userInfo } = useMeQuery(undefined, { skip: authLoading || !user });
     const { items: cartItems, isLoading, isGuest } = useCart();
 
-    const [createOrder, { isLoading: isCreating, isSuccess, reset: createOrderReset }] = useCreateOrderMutation();
+    const [createOrder, { isLoading: isCreating, isSuccess }] = useCreateOrderMutation();
 
     const {
         register,
@@ -140,7 +140,7 @@ export function OrderPage() {
                                                     reset((prev) => ({
                                                         ...prev,
                                                         street: addr.street,
-                                                        postalCode: addr?.postalCode
+                                                        postalCode: addr?.postalCode ?? ""
                                                     }))
                                                 }
                                                 className="text-left border border-[#d2d2d7] rounded-[10px] p-3 hover:border-orange-1 transition-all text-14-gray"

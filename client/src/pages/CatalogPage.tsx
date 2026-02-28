@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState, useMemo } from "react";
 import { skipToken } from "@reduxjs/toolkit/query";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { useDebounce } from "use-debounce";
 
 import { useGetProductsQuery } from "../entities/product";
@@ -17,6 +17,7 @@ import {
     SelectValue,
 } from "@/components/ui/select";
 import { productCategoryList } from "./admin/AdminProductsPage";
+import { selectCategory } from "@/features/category/category.slice";
 
 export interface IProductsFilter {
     search?: string;
@@ -25,9 +26,18 @@ export interface IProductsFilter {
 }
 
 export function CatalogPage() {
-    const { filters, setFilter } = useFiltersFromURL();
+    const { filters, setFilter, clearFilters } = useFiltersFromURL();
     const [open, setOpen] = useState(false);
     const inputRef = useRef < HTMLInputElement > (null);
+    const dispatch = useDispatch();
+
+    const hasActiveFilters = !!(filters?.search || filters?.sort || filters?.category);
+
+    const handleClearFilters = () => {
+        clearFilters();
+        dispatch(selectCategory(""));
+        setOpen(false);
+    };
 
     // Debounce search input
     const [debouncedSearch] = useDebounce(filters?.search, 500);
@@ -115,7 +125,7 @@ export function CatalogPage() {
                         </div>
                     </div>
 
-                    <div className="flex gap-5">
+                    <div className="flex gap-3 items-center">
                         <Select
                             value={filters?.sort || ""}
                             onValueChange={(value) =>
@@ -139,6 +149,41 @@ export function CatalogPage() {
                         </Select>
                     </div>
                 </div>
+
+                {hasActiveFilters && (
+                    <div className="flex flex-wrap items-center gap-2 mb-6 -mt-3">
+                        {filters?.category && (
+                            <span className="flex items-center gap-1.5 bg-orange-50 text-orange-500 border border-orange-200 text-[13px] font-medium px-3 py-1.5 rounded-full">
+                                {productCategoryList.find(c => c.value === filters.category)?.label ?? filters.category}
+                                <button onClick={() => { setFilter("category", ""); dispatch(selectCategory("")); }} className="hover:text-orange-700 transition-colors">
+                                    <Icon name="close" size={12} />
+                                </button>
+                            </span>
+                        )}
+                        {filters?.sort && (
+                            <span className="flex items-center gap-1.5 bg-[#f5f5f7] text-[#686870] text-[13px] font-medium px-3 py-1.5 rounded-full">
+                                {filters.sort === "price_asc" ? "Ціна: від дешевих" : "Ціна: від дорогих"}
+                                <button onClick={() => setFilter("sort", "")} className="hover:text-gray-900 transition-colors">
+                                    <Icon name="close" size={12} />
+                                </button>
+                            </span>
+                        )}
+                        {filters?.search && (
+                            <span className="flex items-center gap-1.5 bg-[#f5f5f7] text-[#686870] text-[13px] font-medium px-3 py-1.5 rounded-full">
+                                «{filters.search}»
+                                <button onClick={() => { setFilter("search", ""); setOpen(false); }} className="hover:text-gray-900 transition-colors">
+                                    <Icon name="close" size={12} />
+                                </button>
+                            </span>
+                        )}
+                        <button
+                            onClick={handleClearFilters}
+                            className="text-[13px] text-[#686870] hover:text-orange-1 transition-colors ml-1"
+                        >
+                            Скинути все
+                        </button>
+                    </div>
+                )}
 
                 <div className="relative min-h-[400px]">
                     {showInitialLoader && (

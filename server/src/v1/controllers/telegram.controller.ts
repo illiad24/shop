@@ -12,7 +12,6 @@ const VALID_STATUSES = ["processing", "delivered", "cancelled"];
 
 export class TelegramController {
   static async webhook(req: Request, res: Response) {
-    // Respond to Telegram immediately — required within 5 seconds
     res.sendStatus(200);
 
     const callback = req.body?.callback_query;

@@ -5,7 +5,7 @@ import { navigateRoutes } from "@/shared/config/routes/navigateRoutes";
 import { Icon } from "@/shared/icons/Icon";
 import { NavLink, Outlet, useNavigate } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
-import { useState, FormEvent } from "react";
+import { useState, type FormEvent } from "react";
 
 export function Profile() {
     const [logoutMutation] = useLogoutMutation();

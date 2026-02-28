@@ -1,16 +1,16 @@
-import { useRemoveFromCartMutation, useUpdateCartItemMutation } from "@/entities/cart";
+import { useRemoveFromCartMutation, useUpdateCartItemMutation, type CartItem } from "@/entities/cart";
 import { Icon } from "@/shared/icons/Icon";
 import { useSelector, useDispatch } from "react-redux";
 import { selectAuthUser } from "@/features/auth/api/authSlice";
-import { guestUpdateQuantity, guestRemoveFromCart } from "@/features/guestCart/guestCartSlice";
+import { guestUpdateQuantity, guestRemoveFromCart, type GuestCartItem } from "@/features/guestCart/guestCartSlice";
 
-export function BagItem({ item }) {
+export function BagItem({ item }: { item: CartItem | GuestCartItem }) {
     const user = useSelector(selectAuthUser);
     const dispatch = useDispatch();
     const [updateItem] = useUpdateCartItemMutation();
     const [removeItem] = useRemoveFromCartMutation();
 
-    const handleUpdate = (quantity) => {
+    const handleUpdate = (quantity: number) => {
         if (user) {
             updateItem({ productId: item.productId._id, quantity });
         } else {

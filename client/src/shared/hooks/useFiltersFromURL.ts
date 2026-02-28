@@ -25,5 +25,10 @@ export function useFiltersFromURL() {
     setSearchParams(newFilters);
   };
 
-  return { filters, setFilter };
+  const clearFilters = () => {
+    setFilters({});
+    setSearchParams({});
+  };
+
+  return { filters, setFilter, clearFilters };
 }
