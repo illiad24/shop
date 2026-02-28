@@ -11,6 +11,7 @@ const middleware = (app: Express) => {
         "http://localhost:5173",
         "https://shop-one-sable.vercel.app",
         "https://shop-p3jg0y3ps-ids-projects-df7270c4.vercel.app",
+        "https://shop-r9hz.onrender.com",
         // можна залишити для dev
       ], // 👈 твій фронт
       credentials: true, // 👈 дозволяє кукі
