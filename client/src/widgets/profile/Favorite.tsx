@@ -12,7 +12,7 @@ export function Favorite() {
     const { data: wishlist = [], isLoading, isError } = useGetWishlistQuery(undefined, { skip: authLoading || !user });
 
     if (authLoading || isLoading) {
-        return <div>Loading...</div>
+        return <div>Завантаження...</div>
     }
 
     if (isError) {
