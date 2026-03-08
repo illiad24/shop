@@ -22,7 +22,7 @@ type Inputs = {
 }
 export function RegisterModal({ open, onOpenChange, onLoginClick }: Props) {
 
-    const { registerUser, isLoading, isSuccess } = useRegister()
+    const { registerUser, isLoading } = useRegister()
     const [errorMessage, setErrorMessage] = useState < string | null > (null)
     const {
         register,
@@ -33,9 +33,7 @@ export function RegisterModal({ open, onOpenChange, onLoginClick }: Props) {
     const onSubmit = async (data: any) => {
         try {
             await registerUser(data)
-            setTimeout(() => {
-                onOpenChange(false)
-            }, 3000);
+            onOpenChange(false)
             reset({})
         } catch (err: any) {
             const message = err?.data?.message || "Помилка при збереженні"
@@ -59,13 +57,7 @@ export function RegisterModal({ open, onOpenChange, onLoginClick }: Props) {
             >
                 <DialogTitle>Реєстрація</DialogTitle>
 
-                {isSuccess &&
-                    <div className="text-center text-2xl p-10 min-h-[100px]">
-                        Реєстрація виконана  успішно
-                    </div>
-                }
-                {!isSuccess &&
-                    <div>
+                <div>
                         <form onSubmit={handleSubmit(onSubmit)} className="mb-4">
                             <div className="mb-5 last:mb-0">
                                 <div className="text-14-gray mb-1.5 last:mb-0">
@@ -135,7 +127,6 @@ export function RegisterModal({ open, onOpenChange, onLoginClick }: Props) {
                             </div>
                         </div>
                     </div>
-                }
             </DialogContent>
         </Dialog>
     );
