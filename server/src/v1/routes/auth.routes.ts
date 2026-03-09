@@ -3,11 +3,22 @@ import { AuthController } from "../controllers/auth.controller";
 import { authMiddleware } from "../../middlewares/auth";
 import { requireRole } from "../../middlewares/role.middleware";
 import { UserRole } from "../../types/auth.types";
+import { rateLimit } from "express-rate-limit";
+import { registerValidate, loginValidate } from "../validators/authValidate";
+import { validateRequest } from "../../middlewares/validator";
 
 const router = Router();
 
-router.post("/register", AuthController.register);
-router.post("/login", AuthController.login);
+const authLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 10,
+  message: { message: "Забагато спроб. Спробуйте пізніше." },
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+
+router.post("/register", authLimiter, registerValidate, validateRequest, AuthController.register);
+router.post("/login", authLimiter, loginValidate, validateRequest, AuthController.login);
 router.post("/refresh", AuthController.refresh);
 router.post("/logout", AuthController.logout);
 router.get(

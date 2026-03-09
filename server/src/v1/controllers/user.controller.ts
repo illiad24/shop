@@ -8,19 +8,24 @@ class UserController {
     try {
       const users = await userService.getList({});
       res.json(users);
-    } catch (error) {
+    } catch {
       res.status(500).json({ message: "Internal server error" });
     }
   }
+
   static async updateMe(req: AuthRequest, res: Response) {
-    const { name, email } = req.body;
-    const user = await UserModel.findByIdAndUpdate(
-      req.user!.id,
-      { name, email },
-      { new: true },
-    );
-    if (!user) return res.status(404).json({ message: "User not found" });
-    res.json({ id: user._id, name: user.name, email: user.email, role: user.role });
+    try {
+      const { name, email } = req.body;
+      const user = await UserModel.findByIdAndUpdate(
+        req.user!.id,
+        { name, email },
+        { new: true },
+      );
+      if (!user) return res.status(404).json({ message: "User not found" });
+      res.json({ id: user._id, name: user.name, email: user.email, role: user.role });
+    } catch {
+      res.status(500).json({ message: "Internal server error" });
+    }
   }
 
   static async me(req: AuthRequest, res: Response) {
@@ -30,7 +35,7 @@ class UserController {
         return res.status(404).json({ message: "User not found" });
       }
       res.json(user);
-    } catch (error) {
+    } catch {
       res.status(500).json({ message: "Internal server error" });
     }
   }

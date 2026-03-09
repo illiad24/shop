@@ -69,7 +69,7 @@ export class AuthController {
     } catch (e: any) {
       res.status(403).json({
         success: false,
-        messages: e.message,
+        message: e.message,
       });
     }
   }
