@@ -5,6 +5,7 @@ import { useDebounce } from "use-debounce";
 
 import { useGetProductsQuery } from "../entities/product";
 import { ProductItem } from "../features/productItem/ProductItem";
+import { ProductSkeleton } from "../features/productItem/ProductSkeleton";
 import { Icon } from "../shared/icons/Icon";
 import { useFiltersFromURL } from "../shared/hooks/useFiltersFromURL";
 
@@ -28,7 +29,7 @@ export interface IProductsFilter {
 export function CatalogPage() {
     const { filters, setFilter, clearFilters } = useFiltersFromURL();
     const [open, setOpen] = useState(false);
-    const inputRef = useRef < HTMLInputElement > (null);
+    const inputRef = useRef<HTMLInputElement>(null);
     const dispatch = useDispatch();
 
     const hasActiveFilters = !!(filters?.search || filters?.sort || filters?.category);
@@ -39,10 +40,8 @@ export function CatalogPage() {
         setOpen(false);
     };
 
-    // Debounce search input
     const [debouncedSearch] = useDebounce(filters?.search, 500);
 
-    // Sync Redux category
     const categoryType = useSelector(
         (state: any) => state.category.selectedCategory
     );
@@ -53,10 +52,8 @@ export function CatalogPage() {
         }
     }, [categoryType, filters?.category, setFilter]);
 
-    // Stable query filters
     const queryFilters = useMemo(() => {
         if (!filters) return skipToken;
-
         return {
             ...filters,
             search: debouncedSearch || undefined,
@@ -65,7 +62,6 @@ export function CatalogPage() {
 
     const { data, isLoading, isFetching, error } = useGetProductsQuery(queryFilters);
 
-    // Focus input when search opens
     useEffect(() => {
         if (open) {
             inputRef.current?.focus();
@@ -79,20 +75,22 @@ export function CatalogPage() {
         }
     };
 
-    const showInitialLoader = isLoading;
-    const showFetchingLoader = isFetching && data;
+    const showSkeletons = isLoading;
+    const showFetchingOverlay = isFetching && !!data;
+    const isEmpty = !isLoading && !error && data?.length === 0;
 
     return (
-        <div className="pb-10  pt-2 md:pt-50">
+        <div className="pb-10 pt-2 md:pt-50">
             <div className="container">
-                <div className="flex justify-between gap-5 mb-9 flex-col md:flex-row w-full">
-                    <div className="flex gap-5 items-center">
-                        <h1 className="section-title-32 hidden md:block"> {
-                            productCategoryList.find(el => el.value === categoryType)?.label
-                            ?? (categoryType ? '' : 'продукти')
-                        }</h1>
+                {/* Заголовок + пошук + сортування */}
+                <div className="flex justify-between gap-3 mb-9 flex-col md:flex-row w-full">
+                    <div className="flex gap-3 items-center">
+                        <h1 className="section-title-32 hidden md:block">
+                            {productCategoryList.find(el => el.value === categoryType)?.label
+                                ?? (categoryType ? "" : "Продукти")}
+                        </h1>
 
-                        <div className="flex items-center shrink-1 grow-1">
+                        <div className="flex items-center grow">
                             <button
                                 onClick={handleSearchToggle}
                                 className="bg-white text-[#686870] text-2xl rounded-none md:rounded-[12px] py-3 px-4 cursor-pointer hover:bg-gray-50 transition-colors"
@@ -105,21 +103,18 @@ export function CatalogPage() {
                                 ref={inputRef}
                                 type="text"
                                 value={filters?.search || ""}
-                                onChange={(e) =>
-                                    setFilter("search", e.target.value)
-                                }
+                                onChange={(e) => setFilter("search", e.target.value)}
                                 placeholder="Пошук..."
                                 className={`
                                     transition-all duration-300 ease-in-out
                                     bg-white rounded-none md:rounded-[12px]
                                     py-3 px-4 text-[#686870]
-                                    focus:outline-none focus:ring-2 focus:ring-blue-500
+                                    focus:outline-none focus:ring-2 focus:ring-orange-200
                                     ${open
                                         ? "md:w-64 md:opacity-100 md:ml-3"
                                         : "md:w-0 md:opacity-0 md:ml-0 md:p-0 md:border-0"
                                     }
-                                    w-full
-                                    overflow-hidden
+                                    w-full overflow-hidden
                                 `}
                             />
                         </div>
@@ -128,34 +123,31 @@ export function CatalogPage() {
                     <div className="flex gap-3 items-center">
                         <Select
                             value={filters?.sort || ""}
-                            onValueChange={(value) =>
-                                setFilter("sort", value)
-                            }
+                            onValueChange={(value) => setFilter("sort", value)}
                         >
-                            <SelectTrigger className="bg-white rounded-[12px]   className='w-full md:w-auto'">
+                            <SelectTrigger className="bg-white rounded-[12px] w-full md:w-auto min-w-[180px]">
                                 <SelectValue placeholder="Сортувати за" />
                             </SelectTrigger>
-
                             <SelectContent className="bg-white">
                                 <SelectGroup>
-                                    <SelectItem value="price_asc">
-                                        Ціна: від дешевих
-                                    </SelectItem>
-                                    <SelectItem value="price_desc">
-                                        Ціна: від дорогих
-                                    </SelectItem>
+                                    <SelectItem value="price_asc">Ціна: від дешевих</SelectItem>
+                                    <SelectItem value="price_desc">Ціна: від дорогих</SelectItem>
                                 </SelectGroup>
                             </SelectContent>
                         </Select>
                     </div>
                 </div>
 
+                {/* Активні фільтри */}
                 {hasActiveFilters && (
                     <div className="flex flex-wrap items-center gap-2 mb-6 -mt-3">
                         {filters?.category && (
                             <span className="flex items-center gap-1.5 bg-orange-50 text-orange-500 border border-orange-200 text-[13px] font-medium px-3 py-1.5 rounded-full">
                                 {productCategoryList.find(c => c.value === filters.category)?.label ?? filters.category}
-                                <button onClick={() => { setFilter("category", ""); dispatch(selectCategory("")); }} className="hover:text-orange-700 transition-colors">
+                                <button
+                                    onClick={() => { setFilter("category", ""); dispatch(selectCategory("")); }}
+                                    className="hover:text-orange-700 transition-colors"
+                                >
                                     <Icon name="close" size={12} />
                                 </button>
                             </span>
@@ -185,40 +177,63 @@ export function CatalogPage() {
                     </div>
                 )}
 
+                {/* Контент */}
                 <div className="relative min-h-[400px]">
-                    {showInitialLoader && (
-                        <div className="absolute inset-0 flex items-center justify-center">
-                            <div className="text-lg text-gray-600">
-                                Завантаження...
-                            </div>
-                        </div>
+                    {/* Overlay під час refetch */}
+                    {showFetchingOverlay && (
+                        <div className="absolute inset-0 bg-white/60 z-10 rounded-[16px]" />
                     )}
 
-                    {showFetchingLoader && (
-                        <div className="absolute inset-0 flex items-center justify-center bg-white/70 z-10">
-                            <div className="text-lg text-gray-600">
-                                Завантаження...
-                            </div>
-                        </div>
-                    )}
-
+                    {/* Помилка */}
                     {error && (
-                        <div className="text-center py-10 text-red-600">
-                            Помилка завантаження продуктів.
+                        <div className="flex flex-col items-center justify-center py-20 gap-3">
+                            <p className="text-[#686870] text-[16px]">Не вдалося завантажити продукти</p>
+                            <button
+                                onClick={() => window.location.reload()}
+                                className="button-element"
+                            >
+                                Спробувати знову
+                            </button>
                         </div>
                     )}
 
-                    {!error && !isLoading && data && data.length === 0 && (
-                        <div className="text-center py-10 text-gray-600">
-                            Продукти не знайдено
+                    {/* Skeleton */}
+                    {showSkeletons && (
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+                            {Array.from({ length: 6 }).map((_, i) => (
+                                <ProductSkeleton key={i} />
+                            ))}
                         </div>
                     )}
 
-                    <div className={`grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 ${showFetchingLoader ? 'opacity-50' : ''}`}>
-                        {!isLoading && !error && data?.map((el: any) => (
-                            <ProductItem key={el._id} data={el} />
-                        ))}
-                    </div>
+                    {/* Порожній стан */}
+                    {isEmpty && (
+                        <div className="flex flex-col items-center justify-center py-20 gap-4 text-center">
+                            <div className="text-5xl">🔍</div>
+                            <div>
+                                <p className="text-[18px] font-semibold text-black mb-1">Нічого не знайдено</p>
+                                <p className="text-[14px] text-[#686870]">
+                                    {filters?.search
+                                        ? `За запитом «${filters.search}» нічого немає. Спробуйте інше слово.`
+                                        : "Спробуйте змінити фільтри"}
+                                </p>
+                            </div>
+                            {hasActiveFilters && (
+                                <button onClick={handleClearFilters} className="button-element">
+                                    Скинути фільтри
+                                </button>
+                            )}
+                        </div>
+                    )}
+
+                    {/* Список продуктів */}
+                    {!isLoading && !error && data && data.length > 0 && (
+                        <div className={`grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 transition-opacity ${showFetchingOverlay ? "opacity-50" : "opacity-100"}`}>
+                            {data.map((el: any) => (
+                                <ProductItem key={el._id} data={el} />
+                            ))}
+                        </div>
+                    )}
                 </div>
             </div>
         </div>

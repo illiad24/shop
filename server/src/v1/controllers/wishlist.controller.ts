@@ -18,7 +18,9 @@ export class WishlistController {
       const user = await UserModel.findById(req.user!.id);
       if (!user) return res.status(404).json({ message: "User not found" });
 
-      const index = user.wishlist.findIndex((id) => id.toString() === productId);
+      const index = user.wishlist.findIndex(
+        (id) => id.toString() === productId,
+      );
       if (index >= 0) {
         user.wishlist.splice(index, 1);
       } else {

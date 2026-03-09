@@ -11,6 +11,8 @@ import {
     Search,
     MapPin,
     History,
+    Eye,
+    EyeOff,
 } from "lucide-react";
 
 const iconMap = {
@@ -25,7 +27,9 @@ const iconMap = {
     edit: SquarePen,
     search: Search,
     location: MapPin,
-    history: History
+    history: History,
+    eye: Eye,
+    eyeOff: EyeOff,
 } as const;
 
 type IconName = keyof typeof iconMap;

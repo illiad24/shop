@@ -32,7 +32,13 @@ export function Address() {
         setShowForm(false);
     }
 
-    if (isLoading) return <div>Loading...</div>;
+    if (isLoading) return (
+        <div className="flex flex-col gap-3">
+            {Array.from({ length: 2 }).map((_, i) => (
+                <div key={i} className="animate-pulse border border-gray-100 rounded-[12px] p-4 h-20 bg-gray-100" />
+            ))}
+        </div>
+    );
 
     return (
         <div className="bg-white p-5 rounded-[12px]">
