@@ -43,6 +43,7 @@ export function BagItem({ item }: { item: CartItem | GuestCartItem }) {
                 <button
                     type="button"
                     onClick={() => handleUpdate(item.quantity - 1)}
+                    aria-label="Зменшити кількість"
                     className="w-7 h-7 flex items-center justify-center text-white bg-orange-1 rounded-[7px] hover:bg-orange-1/80 transition-colors font-bold"
                 >
                     −
@@ -53,6 +54,7 @@ export function BagItem({ item }: { item: CartItem | GuestCartItem }) {
                 <button
                     type="button"
                     onClick={() => handleUpdate(item.quantity + 1)}
+                    aria-label="Збільшити кількість"
                     className="w-7 h-7 flex items-center justify-center text-white bg-orange-1 rounded-[7px] hover:bg-orange-1/80 transition-colors font-bold"
                 >
                     +
@@ -60,6 +62,7 @@ export function BagItem({ item }: { item: CartItem | GuestCartItem }) {
                 <button
                     type="button"
                     onClick={handleRemove}
+                    aria-label="Видалити товар з кошика"
                     className="text-[#d2d2d7] hover:text-orange-1 transition-colors"
                 >
                     <Icon name="close" />

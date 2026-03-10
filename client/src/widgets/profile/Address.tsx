@@ -5,6 +5,7 @@ import {
     useRemoveAddressMutation,
 } from "@/entities/address/api/addressApi";
 import { EmptyFiledInfo } from "./EmptyFiledInfo";
+import { toast } from "sonner";
 
 export function Address() {
     const { data: addresses = [], isLoading } = useGetAddressesQuery();
@@ -12,6 +13,7 @@ export function Address() {
     const [removeAddress] = useRemoveAddressMutation();
 
     const [showForm, setShowForm] = useState(false);
+    const [confirmDeleteId, setConfirmDeleteId] = useState<string | null>(null);
     const [form, setForm] = useState({
         city: "",
         street: "",
@@ -30,6 +32,13 @@ export function Address() {
         await addAddress(form);
         setForm({ city: "", street: "", apartment: "", postalCode: "", recipientName: "" });
         setShowForm(false);
+        toast.success("Адресу збережено");
+    }
+
+    async function handleRemoveAddress(id: string) {
+        await removeAddress(id);
+        setConfirmDeleteId(null);
+        toast.success("Адресу видалено");
     }
 
     if (isLoading) return (
@@ -140,12 +149,31 @@ export function Address() {
                                     {addr.postalCode ? `, ${addr.postalCode}` : ""}
                                 </div>
                             </div>
-                            <button
-                                onClick={() => removeAddress(addr._id)}
-                                className="text-[#686870] hover:text-red-500 transition-all text-[13px] shrink-0 ml-4"
-                            >
-                                Видалити
-                            </button>
+
+                            {confirmDeleteId === addr._id ? (
+                                <div className="flex items-center gap-2 shrink-0 ml-4">
+                                    <span className="text-[13px] text-[#686870]">Видалити?</span>
+                                    <button
+                                        onClick={() => handleRemoveAddress(addr._id)}
+                                        className="text-[13px] text-red-500 font-semibold hover:text-red-700 transition-all"
+                                    >
+                                        Так
+                                    </button>
+                                    <button
+                                        onClick={() => setConfirmDeleteId(null)}
+                                        className="text-[13px] text-[#686870] hover:text-black transition-all"
+                                    >
+                                        Ні
+                                    </button>
+                                </div>
+                            ) : (
+                                <button
+                                    onClick={() => setConfirmDeleteId(addr._id)}
+                                    className="text-[#686870] hover:text-red-500 transition-all text-[13px] shrink-0 ml-4"
+                                >
+                                    Видалити
+                                </button>
+                            )}
                         </div>
                     ))}
                 </div>

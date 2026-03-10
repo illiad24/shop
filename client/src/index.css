@@ -87,9 +87,9 @@ html {
 }
 
 @utility input {
-    @apply bg-[#f5f5f7] min-h-[48px] rounded-[12px] w-full px-2.5 placeholder:text-gray text-14-gray;
+    @apply bg-[#f5f5f7] min-h-[48px] rounded-[12px] w-full px-2.5 placeholder:text-gray text-gray text-[16px] leading-[1.5];
 }
 
 @utility textarea {
-    @apply bg-[#f5f5f7] min-h-[100px] rounded-[12px] w-full px-2.5 placeholder:text-gray text-14-gray;
+    @apply bg-[#f5f5f7] min-h-[100px] rounded-[12px] w-full px-2.5 placeholder:text-gray text-gray text-[16px] leading-[1.5];
 }

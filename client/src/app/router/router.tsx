@@ -1,27 +1,32 @@
 import { createBrowserRouter } from "react-router";
+import { lazy } from "react";
 import { MainLayout } from "../../widgets/layouts";
-import { HomePage } from "../../pages/HomePage";
 import { GlobalErrorPage } from "../../pages/GlobalErrorPage";
 import { PageNotFound } from "../../pages/PageNotFound";
-import { DeliveryPage } from "../../pages/DeliveryPage.tsx";
-import { AboutPage } from "../../pages/AboutPage.tsx";
-import { ProductDetailsPage } from "../../pages/ProductDetailsPage.tsx";
-import { AdminProductsPage } from "../../pages/admin/AdminProductsPage.tsx";
 import { authCheckLoader } from "./authCheckLoader.ts";
 import { AdminLoginPage } from "../../pages/admin/AdminLoginPage.tsx";
 import { AdminLayout } from "../../widgets/layouts/AdminLayout.tsx";
-import { AdminBannerPage } from "../../pages/admin/AdminBannerPage.tsx";
-import { AdminPopupPage } from "../../pages/admin/AdminPopupPage.tsx";
 import { ForbiddenPage } from "../../pages/ForbiddenPage.tsx";
 import { Mutex } from 'async-mutex'
-import { CatalogPage } from "../../pages/CatalogPage.tsx";
 
-import { Profile } from "@/pages/profile/Profile.tsx";
-import { CartPage } from "../../pages/CartPage.tsx";
-import { Favorite } from "@/widgets/profile/Favorite.tsx";
-import { OrderHistory } from "@/widgets/profile/OrderHistory.tsx";
-import { Address } from "@/widgets/profile/Address.tsx";
-import { OrderPage } from "@/pages/OrderPage.tsx";
+// Lazy-loaded pages (code splitting — кожна сторінка завантажується окремо)
+const HomePage = lazy(() => import("../../pages/HomePage").then(({ HomePage }) => ({ default: HomePage })));
+const DeliveryPage = lazy(() => import("../../pages/DeliveryPage").then(({ DeliveryPage }) => ({ default: DeliveryPage })));
+const AboutPage = lazy(() => import("../../pages/AboutPage").then(({ AboutPage }) => ({ default: AboutPage })));
+const ProductDetailsPage = lazy(() => import("../../pages/ProductDetailsPage").then(({ ProductDetailsPage }) => ({ default: ProductDetailsPage })));
+const CatalogPage = lazy(() => import("../../pages/CatalogPage").then(({ CatalogPage }) => ({ default: CatalogPage })));
+const Profile = lazy(() => import("@/pages/profile/Profile").then(({ Profile }) => ({ default: Profile })));
+const CartPage = lazy(() => import("../../pages/CartPage").then(({ CartPage }) => ({ default: CartPage })));
+const OrderPage = lazy(() => import("@/pages/OrderPage").then(({ OrderPage }) => ({ default: OrderPage })));
+const Favorite = lazy(() => import("@/widgets/profile/Favorite").then(({ Favorite }) => ({ default: Favorite })));
+const OrderHistory = lazy(() => import("@/widgets/profile/OrderHistory").then(({ OrderHistory }) => ({ default: OrderHistory })));
+const Address = lazy(() => import("@/widgets/profile/Address").then(({ Address }) => ({ default: Address })));
+
+// Admin lazy pages
+const AdminProductsPage = lazy(() => import("../../pages/admin/AdminProductsPage").then(({ AdminProductsPage }) => ({ default: AdminProductsPage })));
+const AdminBannerPage = lazy(() => import("../../pages/admin/AdminBannerPage").then(({ AdminBannerPage }) => ({ default: AdminBannerPage })));
+const AdminPopupPage = lazy(() => import("../../pages/admin/AdminPopupPage").then(({ AdminPopupPage }) => ({ default: AdminPopupPage })));
+
 const mutex = new Mutex();
 type roles = 'ADMIN' | 'USER'
 const adminRoles: roles[] = ['ADMIN'];
@@ -136,4 +141,3 @@ export const router = createBrowserRouter([
         Component: ForbiddenPage
     }
 ])
-

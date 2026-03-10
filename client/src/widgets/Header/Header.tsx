@@ -101,15 +101,20 @@ export function Header() {
                                 <Icon name="user" />
                             </NavLink>
                         </AuthAction>
-                        <div onClick={() => setMenuOpen(!menuOpen)} className="text-gray text-[20px] p-2.5 border md:hidden flex rounded-[12px]  border-[#d2d2d7] transition-all hover:border-orange-1 hover:text-orange-1" >
+                        <button
+                            onClick={() => setMenuOpen(!menuOpen)}
+                            aria-label={menuOpen ? "Закрити меню" : "Відкрити меню"}
+                            aria-expanded={menuOpen}
+                            className="text-gray text-[20px] p-2.5 border md:hidden flex rounded-[12px] border-[#d2d2d7] transition-all hover:border-orange-1 hover:text-orange-1"
+                        >
                             <Icon name="menu" className={menuOpen ? "hidden" : "block"} />
                             <Icon name="close" className={menuOpen ? "block" : "hidden"} />
-                        </div>
+                        </button>
 
-                        <div onClick={() => dispatch(toggleBag())} className=" cursor-pointer text-gray text-[20px] md:flex hidden  py-2.5 px-5 border rounded-[12px]  border-[#d2d2d7] flex items-center gap-2 transition-all hover:border-orange- hover:text-orange-1">
+                        <button onClick={() => dispatch(toggleBag())} aria-label="Відкрити кошик" className="cursor-pointer text-gray text-[20px] md:flex hidden py-2.5 px-5 border rounded-[12px] border-[#d2d2d7] items-center gap-2 transition-all hover:border-orange-1 hover:text-orange-1">
                             <span className="text-[14px]">Кошик</span>
                             <Icon name="bag" />
-                        </div>
+                        </button>
                     </div>
                 </div>
                 <div className={` menuOpen:hidden overflow-auto md:hidden fixed top-0  transition-all w-full h-full bg-[#fbfbfb] py-30 px-4 ${menuOpen ? "left-0" : "left-[100%]"}`}>

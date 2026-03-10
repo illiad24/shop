@@ -70,7 +70,8 @@ export function ProductItem({ data }: { data: ProductType }) {
 
     async function addToFavorite(id: string) {
         try {
-            await toggleWishlist(id)
+            await toggleWishlist(id);
+            toast.success(inWishlist ? "Видалено з обраних" : "Додано до обраних");
         } catch (error) {
             console.log(error)
         }
@@ -83,8 +84,8 @@ export function ProductItem({ data }: { data: ProductType }) {
                     <div className="absolute p-2 z-3 top-2.5 py-1 px-2.5 left-4 rounded-[8px] bg-main text-white font-medium text-[14px]">{data.label}</div>
                     : ''
                 }
-                <Link to={navigateRoutes.navigate.products.getProductById(data._id)} className="relative block pb-[70%]"><img className="absolute-element object-cover rounded-[20px]" src={data.image || "/footer.png"} alt={data.title} /></Link>
-                <button onClick={() => addToFavorite(data._id)} className="absolute p-2 z-3 top-2.5 right-4 w-8 h-8 flex justify-center items-center bg-[#f5f5f7] rounded-[8px] cursor-pointer">
+                <Link to={navigateRoutes.navigate.products.getProductById(data._id)} className="relative block pb-[70%]"><img className="absolute-element object-cover rounded-[20px]" src={data.image || "/footer.png"} alt={data.title} loading="lazy" /></Link>
+                <button onClick={() => addToFavorite(data._id)} aria-label={inWishlist ? "Видалити з обраних" : "Додати до обраних"} className="absolute p-2 z-3 top-2.5 right-4 w-8 h-8 flex justify-center items-center bg-[#f5f5f7] rounded-[8px] cursor-pointer">
                     <Icon name='favorite' className="text-orange-1 transition-colors" filled={inWishlist} />
                 </button>
             </div>
