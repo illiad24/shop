@@ -77,6 +77,14 @@ const orderApi = baseApi.injectEndpoints({
         method: "POST",
       }),
     }),
+    updateOrderStatus: build.mutation<Order, { orderId: string; status: string }>({
+      query: ({ orderId, status }) => ({
+        url: apiRoutes.orders.updateStatus(orderId),
+        method: "PATCH",
+        body: { status },
+      }),
+      invalidatesTags: ["Order"],
+    }),
   }),
 });
 
@@ -85,4 +93,5 @@ export const {
   useGetMyOrdersQuery,
   useGetAllOrdersQuery,
   useInitiateCheckoutMutation,
+  useUpdateOrderStatusMutation,
 } = orderApi;

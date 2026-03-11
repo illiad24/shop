@@ -1,12 +1,6 @@
 import { useState, useMemo } from "react";
-import { useGetAllOrdersQuery } from "@/entities/order/api/orderApi";
-
-const statusLabel: Record<string, string> = {
-    pending: "Очікує",
-    processing: "В обробці",
-    delivered: "Доставлено",
-    cancelled: "Скасовано",
-};
+import { useGetAllOrdersQuery, useUpdateOrderStatusMutation } from "@/entities/order/api/orderApi";
+import { toast } from "sonner";
 
 const statusColor: Record<string, string> = {
     pending: "bg-yellow-100 text-yellow-700",
@@ -46,10 +40,18 @@ const STATUS_FILTERS = [
     { value: "cancelled", label: "Скасовано" },
 ];
 
+const STATUS_OPTIONS = [
+    { value: "pending", label: "Очікує" },
+    { value: "processing", label: "В обробці" },
+    { value: "delivered", label: "Доставлено" },
+    { value: "cancelled", label: "Скасовано" },
+];
+
 const PER_PAGE = 10;
 
 export function AdminOrdersPage() {
     const { data: orders = [], isLoading } = useGetAllOrdersQuery();
+    const [updateStatus] = useUpdateOrderStatusMutation();
     const [statusFilter, setStatusFilter] = useState("all");
     const [sortDate, setSortDate] = useState("desc");
     const [page, setPage] = useState(1);
@@ -68,6 +70,15 @@ export function AdminOrdersPage() {
 
     const totalPages = Math.ceil(filtered.length / PER_PAGE);
     const paginated = filtered.slice((page - 1) * PER_PAGE, page * PER_PAGE);
+
+    async function handleStatusChange(orderId: string, status: string) {
+        try {
+            await updateStatus({ orderId, status }).unwrap();
+            toast.success("Статус оновлено");
+        } catch {
+            toast.error("Не вдалося оновити статус");
+        }
+    }
 
     if (isLoading) {
         return <div className="text-14-gray">Завантаження...</div>;
@@ -129,13 +140,19 @@ export function AdminOrdersPage() {
                                     {order.deliveryAddress.firstName} {order.deliveryAddress.lastName} · {order.deliveryAddress.phone}
                                 </div>
                             </div>
-                            <div className="flex gap-2 flex-wrap">
-                                <span className={`text-[12px] font-semibold px-3 py-1 rounded-full ${statusColor[order.status]}`}>
-                                    {statusLabel[order.status]}
-                                </span>
+                            <div className="flex gap-2 flex-wrap items-center">
                                 <span className={`text-[12px] font-semibold px-3 py-1 rounded-full ${paymentStatusColor[order.paymentStatus]}`}>
                                     {paymentStatusLabel[order.paymentStatus]}
                                 </span>
+                                <select
+                                    value={order.status}
+                                    onChange={(e) => handleStatusChange(order._id, e.target.value)}
+                                    className={`text-[12px] font-semibold px-3 py-1 rounded-full border-0 cursor-pointer outline-none ${statusColor[order.status]}`}
+                                >
+                                    {STATUS_OPTIONS.map((opt) => (
+                                        <option key={opt.value} value={opt.value}>{opt.label}</option>
+                                    ))}
+                                </select>
                             </div>
                         </div>
 

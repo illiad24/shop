@@ -3,12 +3,29 @@ import path from "path";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import helmet from "helmet";
+import rateLimit from "express-rate-limit";
 import type { Express, Request } from "express";
 import config from "../config";
 
 export interface RawBodyRequest extends Request {
   rawBody?: Buffer;
 }
+
+const authLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 20,
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+
+const orderLimiter = rateLimit({
+  windowMs: 60 * 1000,
+  max: 10,
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+
+export { authLimiter, orderLimiter };
 
 const middleware = (app: Express) => {
   app.use(helmet());

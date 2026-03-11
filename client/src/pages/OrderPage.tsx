@@ -11,6 +11,7 @@ import { useCreateOrderMutation, useInitiateCheckoutMutation } from "@/entities/
 import { useCart } from "@/shared/hooks/useCart";
 import { guestClearCart } from "@/features/guestCart/guestCartSlice";
 import { useAuthModal } from "@/shared/providers/AuthModalProvider";
+import { toast } from "sonner";
 
 type DeliveryType = "pickup" | "delivery" | "courier";
 type PaymentType = "cash" | "online";
@@ -104,8 +105,9 @@ export function OrderPage() {
                 if (isGuest) dispatch(guestClearCart());
                 setIsOrderPlaced(true);
             }
-        } catch (err) {
-            console.error("Order error:", err);
+        } catch (err: any) {
+            const message = err?.data?.message ?? "Помилка при оформленні замовлення";
+            toast.error(message);
         }
     }
 
