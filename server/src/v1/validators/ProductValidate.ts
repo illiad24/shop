@@ -80,10 +80,6 @@ export const productValidate = checkSchema({
     toInt: true,
   },
   label: {
-    in: ["body"],
-    exists: {
-      errorMessage: "Description is required",
-    },
     isString: {
       errorMessage: "Description must be a string",
     },

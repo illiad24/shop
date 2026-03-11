@@ -25,10 +25,9 @@ const deliveryLabel = {
     courier: "Кур'єр",
 };
 
-const paymentLabel = {
-    card: "Карткою",
-    online: "Онлайн",
-    monobank: "Monobank",
+const paymentLabel: Record<string, string> = {
+    cash: "Готівка",
+    online: "Онлайн (Stripe)",
 };
 
 const STATUS_FILTERS = [

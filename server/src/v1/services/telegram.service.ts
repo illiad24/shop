@@ -25,7 +25,6 @@ function paymentLabel(type: string) {
   const map: Record<string, string> = {
     cash: "Готівка",
     online: "Онлайн (Stripe)",
-    monobank: "Monobank",
   };
   return map[type] ?? type;
 }

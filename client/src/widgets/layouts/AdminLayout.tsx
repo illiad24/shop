@@ -44,6 +44,10 @@ export function AdminLayout() {
                             <div><Icon name="logout" className="text-2xl" /></div>
                             <div>Товари</div>
                         </NavLink>
+                        <NavLink to='/admin/orders' className={({ isActive }) => `p-3 rounded-[12px] mb-3 last:mb-0 text-black flex items-center gap-4 transition-all hover:bg-blue hover:text-white ${isActive ? 'bg-main text-white' : ''}`}>
+                            <div><Icon name="logout" className="text-2xl" /></div>
+                            <div>Замовлення</div>
+                        </NavLink>
                         <NavLink to='/admin/banner' className={({ isActive }) => `p-3 rounded-[12px] mb-3 last:mb-0 text-black flex items-center gap-4 transition-all hover:bg-blue hover:text-white ${isActive ? 'bg-main text-white' : ''}`}>
                             <div><Icon name="logout" className="text-2xl" /></div>
                             <div>Банери</div>

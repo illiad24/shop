@@ -43,8 +43,6 @@ export function OrderPage() {
 
     const [createOrder, { isLoading: isCreating }] = useCreateOrderMutation();
 
-
-
     const {
         register,
         handleSubmit,
@@ -73,12 +71,7 @@ export function OrderPage() {
     const productTotal = cartItems.reduce((sum: number, item) => sum + item.productId.price * item.quantity, 0);
     const total = productTotal + deliveryCost;
     const { openLogin } = useAuthModal();
-
-
-
     const [initiateCheckout] = useInitiateCheckoutMutation();
-
-
 
     async function onSubmit(data: OrderFormData) {
         try {
@@ -108,7 +101,6 @@ export function OrderPage() {
                 const { url } = await initiateCheckout(order._id).unwrap();
                 window.location.href = url;
             } else {
-                // Cash payment: clear guest cart locally and show success state
                 if (isGuest) dispatch(guestClearCart());
                 setIsOrderPlaced(true);
             }

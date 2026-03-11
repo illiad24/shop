@@ -2,6 +2,7 @@ import { Response } from "express";
 import { AuthRequest } from "../../middlewares/auth";
 import OrderModel from "../models/Order/order.model";
 import CartModel from "../models/Cart/cart.model";
+import ProductModel from "../models/Product/product.model";
 import { sendOrderNotification } from "../services/telegram.service";
 
 export class OrderController {
@@ -29,6 +30,13 @@ export class OrderController {
           return res.status(400).json({ message: "Cart is empty" });
         }
 
+        for (const item of cart.items) {
+          const product = item.productId as any;
+          if (product.stockPortions < item.quantity) {
+            return res.status(400).json({ message: `Недостатньо товару: ${product.title}` });
+          }
+        }
+
         const items = cart.items.map((item) => {
           const product = item.productId as any;
           return { productId: product._id, title: product.title, price: product.price, quantity: item.quantity };
@@ -40,6 +48,12 @@ export class OrderController {
           userId: req.user.id, items, deliveryAddress, deliveryType, paymentType,
           comment: comment ?? "", deliveryCost, productTotal, total: productTotal + deliveryCost,
         });
+
+        for (const item of cart.items) {
+          await ProductModel.findByIdAndUpdate((item.productId as any)._id, {
+            $inc: { stockPortions: -item.quantity },
+          });
+        }
 
         if (paymentType === "cash") {
           cart.items = [] as any;
@@ -54,6 +68,16 @@ export class OrderController {
         return res.status(400).json({ message: "Cart is empty" });
       }
 
+      const guestProductIds = guestItems.map((i) => i.productId);
+      const products = await ProductModel.find({ _id: { $in: guestProductIds } });
+
+      for (const guestItem of guestItems) {
+        const product = products.find((p) => p._id.toString() === guestItem.productId);
+        if (!product || product.stockPortions < guestItem.quantity) {
+          return res.status(400).json({ message: `Недостатньо товару: ${product?.title ?? guestItem.productId}` });
+        }
+      }
+
       const productTotal = guestItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
       const order = await OrderModel.create({
@@ -61,10 +85,25 @@ export class OrderController {
         comment: comment ?? "", deliveryCost, productTotal, total: productTotal + deliveryCost,
       });
 
+      for (const guestItem of guestItems) {
+        await ProductModel.findByIdAndUpdate(guestItem.productId, {
+          $inc: { stockPortions: -guestItem.quantity },
+        });
+      }
+
       if (paymentType === "cash") {
         sendOrderNotification(order).catch(() => {});
       }
       return res.status(201).json(order);
+    } catch {
+      res.status(500).json({ message: "Internal server error" });
+    }
+  }
+
+  static async getAll(_req: AuthRequest, res: Response) {
+    try {
+      const orders = await OrderModel.find().sort({ createdAt: -1 });
+      res.json(orders);
     } catch {
       res.status(500).json({ message: "Internal server error" });
     }

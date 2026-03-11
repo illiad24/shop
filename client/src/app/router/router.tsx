@@ -28,6 +28,7 @@ const Address = lazy(() => import("@/widgets/profile/Address").then(({ Address }
 const AdminProductsPage = lazy(() => import("../../pages/admin/AdminProductsPage").then(({ AdminProductsPage }) => ({ default: AdminProductsPage })));
 const AdminBannerPage = lazy(() => import("../../pages/admin/AdminBannerPage").then(({ AdminBannerPage }) => ({ default: AdminBannerPage })));
 const AdminPopupPage = lazy(() => import("../../pages/admin/AdminPopupPage").then(({ AdminPopupPage }) => ({ default: AdminPopupPage })));
+const AdminOrdersPage = lazy(() => import("../../pages/admin/AdminOrdersPage").then(({ AdminOrdersPage }) => ({ default: AdminOrdersPage })));
 
 const mutex = new Mutex();
 type roles = 'ADMIN' | 'USER'
@@ -130,6 +131,10 @@ export const router = createBrowserRouter([
             {
                 index: true,
                 Component: AdminProductsPage,
+            },
+            {
+                path: 'orders',
+                Component: AdminOrdersPage,
             },
             {
                 path: 'banner',

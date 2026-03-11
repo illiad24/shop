@@ -48,15 +48,11 @@ export class StripeController {
   static async handleWebhook(req: RawBodyRequest, res: Response) {
     const signature = req.headers["stripe-signature"] as string;
 
-    console.log("[Stripe webhook] received event");
-
     if (!signature) {
-      console.error("[Stripe webhook] missing stripe-signature header");
       return res.status(400).json({ message: "Missing stripe-signature header" });
     }
 
     if (!req.rawBody) {
-      console.error("[Stripe webhook] rawBody is missing");
       return res.status(400).json({ message: "Raw body not available" });
     }
 
@@ -64,15 +60,11 @@ export class StripeController {
     try {
       event = constructWebhookEvent(req.rawBody, signature);
     } catch (error: any) {
-      console.error("[Stripe webhook] signature verification failed:", error.message);
       return res.status(400).json({ message: `Webhook Error: ${error.message}` });
     }
 
-    console.log("[Stripe webhook] event type:", event.type);
-
     if (event.type === "checkout.session.completed") {
       const session = event.data.object as any;
-      console.log("[Stripe webhook] session id:", session.id);
 
       try {
         const order = await OrderModel.findOneAndUpdate(
@@ -84,14 +76,8 @@ export class StripeController {
           { new: true },
         );
 
-        if (!order) {
-          console.error("[Stripe webhook] order not found for session:", session.id);
-        } else {
-          console.log("[Stripe webhook] order updated, sending Telegram notification...");
-          await sendOrderNotification(order).catch((err) => {
-            console.error("[Stripe webhook] Telegram notification failed:", err);
-          });
-          console.log("[Stripe webhook] Telegram notification sent");
+        if (order) {
+          await sendOrderNotification(order).catch(() => {});
 
           if (order.userId) {
             await CartModel.findOneAndUpdate(
@@ -100,8 +86,7 @@ export class StripeController {
             ).catch(() => {});
           }
         }
-      } catch (error) {
-        console.error("[Stripe webhook] failed to update order:", error);
+      } catch {
         return res.status(200).json({ received: true });
       }
     }

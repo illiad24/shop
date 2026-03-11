@@ -43,7 +43,7 @@ export interface Order {
     email: string;
   };
   deliveryType: "pickup" | "delivery" | "courier";
-  paymentType: "cash" | "online" | "monobank";
+  paymentType: "cash" | "online";
   comment: string;
   deliveryCost: number;
   productTotal: number;
@@ -67,6 +67,10 @@ const orderApi = baseApi.injectEndpoints({
       query: () => apiRoutes.orders.myOrders,
       providesTags: ["Order"],
     }),
+    getAllOrders: build.query<Order[], void>({
+      query: () => apiRoutes.orders.all,
+      providesTags: ["Order"],
+    }),
     initiateCheckout: build.mutation<{ url: string }, string>({
       query: (orderId) => ({
         url: apiRoutes.stripe.checkout(orderId),
@@ -79,5 +83,6 @@ const orderApi = baseApi.injectEndpoints({
 export const {
   useCreateOrderMutation,
   useGetMyOrdersQuery,
+  useGetAllOrdersQuery,
   useInitiateCheckoutMutation,
 } = orderApi;

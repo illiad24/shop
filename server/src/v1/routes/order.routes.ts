@@ -9,6 +9,7 @@ import { validateRequest } from "../../middlewares/validator";
 const router = Router();
 
 router.post("/", optionalAuth, createOrderValidate, validateRequest, OrderController.create);
+router.get("/", auth, requireRole([UserRole.ADMIN]), OrderController.getAll);
 router.get("/my", auth, OrderController.getMyOrders);
 router.patch("/:id/status", auth, requireRole([UserRole.ADMIN]), OrderController.updateStatus);
 
