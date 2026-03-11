@@ -7,13 +7,13 @@ import { BagItem } from "@/features/bag/ui/BagItem";
 import { useSelector, useDispatch } from "react-redux";
 import { selectAuthUser, selectAuthLoading } from "@/features/auth/api/authSlice";
 import { useMeQuery } from "@/features/auth/api/authApi";
-import { useCreateOrderMutation } from "@/entities/order/api/orderApi";
+import { useCreateOrderMutation, useInitiateCheckoutMutation } from "@/entities/order/api/orderApi";
 import { useCart } from "@/shared/hooks/useCart";
 import { guestClearCart } from "@/features/guestCart/guestCartSlice";
 import { useAuthModal } from "@/shared/providers/AuthModalProvider";
 
 type DeliveryType = "pickup" | "delivery" | "courier";
-type PaymentType = "card" | "online" | "monobank";
+type PaymentType = "cash" | "online";
 type LocationType = "village" | "city";
 
 interface OrderFormData {
@@ -41,7 +41,9 @@ export function OrderPage() {
     const { data: userInfo } = useMeQuery(undefined, { skip: authLoading || !user });
     const { items: cartItems, isLoading, isGuest } = useCart();
 
-    const [createOrder, { isLoading: isCreating, isSuccess }] = useCreateOrderMutation();
+    const [createOrder, { isLoading: isCreating }] = useCreateOrderMutation();
+
+
 
     const {
         register,
@@ -65,17 +67,22 @@ export function OrderPage() {
         }
     }, [userInfo, reset]);
 
-
-
     const regulaminChecked = watch("regulamin");
 
     const deliveryCost = deliveryType === "pickup" ? 0 : deliveryType === "delivery" ? 140 : 180;
     const productTotal = cartItems.reduce((sum: number, item) => sum + item.productId.price * item.quantity, 0);
     const total = productTotal + deliveryCost;
     const { openLogin } = useAuthModal();
+
+
+
+    const [initiateCheckout] = useInitiateCheckoutMutation();
+
+
+
     async function onSubmit(data: OrderFormData) {
         try {
-            await createOrder({
+            const order = await createOrder({
                 firstName: data.firstName,
                 lastName: data.lastName,
                 companyName: data.companyName,
@@ -97,8 +104,14 @@ export function OrderPage() {
                     })),
                 }),
             }).unwrap();
-            if (isGuest) dispatch(guestClearCart());
-            setIsOrderPlaced(true);
+            if (paymentType === 'online') {
+                const { url } = await initiateCheckout(order._id).unwrap();
+                window.location.href = url;
+            } else {
+                // Cash payment: clear guest cart locally and show success state
+                if (isGuest) dispatch(guestClearCart());
+                setIsOrderPlaced(true);
+            }
         } catch (err) {
             console.error("Order error:", err);
         }
@@ -107,8 +120,7 @@ export function OrderPage() {
     return (
         <div className="pt-10 md:pt-45 pb-20">
             <div className="container">
-                {!isSuccess ?
-
+                {!isOrderPlaced ?
                     <div className="grid grid-cols-1 lg:grid-cols-[1fr_420px] gap-6 items-start">
 
                         <div className="flex flex-col gap-4">
@@ -293,9 +305,8 @@ export function OrderPage() {
                                 <h2 className="section-title-24">Оплата</h2>
                                 <div className="flex flex-col gap-3">
                                     {([
-                                        { value: "card", label: "Карткою" },
-                                        { value: "online", label: "Онлайн оплата" },
-                                        { value: "monobank", label: "Monobank" },
+                                        { value: "cash", label: "Готівка" },
+                                        { value: "online", label: "Онлайн оплата" }
                                     ] as { value: PaymentType; label: string }[]).map((opt) => (
                                         <label key={opt.value} className="flex items-center gap-2 cursor-pointer">
                                             <input

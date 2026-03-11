@@ -23,8 +23,8 @@ function deliveryLabel(type: string) {
 
 function paymentLabel(type: string) {
   const map: Record<string, string> = {
-    card: "Картка",
-    online: "Онлайн",
+    cash: "Готівка",
+    online: "Онлайн (Stripe)",
     monobank: "Monobank",
   };
   return map[type] ?? type;

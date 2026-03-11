@@ -19,7 +19,7 @@ export interface CreateOrderBody {
   locationType: "village" | "city";
   paczkomat?: string;
   deliveryType: "pickup" | "delivery" | "courier";
-  paymentType: "card" | "online" | "monobank";
+  paymentType: "cash" | "online";
   comment?: string;
   items?: GuestOrderItem[];
 }
@@ -43,18 +43,19 @@ export interface Order {
     email: string;
   };
   deliveryType: "pickup" | "delivery" | "courier";
-  paymentType: "card" | "online" | "monobank";
+  paymentType: "cash" | "online" | "monobank";
   comment: string;
   deliveryCost: number;
   productTotal: number;
   total: number;
   status: "pending" | "processing" | "delivered" | "cancelled";
+  paymentStatus: "unpaid" | "paid" | "failed";
   createdAt: string;
 }
 
 const orderApi = baseApi.injectEndpoints({
   endpoints: (build) => ({
-    createOrder: build.mutation<void, CreateOrderBody>({
+    createOrder: build.mutation<Order, CreateOrderBody>({
       query: (body) => ({
         url: apiRoutes.orders.create,
         method: "POST",
@@ -66,7 +67,17 @@ const orderApi = baseApi.injectEndpoints({
       query: () => apiRoutes.orders.myOrders,
       providesTags: ["Order"],
     }),
+    initiateCheckout: build.mutation<{ url: string }, string>({
+      query: (orderId) => ({
+        url: apiRoutes.stripe.checkout(orderId),
+        method: "POST",
+      }),
+    }),
   }),
 });
 
-export const { useCreateOrderMutation, useGetMyOrdersQuery } = orderApi;
+export const {
+  useCreateOrderMutation,
+  useGetMyOrdersQuery,
+  useInitiateCheckoutMutation,
+} = orderApi;

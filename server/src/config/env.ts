@@ -26,4 +26,7 @@ export default Object.freeze({
   databaseName: required("DATABASE_NAME"),
   mongoURI: `${required("MONGODB_URL")}/${required("DATABASE_NAME")}`,
   corsOrigins,
+  stripeSecretKey: required("STRIPE_SECRET_KEY"),
+  stripeWebhookSecret: required("STRIPE_WEBHOOK_SECRET"),
+  clientUrl: process.env.CLIENT_URL ?? "http://localhost:5173",
 });

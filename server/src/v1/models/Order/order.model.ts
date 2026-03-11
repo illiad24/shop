@@ -27,7 +27,11 @@ const orderSchema = new Schema(
       postalCode: { type: String, required: true },
       phone: { type: String, required: true },
       email: { type: String, required: true },
-      locationType: { type: String, enum: ["village", "city"], default: "city" },
+      locationType: {
+        type: String,
+        enum: ["village", "city"],
+        default: "city",
+      },
       paczkomat: { type: String, default: "" },
     },
     deliveryType: {
@@ -37,7 +41,7 @@ const orderSchema = new Schema(
     },
     paymentType: {
       type: String,
-      enum: ["card", "online", "monobank"],
+      enum: ["cash", "online"],
       required: true,
     },
     comment: { type: String, default: "" },
@@ -48,6 +52,15 @@ const orderSchema = new Schema(
       type: String,
       enum: ["pending", "processing", "delivered", "cancelled"],
       default: "pending",
+    },
+    stripeSessionId: {
+      type: String,
+      default: null,
+    },
+    paymentStatus: {
+      type: String,
+      enum: ["unpaid", "paid", "failed"],
+      default: "unpaid",
     },
   },
   { timestamps: true },

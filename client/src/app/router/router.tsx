@@ -18,6 +18,8 @@ const CatalogPage = lazy(() => import("../../pages/CatalogPage").then(({ Catalog
 const Profile = lazy(() => import("@/pages/profile/Profile").then(({ Profile }) => ({ default: Profile })));
 const CartPage = lazy(() => import("../../pages/CartPage").then(({ CartPage }) => ({ default: CartPage })));
 const OrderPage = lazy(() => import("@/pages/OrderPage").then(({ OrderPage }) => ({ default: OrderPage })));
+const OrderSuccessPage = lazy(() => import("../../pages/OrderSuccessPage").then(({ OrderSuccessPage }) => ({ default: OrderSuccessPage })));
+const OrderCancelPage = lazy(() => import("../../pages/OrderCancelPage").then(({ OrderCancelPage }) => ({ default: OrderCancelPage })));
 const Favorite = lazy(() => import("@/widgets/profile/Favorite").then(({ Favorite }) => ({ default: Favorite })));
 const OrderHistory = lazy(() => import("@/widgets/profile/OrderHistory").then(({ OrderHistory }) => ({ default: OrderHistory })));
 const Address = lazy(() => import("@/widgets/profile/Address").then(({ Address }) => ({ default: Address })));
@@ -101,6 +103,14 @@ export const router = createBrowserRouter([
             {
                 path: 'order',
                 Component: OrderPage
+            },
+            {
+                path: 'order/success',
+                Component: OrderSuccessPage
+            },
+            {
+                path: 'order/cancel',
+                Component: OrderCancelPage
             },
             {
                 path: '*',

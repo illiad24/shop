@@ -41,9 +41,11 @@ export class OrderController {
           comment: comment ?? "", deliveryCost, productTotal, total: productTotal + deliveryCost,
         });
 
-        cart.items = [] as any;
-        await cart.save();
-        sendOrderNotification(order).catch(() => {});
+        if (paymentType === "cash") {
+          cart.items = [] as any;
+          await cart.save();
+          sendOrderNotification(order).catch(() => {});
+        }
         return res.status(201).json(order);
       }
 
@@ -59,7 +61,9 @@ export class OrderController {
         comment: comment ?? "", deliveryCost, productTotal, total: productTotal + deliveryCost,
       });
 
-      sendOrderNotification(order).catch(() => {});
+      if (paymentType === "cash") {
+        sendOrderNotification(order).catch(() => {});
+      }
       return res.status(201).json(order);
     } catch {
       res.status(500).json({ message: "Internal server error" });
