@@ -39,8 +39,7 @@ export class StripeController {
       await order.save();
 
       return res.json({ url: session.url });
-    } catch (error) {
-      console.error("Stripe checkout error:", error);
+    } catch {
       return res.status(500).json({ message: "Failed to create checkout session" });
     }
   }

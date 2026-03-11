@@ -21,6 +21,7 @@ export const apiRoutes = {
     create: "/orders",
     myOrders: "/orders/my",
     all: "/orders",
+    updateStatus: (orderId: string) => `/orders/${orderId}/status`,
   },
   stripe: {
     checkout: (orderId: string) => `/stripe/checkout/${orderId}`,

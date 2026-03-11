@@ -5,7 +5,7 @@ import { MongooseCRUDManager } from "../utils/MongooseCRUDManager";
 
 class ProductService extends MongooseCRUDManager<IProduct> {
   async getList(filters?: any) {
-    const filter: any = {};
+    const filter: any = { isActive: true };
 
     if (filters?.search && filters.search.trim() !== "") {
       filter.title = {
