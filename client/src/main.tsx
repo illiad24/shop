@@ -6,6 +6,8 @@ import { store } from './app/store/store'
 import { AppErrorBoundary } from './app/providers/ui/AppErrorBoundary'
 import { Toaster } from 'sonner'
 
+import './i18n/i18n'
+
 import './index.css'
 import { AuthModalProvider } from './shared/providers/AuthModalProvider'
 import { AuthModals } from './shared/components/AuthModals'

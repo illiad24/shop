@@ -1,0 +1,13 @@
+{
+  "home": {
+    "title": "Welcome !",
+    "button": "Click me",
+    "description": "This is a simple example of i18next in React.",
+    "menuLabel": "Home"
+  },
+  "about": {
+    "title": "About",
+    "text": "This is the about page.",
+    "menuLabel": "About"
+  }
+}

@@ -5,22 +5,28 @@ import {
 import 'swiper/css';
 import 'swiper/css/effect-fade';
 
+import { useTranslation } from 'react-i18next';
+
+
 export function MainSection() {
+    const { t, i18n } = useTranslation();
+
     return (
         <section className="relative mb-15  ">
             <Swiper
                 modules={[EffectFade, Autoplay]}
                 spaceBetween={20}
                 slidesPerView={1}
-                autoplay={{ delay: 5000 }}
+                // autoplay={{ delay: 5000 }}
                 effect={'fade'}
                 speed={1200}
             >
-                <SwiperSlide className="relative min-h-svh flex items-center content-center pt-20">
+                <SwiperSlide className="relative min-h-svh max-md:min-h-[500px] flex items-center content-center pt-20">
                     <img className="absolute-element object-cover" src="/homepage/main/01.png" alt="Свіжі морепродукти" />
                     <div className="container relative z-40 h-full">
                         <div>
-                            <div className="max-w-[700px]">
+                            <div className="max-w-[700px] ">
+                                <h1>{t('home.title')}</h1>
                                 <h1 className="font-bold text-[36px] sm:text-[48px] lg:text-[64px] text-main mb-4 sm:mb-8 last:mb-0">Смакуйте свіжість океану</h1>
                                 <div className="text-main text-[16px] sm:text-[18px] mb-6 sm:mb-10 last:mb-0">
                                     <p>
@@ -32,7 +38,7 @@ export function MainSection() {
                         </div>
                     </div>
                 </SwiperSlide>
-                <SwiperSlide className="relative min-h-svh flex items-center content-center pt-20">
+                <SwiperSlide className="relative min-h-svh  max-md:min-h-[500px] flex items-center content-center pt-20">
                     <img className="absolute-element object-cover" src="/homepage/main/02.png" alt="Вишукані делікатеси" />
                     <div className="container relative z-40 h-full">
                         <div>
@@ -48,7 +54,7 @@ export function MainSection() {
                         </div>
                     </div>
                 </SwiperSlide>
-                <SwiperSlide className="relative min-h-svh flex items-center content-center pt-20">
+                <SwiperSlide className="relative min-h-svh max-md:min-h-[500px] flex items-center content-center pt-20">
                     <img className="absolute-element object-cover" src="/homepage/main/01.png" alt="Кулінарна досконалість" />
                     <div className="container relative z-40 h-full">
                         <div>

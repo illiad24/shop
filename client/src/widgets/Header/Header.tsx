@@ -10,6 +10,7 @@ import { AuthAction } from "@/shared/components/AuthAction";
 import { navigateRoutes } from "@/shared/config/routes/navigateRoutes";
 
 import { Link } from 'react-scroll';
+import { LanguageSwitcher } from "./LanguageSwitcher";
 
 export function Header() {
     const routesInMainMenu =
@@ -34,7 +35,6 @@ export function Header() {
             document.body.style.overflow = "";
         };
     }, [menuOpen]);
-
     return (
         <header className="relative md:absolute top-1.5  left-0 z-10 w-full  mb-5">
             <div className="px-2.5">
@@ -64,10 +64,7 @@ export function Header() {
                                     fill="#192A56">VT</text>
                             </svg>
                         </div>
-                        <div className=" gap-2 items-center md:flex hidden">
-                            <div><img src="/header/flag.png" alt="Image" /></div>
-                            <div>ua</div>
-                        </div>
+                        <LanguageSwitcher />
                         <div className="md:block hidden">
                             <div className="text-14-grey text-[12px]">
                                 Робочий графік
