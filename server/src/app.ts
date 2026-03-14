@@ -6,6 +6,8 @@ import connectDB from "./db/connectDB";
 
 export const app = express();
 
+app.set("trust proxy", 1); // required when running behind Render/Heroku/Nginx proxy
+
 middleware(app);
 connectDB();
 
