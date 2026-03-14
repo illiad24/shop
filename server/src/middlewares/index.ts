@@ -4,8 +4,11 @@ import cookieParser from "cookie-parser";
 import cors from "cors";
 import helmet from "helmet";
 import rateLimit from "express-rate-limit";
+import mongoSanitize from "express-mongo-sanitize";
+import pinoHttp from "pino-http";
 import type { Express, Request } from "express";
 import config from "../config";
+import { logger } from "../logger";
 
 export interface RawBodyRequest extends Request {
   rawBody?: Buffer;
@@ -28,7 +31,9 @@ const orderLimiter = rateLimit({
 export { authLimiter, orderLimiter };
 
 const middleware = (app: Express) => {
+  app.use(pinoHttp({ logger }));
   app.use(helmet());
+  app.use(mongoSanitize());
 
   app.use(
     cors({

@@ -1,4 +1,5 @@
 import config from "../config";
+import { logger } from "../logger";
 import mongoose from "mongoose";
 
 mongoose.Promise = global.Promise;
@@ -9,8 +10,8 @@ export default async function () {
       serverSelectionTimeoutMS: 20000,
       socketTimeoutMS: 45000,
     });
-    console.log("Успішно підключено до MongoDB");
+    logger.info("Успішно підключено до MongoDB");
   } catch (err) {
-    console.error("Помилка підключення до MongoDB:", err);
+    logger.error({ err }, "Помилка підключення до MongoDB");
   }
 }

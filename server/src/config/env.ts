@@ -1,29 +1,46 @@
 import dotenv from "dotenv";
+import { z } from "zod";
 
 dotenv.config();
 
-function required(key: string): string {
-  const value = process.env[key];
-  if (!value) {
-    throw new Error(`❌ Missing env variable: ${key}`);
-  }
-  return value;
+const envSchema = z.object({
+  NODE_ENV: z.enum(["development", "production", "test"]).default("development"),
+  PORT: z.coerce.number().default(4000),
+  MONGODB_URL: z.string().min(1, "MONGODB_URL is required"),
+  DATABASE_NAME: z.string().min(1, "DATABASE_NAME is required"),
+  JWT_ACCESS_SECRET: z.string().min(16, "JWT_ACCESS_SECRET must be at least 16 chars"),
+  STRIPE_SECRET_KEY: z.string().regex(/^sk_/, "STRIPE_SECRET_KEY must start with sk_"),
+  STRIPE_WEBHOOK_SECRET: z.string().regex(/^whsec_/, "STRIPE_WEBHOOK_SECRET must start with whsec_"),
+  CORS_ORIGINS: z.string().optional(),
+  CLIENT_URL: z.string().url().default("http://localhost:5173"),
+  SENTRY_DSN: z.string().optional(),
+});
+
+const parsed = envSchema.safeParse(process.env);
+
+if (!parsed.success) {
+  const issues = parsed.error.issues
+    .map((i) => `  ❌ ${i.path.join(".")}: ${i.message}`)
+    .join("\n");
+  throw new Error(`\n🚨 Invalid environment variables:\n${issues}\n`);
 }
 
-const devOrigins = ["http://localhost:5173"];
+const env = parsed.data;
 
-const corsOrigins = process.env.CORS_ORIGINS
-  ? process.env.CORS_ORIGINS.split(",").map((o) => o.trim())
+const devOrigins = ["http://localhost:5173"];
+const corsOrigins = env.CORS_ORIGINS
+  ? env.CORS_ORIGINS.split(",").map((o) => o.trim())
   : devOrigins;
 
 export default Object.freeze({
-  nodeEnv: process.env.NODE_ENV ?? "development",
-  port: Number(process.env.PORT ?? 4000),
-  jwtSecret: required("JWT_ACCESS_SECRET"),
-  databaseName: required("DATABASE_NAME"),
-  mongoURI: `${required("MONGODB_URL")}/${required("DATABASE_NAME")}`,
+  nodeEnv: env.NODE_ENV,
+  port: env.PORT,
+  jwtSecret: env.JWT_ACCESS_SECRET,
+  databaseName: env.DATABASE_NAME,
+  mongoURI: `${env.MONGODB_URL}/${env.DATABASE_NAME}`,
   corsOrigins,
-  stripeSecretKey: required("STRIPE_SECRET_KEY"),
-  stripeWebhookSecret: required("STRIPE_WEBHOOK_SECRET"),
-  clientUrl: process.env.CLIENT_URL ?? "http://localhost:5173",
+  stripeSecretKey: env.STRIPE_SECRET_KEY,
+  stripeWebhookSecret: env.STRIPE_WEBHOOK_SECRET,
+  clientUrl: env.CLIENT_URL,
+  sentryDsn: env.SENTRY_DSN,
 });
