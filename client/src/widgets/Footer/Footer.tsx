@@ -15,23 +15,23 @@ export function Footer() {
                             <svg width="153" height="120" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <defs>
                                     <linearGradient id="paint0_linear" x1="40" y1="40" x2="160" y2="160" gradientUnits="userSpaceOnUse">
-                                        <stop stop-color="#00C9FF" />
-                                        <stop offset="1" stop-color="#192A56" />
+                                        <stop stopColor="#00C9FF" />
+                                        <stop offset="1" stopColor="#192A56" />
                                     </linearGradient>
                                 </defs>
 
                                 <path d="M40 60C40 40 70 40 85 55L100 70L115 55C130 40 160 40 160 60C160 90 100 150 100 150C100 150 40 90 40 60Z"
                                     stroke="url(#paint0_linear)"
-                                    stroke-width="12"
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
+                                    strokeWidth="12"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
                                     fill="none" />
 
                                 <text x="50%" y="185"
-                                    text-anchor="middle"
-                                    font-family="Arial, sans-serif"
-                                    font-weight="900"
-                                    font-size="32"
+                                    textAnchor="middle"
+                                    fontFamily="Arial, sans-serif"
+                                    fontWeight="900"
+                                    fontSize="32"
                                     fill="#192A56">VT</text>
                             </svg>
                         </NavLink>

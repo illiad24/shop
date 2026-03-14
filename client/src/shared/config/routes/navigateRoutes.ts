@@ -9,7 +9,7 @@ export const navigateRoutes = {
       main: "/profile",
       address: "/profile/address",
       favorite: "/profile/favorite",
-      history: "",
+      history: "/profile",
     },
     cart: "/cart",
     order: "/order",

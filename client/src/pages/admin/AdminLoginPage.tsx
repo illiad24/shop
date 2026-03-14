@@ -21,10 +21,7 @@ export function AdminLoginPage() {
 
     const onSubmit: SubmitHandler<Inputs> = async (data) => {
         try {
-            const result = await login(data).unwrap()
-            if (result) {
-                alert('ok')
-            }
+            await login(data).unwrap()
             reset()
             navigate("/admin")
         } catch (err: any) {

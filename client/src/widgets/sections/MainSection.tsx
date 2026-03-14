@@ -6,6 +6,8 @@ import 'swiper/css';
 import 'swiper/css/effect-fade';
 
 import { useTranslation } from 'react-i18next';
+import { navigateRoutes } from "@/shared/config/routes/navigateRoutes";
+import { Link } from "react-router";
 
 
 export function MainSection() {
@@ -33,7 +35,7 @@ export function MainSection() {
                                         Відкрийте для себе неперевершений смак свіжих морепродуктів, доставлених прямо до вашого столу.
                                     </p>
                                 </div>
-                                <a href="/products" className="text-[16px] sm:text-[20px] inline-block text-white bg-orange-1 rounded-xl px-5 py-3 hover:bg-orange-1/50 transition-all">Переглянути асортимент</a>
+                                <Link to={navigateRoutes.navigate.products.list} className="text-[16px] sm:text-[20px] inline-block text-white bg-orange-1 rounded-xl px-5 py-3 hover:bg-orange-1/50 transition-all">Переглянути асортимент</Link>
                             </div>
                         </div>
                     </div>
@@ -49,7 +51,7 @@ export function MainSection() {
                                         Зануртесь у світ неперевершених смаків з нашою колекцією відбірних морських делікатесів.
                                     </p>
                                 </div>
-                                <a href="/delicacies" className="text-[16px] sm:text-[20px] inline-block text-white bg-orange-1 rounded-xl px-5 py-3 hover:bg-orange-1/50 transition-all">Відкрити для себе</a>
+                                <Link to={navigateRoutes.navigate.products.list} className="text-[16px] sm:text-[20px] inline-block text-white bg-orange-1 rounded-xl px-5 py-3 hover:bg-orange-1/50 transition-all">Відкрити для себе</Link>
                             </div>
                         </div>
                     </div>
@@ -65,7 +67,7 @@ export function MainSection() {
                                         Створіть незабутні страви з нашими преміальними морепродуктами, які надихають на кулінарні шедеври.
                                     </p>
                                 </div>
-                                <a href="/recipes" className="text-[16px] sm:text-[20px] inline-block text-white bg-orange-1 rounded-xl px-5 py-3 hover:bg-orange-1/50 transition-all">Знайти рецепти</a>
+                                <Link to={navigateRoutes.navigate.products.list} className="text-[16px] sm:text-[20px] inline-block text-white bg-orange-1 rounded-xl px-5 py-3 hover:bg-orange-1/50 transition-all">Знайти рецепти</Link>
                             </div>
                         </div>
                     </div>
