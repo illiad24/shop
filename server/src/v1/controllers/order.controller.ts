@@ -3,7 +3,7 @@ import { AuthRequest } from "../../middlewares/auth";
 import OrderModel from "../models/Order/order.model";
 import CartModel from "../models/Cart/cart.model";
 import ProductModel from "../models/Product/product.model";
-import { sendOrderNotification } from "../services/telegram.service";
+import { notifyOrder } from "../services/telegram.service";
 
 export class OrderController {
   static async create(req: AuthRequest, res: Response) {
@@ -58,7 +58,7 @@ export class OrderController {
         if (paymentType === "cash") {
           cart.items = [] as any;
           await cart.save();
-          sendOrderNotification(order).catch(() => {});
+          notifyOrder(order);
         }
         return res.status(201).json(order);
       }
@@ -92,7 +92,7 @@ export class OrderController {
       }
 
       if (paymentType === "cash") {
-        sendOrderNotification(order).catch(() => {});
+        notifyOrder(order);
       }
       return res.status(201).json(order);
     } catch {

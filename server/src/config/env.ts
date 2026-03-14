@@ -10,14 +10,11 @@ function required(key: string): string {
   return value;
 }
 
-const defaultOrigins = [
-  "http://localhost:5173",
-  "https://shop-one-sable.vercel.app",
-];
+const devOrigins = ["http://localhost:5173"];
 
 const corsOrigins = process.env.CORS_ORIGINS
   ? process.env.CORS_ORIGINS.split(",").map((o) => o.trim())
-  : defaultOrigins;
+  : devOrigins;
 
 export default Object.freeze({
   nodeEnv: process.env.NODE_ENV ?? "development",

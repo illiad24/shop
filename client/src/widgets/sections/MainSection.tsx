@@ -28,7 +28,6 @@ export function MainSection() {
                     <div className="container relative z-40 h-full">
                         <div>
                             <div className="max-w-[700px] ">
-                                <h1>{t('home.title')}</h1>
                                 <h1 className="font-bold text-[36px] sm:text-[48px] lg:text-[64px] text-main mb-4 sm:mb-8 last:mb-0">Смакуйте свіжість океану</h1>
                                 <div className="text-main text-[16px] sm:text-[18px] mb-6 sm:mb-10 last:mb-0">
                                     <p>

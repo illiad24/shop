@@ -1,3 +1,5 @@
+import FailedNotificationModel from "../models/FailedNotification/failedNotification.model";
+
 const BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
 const CHAT_ID = process.env.TELEGRAM_CHAT_ID;
 const BASE_URL = `https://api.telegram.org/bot${BOT_TOKEN}`;
@@ -107,4 +109,26 @@ export async function setupWebhook(appUrl: string): Promise<void> {
     url: `${appUrl}/api/v1/telegram/webhook`,
   });
   console.log("Telegram webhook:", result);
+}
+
+/**
+ * Fire-and-forget order notification with MongoDB fallback.
+ * Never throws — order creation is never blocked by Telegram errors.
+ */
+export async function notifyOrder(order: any): Promise<void> {
+  try {
+    await sendOrderNotification(order);
+  } catch (err) {
+    const errorMessage = err instanceof Error ? err.message : String(err);
+    console.error(`[Telegram] Failed to send notification for order ${order._id}:`, errorMessage);
+    try {
+      await FailedNotificationModel.create({
+        orderId: order._id,
+        orderData: order.toObject ? order.toObject() : order,
+        error: errorMessage,
+      });
+    } catch (dbErr) {
+      console.error("[Telegram] Failed to save fallback notification to DB:", dbErr);
+    }
+  }
 }

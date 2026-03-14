@@ -9,16 +9,24 @@ import { validateRequest } from "../../middlewares/validator";
 
 const router = Router();
 
-const authLimiter = rateLimit({
+const loginLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
-  max: 10,
-  message: { message: "Забагато спроб. Спробуйте пізніше." },
+  max: 5,
+  message: { message: "Забагато спроб входу. Спробуйте через 15 хвилин." },
   standardHeaders: true,
   legacyHeaders: false,
 });
 
-router.post("/register", authLimiter, registerValidate, validateRequest, AuthController.register);
-router.post("/login", authLimiter, loginValidate, validateRequest, AuthController.login);
+const registerLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 10,
+  message: { message: "Забагато запитів реєстрації. Спробуйте пізніше." },
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+
+router.post("/register", registerLimiter, registerValidate, validateRequest, AuthController.register);
+router.post("/login", loginLimiter, loginValidate, validateRequest, AuthController.login);
 router.post("/refresh", AuthController.refresh);
 router.post("/logout", AuthController.logout);
 router.get(

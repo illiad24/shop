@@ -1,4 +1,5 @@
 import express from "express";
+import mongoose from "mongoose";
 
 import authRoutes from "./auth.routes";
 import userRoutes from "./user.routes";
@@ -13,8 +14,21 @@ import { authLimiter, orderLimiter } from "../../middlewares";
 
 const router = express.Router();
 
-router.get("/", (req, res) => {
+router.get("/", (_req, res) => {
   res.send("Welcome to the API");
+});
+
+router.get("/health", (_req, res) => {
+  const dbState = mongoose.connection.readyState;
+  const dbStatus = dbState === 1 ? "connected" : dbState === 2 ? "connecting" : "disconnected";
+  const isHealthy = dbState === 1;
+
+  res.status(isHealthy ? 200 : 503).json({
+    status: isHealthy ? "ok" : "degraded",
+    uptime: Math.floor(process.uptime()),
+    timestamp: new Date().toISOString(),
+    db: dbStatus,
+  });
 });
 
 router.use("/auth", authLimiter, authRoutes);

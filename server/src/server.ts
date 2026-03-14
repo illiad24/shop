@@ -1,3 +1,4 @@
+import "./instrument"; // must be first import
 import config from "./config";
 import { app } from "./app";
 

@@ -81,7 +81,7 @@ export function ProductDetailsPage() {
                 {/* info */}
                 <div className="flex-auto md:flex-[50%] shrink-0 grow-0">
                     <div className="p-2 z-3 inline-block py-1 px-2.5 rounded-[8px] bg-main text-white font-medium text-[14px] mb-3 last:mb-0">
-                        Новинка
+                        {product.label}
                     </div>
 
                     <div className="section-title-32 text-2xl md:text-[48px]">
