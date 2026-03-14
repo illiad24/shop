@@ -1,4 +1,4 @@
-import { api } from "./setup.js";
+import { api } from "./setup";
 
 describe("AUTH FLOW", () => {
   const user = {
@@ -8,7 +8,6 @@ describe("AUTH FLOW", () => {
   };
 
   let accessToken: string;
-  let refreshToken: string;
 
   // =========================
   // REGISTER

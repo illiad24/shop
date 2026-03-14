@@ -2,6 +2,15 @@ import { Request, Response } from "express";
 import { AuthService } from "../services/auth.service";
 import { AuthRequest } from "../../middlewares/auth";
 
+const isProduction = process.env.NODE_ENV === "production";
+
+const refreshCookieOptions = {
+  httpOnly: true,
+  sameSite: (isProduction ? "none" : "lax") as "none" | "lax",
+  secure: isProduction,
+  maxAge: 7 * 24 * 60 * 60 * 1000,
+};
+
 export class AuthController {
   static async register(req: Request, res: Response) {
     try {
@@ -25,12 +34,7 @@ export class AuthController {
         req.body,
       );
 
-      res.cookie("refreshToken", refreshToken, {
-        httpOnly: true,
-        sameSite: "none",
-        secure: true,
-        maxAge: 7 * 24 * 60 * 60 * 1000,
-      });
+      res.cookie("refreshToken", refreshToken, refreshCookieOptions);
 
       res.json({
         success: true,

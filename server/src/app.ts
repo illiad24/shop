@@ -9,7 +9,11 @@ export const app = express();
 app.set("trust proxy", 1); // required when running behind Render/Heroku/Nginx proxy
 
 middleware(app);
-connectDB();
+
+// Skip auto-connect in test environment — tests connect explicitly via beforeAll
+if (process.env.NODE_ENV !== "test") {
+  connectDB();
+}
 
 app.use("/api/v1", v1Router);
 

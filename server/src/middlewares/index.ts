@@ -33,7 +33,13 @@ export { authLimiter, orderLimiter };
 const middleware = (app: Express) => {
   app.use(pinoHttp({ logger }));
   app.use(helmet());
-  app.use(mongoSanitize());
+  // express-mongo-sanitize is incompatible with Express 5 (req.query is read-only).
+  // Sanitize only req.body and req.params which are writable.
+  app.use((req, _res, next) => {
+    if (req.body) req.body = mongoSanitize.sanitize(req.body);
+    if (req.params) req.params = mongoSanitize.sanitize(req.params) as Record<string, string>;
+    next();
+  });
 
   app.use(
     cors({
